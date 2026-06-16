@@ -178,7 +178,7 @@ export default function Home() {
                 </div>
               ))
             ) : (
-              productsData?.items.map((product) => (
+              (productsData?.items ?? []).map((product) => (
                 <div key={product.id} className="border border-gray-100 shadow-sm flex flex-col h-full group">
                   <div className="w-full h-64 bg-gray-100 overflow-hidden relative">
                     {product.imageUrl ? (
@@ -325,7 +325,7 @@ export default function Home() {
                   <Skeleton className="w-2/3 h-4" />
                 </div>
               ))
-            ) : newsData?.items.map((article) => (
+            ) : (newsData?.items ?? []).map((article) => (
               <div key={article.id} className="group cursor-pointer">
                 <Link href={`/news/${article.slug}`}>
                   <div className="w-full h-56 bg-gray-100 overflow-hidden mb-6 relative">
