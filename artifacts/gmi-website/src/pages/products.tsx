@@ -10,7 +10,7 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
   
-  const { data: categoriesData, isLoading: loadingCategories } = useListProductCategories(undefined, {
+  const { data: categoriesData, isLoading: loadingCategories } = useListProductCategories({
     query: { queryKey: getListProductCategoriesQueryKey() }
   });
   
@@ -21,7 +21,6 @@ export default function Products() {
   }, {
     query: { 
       queryKey: getListProductsQueryKey({ category: activeCategory !== "All" ? activeCategory : undefined }),
-      keepPreviousData: true
     }
   });
 
