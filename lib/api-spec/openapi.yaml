@@ -3,13 +3,26 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: GMI Corporate Website API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: businesses
+    description: GMI subsidiary businesses
+  - name: products
+    description: GMI products
+  - name: news
+    description: News and updates
+  - name: careers
+    description: Job listings and applications
+  - name: inquiries
+    description: Contact and business inquiries
+  - name: stats
+    description: Company stats and summaries
+
 paths:
   /healthz:
     get:
@@ -24,6 +37,266 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /businesses:
+    get:
+      operationId: listBusinesses
+      tags: [businesses]
+      summary: List all GMI subsidiary businesses
+      parameters:
+        - name: featured
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of businesses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Business"
+
+  /businesses/{slug}:
+    get:
+      operationId: getBusiness
+      tags: [businesses]
+      summary: Get a single business by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Business detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Business"
+        "404":
+          description: Not found
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List all products with optional category filter
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: featured
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductList"
+
+  /products/{id}:
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a single product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Not found
+
+  /products/categories:
+    get:
+      operationId: listProductCategories
+      tags: [products]
+      summary: List all product categories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductCategory"
+
+  /news:
+    get:
+      operationId: listNews
+      tags: [news]
+      summary: List news articles
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of news articles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsList"
+
+  /news/{slug}:
+    get:
+      operationId: getNewsArticle
+      tags: [news]
+      summary: Get a single news article
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: News article
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsArticle"
+        "404":
+          description: Not found
+
+  /careers:
+    get:
+      operationId: listJobs
+      tags: [careers]
+      summary: List open job positions
+      parameters:
+        - name: department
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Job"
+
+  /careers/apply:
+    post:
+      operationId: submitApplication
+      tags: [careers]
+      summary: Submit a job application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationInput"
+      responses:
+        "201":
+          description: Application submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitResponse"
+        "400":
+          description: Validation error
+
+  /inquiries/contact:
+    post:
+      operationId: submitContact
+      tags: [inquiries]
+      summary: Submit a general contact form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactInput"
+      responses:
+        "201":
+          description: Message received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitResponse"
+        "400":
+          description: Validation error
+
+  /inquiries/business:
+    post:
+      operationId: submitBusinessInquiry
+      tags: [inquiries]
+      summary: Submit a business partnership or dealer inquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BusinessInquiryInput"
+      responses:
+        "201":
+          description: Inquiry received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitResponse"
+        "400":
+          description: Validation error
+
+  /stats/summary:
+    get:
+      operationId: getCompanyStats
+      tags: [stats]
+      summary: Get company overview statistics
+      responses:
+        "200":
+          description: Company stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +307,241 @@ components:
       required:
         - status
 
+    Business:
+      type: object
+      required: [id, name, slug, industry, description, order]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        industry:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        imageUrl:
+          type: ["string", "null"]
+        colorAccent:
+          type: ["string", "null"]
+        featured:
+          type: boolean
+        order:
+          type: integer
+        services:
+          type: array
+          items:
+            type: string
+        targetAudience:
+          type: ["string", "null"]
+        website:
+          type: ["string", "null"]
+
+    Product:
+      type: object
+      required: [id, name, category, description]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+        categorySlug:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        imageUrl:
+          type: ["string", "null"]
+        featured:
+          type: boolean
+        businessSlug:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+
+    ProductList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        total:
+          type: integer
+
+    ProductCategory:
+      type: object
+      required: [slug, name, count]
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        description:
+          type: ["string", "null"]
+        count:
+          type: integer
+
+    NewsArticle:
+      type: object
+      required: [id, title, slug, content, category, publishedAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        content:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        authorName:
+          type: string
+        authorAvatarUrl:
+          type: ["string", "null"]
+        publishedAt:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+
+    NewsList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/NewsArticle"
+        total:
+          type: integer
+
+    Job:
+      type: object
+      required: [id, title, department, location, type, postedAt]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        description:
+          type: ["string", "null"]
+        requirements:
+          type: array
+          items:
+            type: string
+        postedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+
+    ApplicationInput:
+      type: object
+      required: [fullName, email, phone, positionApplying]
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        positionApplying:
+          type: string
+        linkedinUrl:
+          type: string
+        coverLetter:
+          type: string
+        jobId:
+          type: ["integer", "null"]
+
+    ContactInput:
+      type: object
+      required: [name, email, subject, message]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+          minLength: 10
+
+    BusinessInquiryInput:
+      type: object
+      required: [name, email, phone, inquiryType, message]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        company:
+          type: string
+        inquiryType:
+          type: string
+          enum: [distributor, investor, partnership, export, other]
+        message:
+          type: string
+          minLength: 10
+        region:
+          type: string
+
+    SubmitResponse:
+      type: object
+      required: [success, message]
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    CompanyStats:
+      type: object
+      required: [subsidiaries, products, farmerServed, yearsActive, dealerCount, countriesExported]
+      properties:
+        subsidiaries:
+          type: integer
+        products:
+          type: integer
+        farmerServed:
+          type: integer
+        yearsActive:
+          type: integer
+        dealerCount:
+          type: integer
+        countriesExported:
+          type: integer
