@@ -17,6 +17,8 @@ import News from "@/pages/news";
 import NewsDetail from "@/pages/news-detail";
 import Careers from "@/pages/careers";
 import Contact from "@/pages/contact";
+import PrivacyPage from "@/pages/privacy";
+import TermsPage from "@/pages/terms";
 
 // Admin Pages
 import AdminLayout from "@/pages/admin/layout";
@@ -25,6 +27,9 @@ import AdminDashboard from "@/pages/admin/dashboard";
 import AdminSettings from "@/pages/admin/settings";
 import { AdminBusinesses, AdminProducts, AdminNews, AdminJobs } from "@/pages/admin/manage";
 import { AdminContacts, AdminBizInquiries } from "@/pages/admin/inquiries";
+import AdminCategories from "@/pages/admin/categories";
+import AdminApplications from "@/pages/admin/applications";
+import AdminMediaPage from "@/pages/admin/media-page";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +48,8 @@ function PublicRoutes() {
         <Route path="/news/:slug" component={NewsDetail} />
         <Route path="/careers" component={Careers} />
         <Route path="/contact" component={Contact} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/terms" component={TermsPage} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
@@ -62,6 +69,9 @@ function AdminRoutes() {
             <Route path="/admin/news" component={AdminNews} />
             <Route path="/admin/jobs" component={AdminJobs} />
             <Route path="/admin/inquiries" component={AdminInquiriesPage} />
+            <Route path="/admin/categories" component={AdminCategories} />
+            <Route path="/admin/applications" component={AdminApplications} />
+            <Route path="/admin/media" component={AdminMediaPage} />
             <Route path="/admin/settings" component={AdminSettings} />
             <Route component={AdminDashboard} />
           </Switch>

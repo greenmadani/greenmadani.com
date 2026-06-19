@@ -83,6 +83,9 @@ export const tableNames = {
   contacts: "contacts",
   businessInquiries: "business_inquiries",
   siteSettings: "site_settings",
+  media: "media",
+  categories: "categories",
+  auditLog: "audit_log",
 } as const;
 
 export * from "./schema/index.js";

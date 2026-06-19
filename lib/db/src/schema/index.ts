@@ -4,3 +4,6 @@ export * from "./news.js";
 export * from "./careers.js";
 export * from "./inquiries.js";
 export * from "./site_settings.js";
+export * from "./media.js";
+export * from "./categories.js";
+export * from "./audit_log.js";

@@ -53,4 +53,17 @@ export const adminApi = {
     });
     return handleResponse(res);
   },
+  async upload(file: File): Promise<string> {
+    const token = await getAdminToken();
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch(`${API}/upload`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+    if (!res.ok) throw new Error("Upload failed");
+    const data = await res.json();
+    return data.url;
+  },
 };
