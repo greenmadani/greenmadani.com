@@ -1,8 +1,6 @@
 {
-  "rootDirectory": "artifacts/gmi-website",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist/public",
-  "installCommand": "pnpm install",
+  "buildCommand": "cd artifacts/gmi-website && pnpm run build",
+  "outputDirectory": "artifacts/gmi-website/dist/public",
   "framework": "vite",
   "rewrites": [
     {
