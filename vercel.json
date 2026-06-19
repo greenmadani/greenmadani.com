@@ -2,10 +2,16 @@
   "buildCommand": "cd artifacts/gmi-website && pnpm run build",
   "outputDirectory": "artifacts/gmi-website/dist/public",
   "framework": "vite",
+  "functions": {
+    "api/index.ts": {
+      "memory": 256,
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://your-api-server.com/api/$1"
+      "destination": "/api"
     },
     {
       "source": "/(.*)",
