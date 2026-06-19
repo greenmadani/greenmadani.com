@@ -4,6 +4,8 @@ import { supabase } from "@workspace/db";
 const router = Router();
 
 router.get("/", async (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
   const { data, error } = await supabase!.from("site_settings").select("settings").limit(1).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   res.json(data?.settings ?? {});

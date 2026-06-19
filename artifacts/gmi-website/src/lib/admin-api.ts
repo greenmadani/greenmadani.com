@@ -27,7 +27,8 @@ async function handleResponse(res: Response) {
 
 export const adminApi = {
   async get(endpoint: string) {
-    const res = await fetch(`${API}${endpoint}`, { headers: await headers() });
+    const separator = endpoint.includes("?") ? "&" : "?";
+    const res = await fetch(`${API}${endpoint}${separator}_t=${Date.now()}`, { headers: await headers(), cache: "no-cache" });
     return handleResponse(res);
   },
   async post(endpoint: string, body: unknown) {
@@ -35,6 +36,7 @@ export const adminApi = {
       method: "POST",
       headers: await headers(),
       body: JSON.stringify(body),
+      cache: "no-cache",
     });
     return handleResponse(res);
   },
@@ -43,6 +45,7 @@ export const adminApi = {
       method: "PUT",
       headers: await headers(),
       body: JSON.stringify(body),
+      cache: "no-cache",
     });
     return handleResponse(res);
   },
@@ -50,6 +53,7 @@ export const adminApi = {
     const res = await fetch(`${API}${endpoint}`, {
       method: "DELETE",
       headers: await headers(),
+      cache: "no-cache",
     });
     return handleResponse(res);
   },
@@ -61,6 +65,7 @@ export const adminApi = {
       method: "POST",
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData,
+      cache: "no-cache",
     });
     if (!res.ok) throw new Error("Upload failed");
     const data = await res.json();

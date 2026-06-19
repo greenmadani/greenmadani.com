@@ -139,6 +139,8 @@ router.put("/business-inquiries/:id", async (req, res) => {
 });
 
 router.get("/site-settings", async (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
   const { data, error } = await supabase!.from("site_settings").select("*").limit(1).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   if (data) {
@@ -164,6 +166,8 @@ router.put("/site-settings", async (req, res) => {
     result = data;
   }
   await logAudit("update", "site_settings", result?.id, req.body);
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
   res.json(result.settings);
 });
 
