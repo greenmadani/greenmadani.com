@@ -1,53 +1,24 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
-import { businessesTable } from "@workspace/db";
-import { eq, asc } from "drizzle-orm";
+import { supabase, snakeToCamel, mapRows } from "@workspace/db";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
   const featured = req.query.featured;
-  let query = db.select().from(businessesTable).where(eq(businessesTable.status, "active")).orderBy(asc(businessesTable.order));
-  const rows = await query;
-  const filtered = featured !== undefined ? rows.filter(b => b.featured === (featured === "true")) : rows;
-  res.json(filtered.map(b => ({
-    id: b.id,
-    name: b.name,
-    slug: b.slug,
-    industry: b.industry,
-    description: b.description,
-    longDescription: b.longDescription,
-    imageUrl: b.imageUrl,
-    colorAccent: b.colorAccent,
-    featured: b.featured,
-    order: b.order,
-    services: b.services,
-    targetAudience: b.targetAudience,
-    website: b.website,
-  })));
+  let query = supabase!.from("businesses").select("*").eq("status", "active").order("order");
+  if (featured !== undefined) {
+    query = query.eq("featured", featured === "true");
+  }
+  const { data, error } = await query;
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(mapRows(data ?? []));
 });
 
 router.get("/:slug", async (req, res) => {
-  const [business] = await db.select().from(businessesTable).where(eq(businessesTable.slug, req.params.slug)).limit(1);
-  if (!business) {
-    res.status(404).json({ error: "Business not found" });
-    return;
-  }
-  res.json({
-    id: business.id,
-    name: business.name,
-    slug: business.slug,
-    industry: business.industry,
-    description: business.description,
-    longDescription: business.longDescription,
-    imageUrl: business.imageUrl,
-    colorAccent: business.colorAccent,
-    featured: business.featured,
-    order: business.order,
-    services: business.services,
-    targetAudience: business.targetAudience,
-    website: business.website,
-  });
+  const { data, error } = await supabase!.from("businesses").select("*").eq("slug", req.params.slug).maybeSingle();
+  if (error) return res.status(500).json({ error: error.message });
+  if (!data) return res.status(404).json({ error: "Business not found" });
+  res.json(snakeToCamel(data));
 });
 
 export default router;

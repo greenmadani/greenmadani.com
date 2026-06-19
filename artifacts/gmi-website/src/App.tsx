@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { Layout } from "@/components/layout";
 
-// Pages
+// Public Pages
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Businesses from "@/pages/businesses";
@@ -18,9 +18,17 @@ import NewsDetail from "@/pages/news-detail";
 import Careers from "@/pages/careers";
 import Contact from "@/pages/contact";
 
+// Admin Pages
+import AdminLayout from "@/pages/admin/layout";
+import AdminLogin from "@/pages/admin/login";
+import AdminDashboard from "@/pages/admin/dashboard";
+import AdminSettings from "@/pages/admin/settings";
+import { AdminBusinesses, AdminProducts, AdminNews, AdminJobs } from "@/pages/admin/manage";
+import { AdminContacts, AdminBizInquiries } from "@/pages/admin/inquiries";
+
 const queryClient = new QueryClient();
 
-function Router() {
+function PublicRoutes() {
   return (
     <Layout>
       <Switch>
@@ -38,6 +46,53 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
     </Layout>
+  );
+}
+
+function AdminRoutes() {
+  return (
+    <Switch>
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route>
+        <AdminLayout>
+          <Switch>
+            <Route path="/admin" component={AdminDashboard} />
+            <Route path="/admin/businesses" component={AdminBusinesses} />
+            <Route path="/admin/products" component={AdminProducts} />
+            <Route path="/admin/news" component={AdminNews} />
+            <Route path="/admin/jobs" component={AdminJobs} />
+            <Route path="/admin/inquiries" component={AdminInquiriesPage} />
+            <Route path="/admin/settings" component={AdminSettings} />
+            <Route component={AdminDashboard} />
+          </Switch>
+        </AdminLayout>
+      </Route>
+    </Switch>
+  );
+}
+
+function AdminInquiriesPage() {
+  return (
+    <div className="space-y-8">
+      <AdminContacts />
+      <AdminBizInquiries />
+    </div>
+  );
+}
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/admin">
+        <AdminRoutes />
+      </Route>
+      <Route path="/admin/:rest*">
+        <AdminRoutes />
+      </Route>
+      <Route>
+        <PublicRoutes />
+      </Route>
+    </Switch>
   );
 }
 

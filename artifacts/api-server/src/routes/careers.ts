@@ -1,7 +1,5 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
-import { jobsTable, applicationsTable } from "@workspace/db";
-import { eq, and, desc } from "drizzle-orm";
+import { supabase, camelToSnake, mapRows } from "@workspace/db";
 import { z } from "zod";
 
 const router = Router();
@@ -18,24 +16,12 @@ const applicationSchema = z.object({
 
 router.get("/", async (req, res) => {
   const department = req.query.department as string | undefined;
-
-  const conditions = [eq(jobsTable.status, "open")];
-  if (department) conditions.push(eq(jobsTable.department, department));
-
-  const whereClause = conditions.length === 1 ? conditions[0] : and(...conditions);
-  const rows = await db.select().from(jobsTable).where(whereClause).orderBy(desc(jobsTable.postedAt));
-
-  res.json(rows.map(j => ({
-    id: j.id,
-    title: j.title,
-    department: j.department,
-    location: j.location,
-    type: j.type,
-    description: j.description,
-    requirements: j.requirements,
-    postedAt: j.postedAt.toISOString(),
-    status: j.status,
-  })));
+  let query = supabase!.from("jobs").select("*").eq("status", "open");
+  if (department) query = query.eq("department", department);
+  query = query.order("posted_at", { ascending: false });
+  const { data, error } = await query;
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(mapRows(data ?? []));
 });
 
 router.post("/apply", async (req, res) => {
@@ -45,15 +31,8 @@ router.post("/apply", async (req, res) => {
     return;
   }
   const data = parsed.data;
-  await db.insert(applicationsTable).values({
-    jobId: data.jobId ? String(data.jobId) : null,
-    fullName: data.fullName,
-    email: data.email,
-    phone: data.phone,
-    positionApplying: data.positionApplying,
-    linkedinUrl: data.linkedinUrl,
-    coverLetter: data.coverLetter,
-  });
+  const { error } = await supabase!.from("applications").insert(camelToSnake({ ...data, jobId: data.jobId ? String(data.jobId) : null }));
+  if (error) return res.status(500).json({ error: error.message });
   res.status(201).json({ success: true, message: "Your application has been submitted successfully. We will contact you soon." });
 });
 

@@ -6,6 +6,8 @@ import newsRouter from "./news";
 import careersRouter from "./careers";
 import inquiriesRouter from "./inquiries";
 import statsRouter from "./stats";
+import adminRouter from "./admin";
+import settingsRouter from "./settings";
 
 const router: IRouter = Router();
 
@@ -16,5 +18,7 @@ router.use("/news", newsRouter);
 router.use("/careers", careersRouter);
 router.use("/inquiries", inquiriesRouter);
 router.use("/stats", statsRouter);
+router.use("/admin", adminRouter);
+router.use("/settings", settingsRouter);
 
 export default router;

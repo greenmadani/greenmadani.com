@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
-import { contactsTable, businessInquiriesTable } from "@workspace/db";
+import { supabase, camelToSnake } from "@workspace/db";
 import { z } from "zod";
 
 const router = Router();
@@ -29,14 +28,8 @@ router.post("/contact", async (req, res) => {
     res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
     return;
   }
-  const data = parsed.data;
-  await db.insert(contactsTable).values({
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    subject: data.subject,
-    message: data.message,
-  });
+  const { error } = await supabase!.from("contacts").insert(camelToSnake(parsed.data));
+  if (error) return res.status(500).json({ error: error.message });
   res.status(201).json({ success: true, message: "Thank you for your message. Our team will respond within 24–48 business hours." });
 });
 
@@ -46,16 +39,8 @@ router.post("/business", async (req, res) => {
     res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
     return;
   }
-  const data = parsed.data;
-  await db.insert(businessInquiriesTable).values({
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    company: data.company,
-    inquiryType: data.inquiryType,
-    message: data.message,
-    region: data.region,
-  });
+  const { error } = await supabase!.from("business_inquiries").insert(camelToSnake(parsed.data));
+  if (error) return res.status(500).json({ error: error.message });
   res.status(201).json({ success: true, message: "Your inquiry has been received. Our business development team will be in touch shortly." });
 });
 

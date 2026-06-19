@@ -1,17 +1,15 @@
 import { Router } from "express";
-import { db } from "@workspace/db";
-import { businessesTable, productsTable, jobsTable } from "@workspace/db";
-import { eq, sql } from "drizzle-orm";
+import { supabase } from "@workspace/db";
 
 const router = Router();
 
-router.get("/summary", async (req, res) => {
-  const [subsidiaries] = await db.select({ count: sql<number>`count(*)::int` }).from(businessesTable).where(eq(businessesTable.status, "active"));
-  const [products] = await db.select({ count: sql<number>`count(*)::int` }).from(productsTable).where(eq(productsTable.status, "active"));
+router.get("/summary", async (_req, res) => {
+  const { count: subCount, error: subErr } = await supabase!.from("businesses").select("*", { count: "exact", head: true }).eq("status", "active");
+  const { count: prodCount, error: prodErr } = await supabase!.from("products").select("*", { count: "exact", head: true }).eq("status", "active");
 
   res.json({
-    subsidiaries: subsidiaries?.count ?? 12,
-    products: products?.count ?? 500,
+    subsidiaries: subCount ?? 12,
+    products: prodCount ?? 500,
     farmerServed: 10000,
     yearsActive: 6,
     dealerCount: 2500,
