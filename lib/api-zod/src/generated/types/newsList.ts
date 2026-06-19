@@ -5,7 +5,7 @@
  * GMI Corporate Website API
  * OpenAPI spec version: 0.1.0
  */
-import type { NewsArticle } from './newsArticle';
+import type { NewsArticle } from './newsArticle.js';
 
 export interface NewsList {
   items: NewsArticle[];

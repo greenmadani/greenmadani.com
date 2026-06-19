@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import * as schema from "./schema";
+import * as schema from "./schema/index.js";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
@@ -85,4 +85,4 @@ export const tableNames = {
   siteSettings: "site_settings",
 } as const;
 
-export * from "./schema";
+export * from "./schema/index.js";

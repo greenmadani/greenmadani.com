@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { supabase, camelToSnake, snakeToCamel, mapRows } from "@workspace/db";
-import { requireAdmin } from "../middlewares/auth";
+import { requireAdmin } from "../middlewares/auth.js";
 
 const router = Router();
 

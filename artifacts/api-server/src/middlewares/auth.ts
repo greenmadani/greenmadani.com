@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { supabaseAdmin, getSupabaseClient } from "../lib/supabase";
+import { supabaseAdmin, getSupabaseClient } from "../lib/supabase.js";
 
 export async function requireAdmin(
   req: Request,
