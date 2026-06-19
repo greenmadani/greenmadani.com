@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronRight, Award, FlaskConical, ShieldCheck, Leaf, Users, UserCircle2 } from "lucide-react";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function About() {
   return (
     <div className="w-full pb-24">
       {/* Page Hero */}
-      <section className="bg-[#1A5C38] text-white pt-16 pb-24 islamic-pattern-overlay relative border-b-4 border-[#C8960C]">
+      <section className="bg-[#1A5C38] text-white pt-16 pb-24 relative border-b-4 border-[#C8960C] overflow-hidden">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -93,7 +95,8 @@ export default function About() {
       </section>
 
       {/* Leadership */}
-      <section className="py-24 bg-[#0D3D25] text-white islamic-pattern-overlay border-y-4 border-[#C8960C]">
+      <section className="py-24 bg-[#0D3D25] text-white border-y-4 border-[#C8960C] overflow-hidden relative">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <span className="text-[#C8960C] font-bold tracking-widest uppercase text-sm mb-4 block">Our Team</span>

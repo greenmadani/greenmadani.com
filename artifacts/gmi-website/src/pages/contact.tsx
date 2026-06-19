@@ -12,6 +12,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -81,7 +82,8 @@ export default function Contact() {
   return (
     <div className="w-full pb-24 bg-white">
       {/* Page Hero */}
-      <section className="bg-[#1A5C38] text-white pt-16 pb-32 islamic-pattern-overlay relative border-b-4 border-[#C8960C]">
+      <section className="bg-[#1A5C38] text-white pt-16 pb-32 relative border-b-4 border-[#C8960C] overflow-hidden">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>

@@ -2,6 +2,7 @@ import { ChevronRight, Download, Droplets, Leaf, Sprout } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useGetCompanyStats } from "@workspace/api-client-react";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function Sustainability() {
   const { data: stats } = useGetCompanyStats();
@@ -9,7 +10,8 @@ export default function Sustainability() {
   return (
     <div className="w-full pb-0 bg-white">
       {/* Page Hero */}
-      <section className="bg-[#1A5C38] text-white pt-16 pb-32 islamic-pattern-overlay relative border-b-4 border-[#C8960C]">
+      <section className="bg-[#1A5C38] text-white pt-16 pb-32 relative border-b-4 border-[#C8960C] overflow-hidden">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>

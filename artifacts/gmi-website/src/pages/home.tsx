@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { useListBusinesses, useListProducts, useListNews, useGetCompanyStats, getListProductsQueryKey, getListNewsQueryKey } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function Home() {
   const { data: stats } = useGetCompanyStats();
@@ -31,7 +32,8 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-[#1A5C38] text-white py-24 md:py-32 islamic-pattern-overlay relative overflow-hidden">
+      <section className="bg-[#1A5C38] text-white py-24 md:py-32 relative overflow-hidden">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <span className="inline-block text-[#C8960C] font-semibold tracking-widest uppercase text-sm mb-6 border border-[#C8960C]/30 px-4 py-1.5 rounded-full bg-[#C8960C]/10">
@@ -207,7 +209,8 @@ export default function Home() {
       </section>
 
       {/* Why Choose GMI */}
-      <section className="py-24 bg-[#1A5C38] text-white islamic-pattern-overlay relative border-y-4 border-[#C8960C]">
+      <section className="py-24 bg-[#1A5C38] text-white relative border-y-4 border-[#C8960C] overflow-hidden">
+        <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display font-bold">Why Partner With GMI</h2>
