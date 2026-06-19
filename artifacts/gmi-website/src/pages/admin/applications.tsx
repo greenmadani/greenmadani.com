@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Download } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface Application {
   id: number;
@@ -43,8 +44,16 @@ export default function AdminApplications() {
   useEffect(() => { adminApi.get("/applications").then(setData); }, []);
 
   async function updateStatus(id: number, status: string) {
-    await adminApi.put(`/applications/${id}`, { status });
-    adminApi.get("/applications").then(setData);
+    try {
+      const result = await adminApi.put(`/applications/${id}`, { status });
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Update Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      adminApi.get("/applications").then(setData);
+    } catch (err) {
+      toast({ title: "Update Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
   }
 
   function exportCsv() {

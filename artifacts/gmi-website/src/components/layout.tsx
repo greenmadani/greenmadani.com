@@ -57,7 +57,7 @@ function useSettings() {
   return useQuery<SiteSettings>({
     queryKey: ["site-settings"],
     queryFn: () => fetch("/api/settings").then((r) => r.json()),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 30 * 1000,
   });
 }
 

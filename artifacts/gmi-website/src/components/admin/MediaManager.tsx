@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { adminApi } from "@/lib/admin-api";
 import FileUpload from "./FileUpload";
+import { toast } from "@/hooks/use-toast";
 
 interface MediaItem {
   id: number;
@@ -37,17 +38,27 @@ export default function MediaManager() {
   const [showUpload, setShowUpload] = useState(false);
 
   function load() {
-    adminApi.get("/media").then(setMedia);
+    adminApi.get("/media").then((data) => {
+      if (data) setMedia(data as MediaItem[]);
+    });
   }
 
   useEffect(() => { load(); }, []);
 
   async function handleDelete() {
     if (!deleteId) return;
-    await adminApi.del(`/media/${deleteId}`);
-    setDeleteId(null);
-    setViewItem(null);
-    load();
+    try {
+      const result = await adminApi.del(`/media/${deleteId}`);
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Delete Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      setDeleteId(null);
+      setViewItem(null);
+      load();
+    } catch (err) {
+      toast({ title: "Delete Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
   }
 
   async function copyUrl(url: string) {

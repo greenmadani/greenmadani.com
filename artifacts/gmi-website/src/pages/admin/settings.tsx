@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FileUpload from "@/components/admin/FileUpload";
 import MediaBrowser from "@/components/admin/MediaBrowser";
 import { Plus, Trash2, GripVertical, Image as ImageIcon } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface NavLinkItem {
   label: string;
@@ -119,8 +120,22 @@ export default function AdminSettings() {
 
   async function save() {
     setSaving(true);
-    await adminApi.put("/site-settings", form);
-    setSaving(false);
+    try {
+      const result = await adminApi.put("/site-settings", form);
+      if (!result) {
+        toast({ title: "Save Failed", description: "No response from server. Please try again.", variant: "destructive" });
+      } else if (typeof result === "object" && "error" in result) {
+        toast({ title: "Save Failed", description: (result as any).error, variant: "destructive" });
+      } else {
+        toast({ title: "Settings Saved", description: "All changes have been saved.", className: "bg-[#1A5C38] text-white" });
+        const fresh = await adminApi.get("/site-settings");
+        if (fresh) setForm({ ...defaults, ...fresh });
+      }
+    } catch (err) {
+      toast({ title: "Save Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
   }
 
   function addNavItem() {

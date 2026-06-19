@@ -9,6 +9,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
 
 const statuses = ["new", "reviewed", "replied", "archived"];
 
@@ -19,8 +20,16 @@ function InquiryTable({ title, endpoint, columns }: { title: string; endpoint: s
   useEffect(() => { adminApi.get(endpoint).then(setData); }, [endpoint]);
 
   async function updateStatus(id: number, status: string) {
-    await adminApi.put(`${endpoint}/${id}`, { status });
-    adminApi.get(endpoint).then(setData);
+    try {
+      const result = await adminApi.put(`${endpoint}/${id}`, { status });
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Update Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      adminApi.get(endpoint).then(setData);
+    } catch (err) {
+      toast({ title: "Update Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
   }
 
   return (

@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { ChevronLeft, ChevronRight, Search, Image as ImageIcon } from "lucide-react";
 import FileUpload from "@/components/admin/FileUpload";
 import MediaBrowser from "@/components/admin/MediaBrowser";
+import { toast } from "@/hooks/use-toast";
 
 interface Entity {
   id: number;
@@ -120,19 +121,39 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
     for (const f of fields) {
       if (f.type === "number") body[f.key] = Number(body[f.key]) || 0;
     }
-    if (editingId) {
-      await adminApi.put(`${endpoint}/${editingId}`, body);
-    } else {
-      await adminApi.post(endpoint, body);
+    try {
+      const result = editingId
+        ? await adminApi.put(`${endpoint}/${editingId}`, body)
+        : await adminApi.post(endpoint, body);
+      if (!result) {
+        toast({ title: "Save Failed", description: "No response from server.", variant: "destructive" });
+        return;
+      }
+      if (typeof result === "object" && "error" in result) {
+        toast({ title: "Save Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      toast({ title: "Saved", description: "Changes saved successfully.", className: "bg-[#1A5C38] text-white" });
+      setOpen(false);
+      adminApi.get(endpoint).then(setData);
+    } catch (err) {
+      toast({ title: "Save Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
     }
-    setOpen(false);
-    adminApi.get(endpoint).then(setData);
   }
 
   async function remove(id: number) {
     if (!confirm("Delete this item?")) return;
-    await adminApi.del(`${endpoint}/${id}`);
-    adminApi.get(endpoint).then(setData);
+    try {
+      const result = await adminApi.del(`${endpoint}/${id}`);
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Delete Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      toast({ title: "Deleted", description: "Item removed successfully.", className: "bg-[#1A5C38] text-white" });
+      adminApi.get(endpoint).then(setData);
+    } catch (err) {
+      toast({ title: "Delete Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
   }
 
   const uniqueStatuses = useMemo(() => {
