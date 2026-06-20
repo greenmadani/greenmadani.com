@@ -226,6 +226,7 @@ export default function Home() {
             title="Why Partner With GMI"
             description="A legacy of trust, quality, and commitment to the nation."
             align="center"
+            className="[&_h2]:text-white [&_p]:text-white/70"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -236,8 +237,8 @@ export default function Home() {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <div key={i} className="glass-card text-center hover:bg-white/10 transition-colors p-8 rounded-xl">
-                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                <div key={i} className="glass-card card-hover group text-center p-8 rounded-xl">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon size={32} className="text-accent-foreground" />
                   </div>
                   <h3 className="text-xl font-bold font-display mb-3">{feature.title}</h3>
