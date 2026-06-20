@@ -19,11 +19,11 @@ interface PageHeroProps {
 
 export function PageHero({ title, subtitle, breadcrumbs, badge, children, className = "" }: PageHeroProps) {
   return (
-    <section className={`bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-[64px] pb-32 -mt-20 relative border-b-4 border-accent overflow-hidden ${className}`}>
+    <section className={`bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-40 pb-32 -mt-20 relative border-b-4 border-accent overflow-hidden ${className}`}>
       <AnimatedBackground />
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 text-center">
         {breadcrumbs && (
-          <div className="flex items-center text-sm font-display font-semibold tracking-wider uppercase text-white/60 mb-6">
+          <div className="flex items-center justify-center text-sm font-display font-semibold tracking-wider uppercase text-white/60 mb-6">
             {breadcrumbs.map((crumb, i) => (
               <span key={crumb.href} className="flex items-center">
                 {i > 0 && <ChevronRight size={14} className="mx-2" />}
@@ -42,7 +42,7 @@ export function PageHero({ title, subtitle, breadcrumbs, badge, children, classN
           </span>
         )}
         <h1 className="text-5xl md:text-6xl font-display font-extrabold mb-6">{title}</h1>
-        <p className="text-xl text-white/80 max-w-2xl leading-relaxed">
+        <p className="text-xl text-white/80 max-w-2xl leading-relaxed mx-auto">
           {subtitle}
         </p>
         {children}
