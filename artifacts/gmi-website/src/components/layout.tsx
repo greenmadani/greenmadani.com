@@ -227,15 +227,13 @@ export function Layout({ children }: { children: ReactNode }) {
       )}
 
       {/* Navbar */}
-      <header className={`sticky top-0 z-40 w-full transition-all duration-500 ${scrolled ? "bg-white/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-black/[0.03]" : "bg-transparent"}`}>
+      <header className={`sticky top-0 z-40 w-full transition-all duration-500 ${scrolled ? "bg-white/80 backdrop-blur-xl shadow-lg shadow-black/[0.03]" : "bg-transparent"}`}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/">
             {s?.headerLogoUrl ? (
               <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className={`h-12 w-auto transition-all duration-500 ${scrolled ? "brightness-100" : "brightness-[1.2]"}`} />
             ) : (
-              <span className={`text-2xl font-display font-extrabold tracking-tight transition-all duration-500 ${!scrolled ? "text-white" : "text-primary"}`}>
-                {s?.siteName || "GMI"}
-              </span>
+              <img src={scrolled ? "/header-logo.png" : "/Green-Madani-Footer-Logo.png"} alt={s?.siteName || "GMI"} className={`h-12 w-auto transition-all duration-500`} />
             )}
           </Link>
 
