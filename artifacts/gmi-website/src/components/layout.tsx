@@ -233,7 +233,7 @@ export function Layout({ children }: { children: ReactNode }) {
             {s?.headerLogoUrl ? (
               <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className={`h-12 w-auto transition-all duration-500 ${scrolled ? "brightness-100" : "brightness-[1.2]"}`} />
             ) : (
-              <img src={scrolled ? "/header-logo.png" : "/Green-Madani-Footer-Logo.png"} alt={s?.siteName || "GMI"} className={`h-12 w-auto transition-all duration-500`} />
+              <img src={scrolled ? "/header-logo.png" : "/Green-Madani-Footer-Logo.png"} alt={s?.siteName || "GMI"} className="h-12 w-auto transition-all duration-500" />
             )}
           </Link>
 
