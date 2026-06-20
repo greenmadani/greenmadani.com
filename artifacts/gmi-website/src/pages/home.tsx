@@ -97,7 +97,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {["Quality", "Innovation", "Integrity", "Sustainability"].map((val, idx) => (
-                  <div key={val} className="flex items-center gap-3 bg-muted p-4 font-display font-semibold text-primary rounded-lg lift-hover">
+                  <div key={val} className="flex items-center gap-3 bg-muted p-4 font-display font-semibold text-primary lift-hover">
                     {idx === 0 && <Award size={20} className="text-accent shrink-0" />}
                     {idx === 1 && <FlaskConical size={20} className="text-accent shrink-0" />}
                     {idx === 2 && <Handshake size={20} className="text-accent shrink-0" />}
@@ -108,10 +108,10 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 h-[500px]">
-              <div className="bg-muted h-full rounded-xl img-hover shadow-lg border border-border">
+              <div className="bg-muted h-full img-hover shadow-lg border border-border">
                  <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop" alt="Modern Factory" className="w-full h-full object-cover" loading="lazy" />
               </div>
-              <div className="bg-muted h-full rounded-xl mt-8 img-hover shadow-lg border border-border">
+              <div className="bg-muted h-full mt-8 img-hover shadow-lg border border-border">
                  <img src="https://images.unsplash.com/photo-1592982537447-6f2c6c0c2834?q=80&w=2069&auto=format&fit=crop" alt="Agriculture" className="w-full h-full object-cover" loading="lazy" />
               </div>
             </div>
@@ -132,8 +132,8 @@ export default function Home() {
                 const Icon = sub.icon;
                 return (
                   <Link key={i} href="/businesses">
-                    <div className="bg-card p-8 border border-border card-hover group h-full flex flex-col rounded-xl active:scale-[0.98]">
-                      <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-300 rounded-lg">
+                    <div className="bg-card p-8 border border-border card-hover group h-full flex flex-col active:scale-[0.98]">
+                      <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                         <Icon size={28} />
                       </div>
                       <h3 className="font-display font-bold text-xl mb-2 text-foreground">{sub.name}</h3>
@@ -179,8 +179,8 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {loadingProducts ? (
                 Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="border border-border rounded-xl shadow-sm flex flex-col h-full">
-                    <Skeleton className="w-full h-64 rounded-t-xl rounded-b-none" />
+                  <div key={i} className="border border-border shadow-sm flex flex-col h-full">
+                    <Skeleton className="w-full h-64" />
                     <div className="p-6">
                       <Skeleton className="w-20 h-6 mb-4" />
                       <Skeleton className="w-full h-8 mb-2" />
@@ -190,7 +190,7 @@ export default function Home() {
                 ))
               ) : (
                 (productsData?.items ?? []).map((product) => (
-                  <div key={product.id} className="border border-border rounded-xl shadow-sm flex flex-col h-full group overflow-hidden bg-card">
+                  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full group overflow-hidden bg-card">
                     <div className="w-full h-64 bg-muted img-hover relative">
                       {product.imageUrl ? (
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
@@ -199,7 +199,7 @@ export default function Home() {
                       )}
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
-                      <span className="inline-block bg-accent/10 text-accent font-display font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-4 self-start rounded-full">
+                      <span className="inline-block bg-accent/10 text-accent font-display font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-4 self-start">
                         {product.category}
                       </span>
                       <h3 className="font-display font-bold text-2xl mb-3 text-foreground">{product.name}</h3>
@@ -237,7 +237,7 @@ export default function Home() {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <div key={i} className="glass-card card-hover group text-center p-8 rounded-xl">
+                <div key={i} className="glass-card card-hover group text-center p-8">
                   <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon size={32} className="text-accent-foreground" />
                   </div>
@@ -258,15 +258,15 @@ export default function Home() {
             "Growing with Nature, Building for Generations"
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto">
-            <div className="glass-dark p-6 rounded-xl card-hover">
+            <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">50,000+</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Trees Planted</div>
             </div>
-            <div className="glass-dark p-6 rounded-xl card-hover">
+            <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">30%</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Water Reduction</div>
             </div>
-            <div className="glass-dark p-6 rounded-xl card-hover">
+            <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">100%</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Ethical Sourcing</div>
             </div>
@@ -298,40 +298,41 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {loadingNews ? (
                Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex flex-col h-full">
-                  <Skeleton className="w-full h-56 rounded-xl mb-4" />
-                  <Skeleton className="w-24 h-4 mb-3" />
-                  <Skeleton className="w-full h-6 mb-2" />
-                  <Skeleton className="w-full h-6 mb-4" />
-                  <Skeleton className="w-2/3 h-4" />
+                <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
+                  <Skeleton className="w-full h-48" />
+                  <div className="p-6">
+                    <Skeleton className="w-24 h-4 mb-3" />
+                    <Skeleton className="w-full h-6 mb-2" />
+                    <Skeleton className="w-full h-6 mb-4" />
+                    <Skeleton className="w-2/3 h-4" />
+                  </div>
                 </div>
               ))
             ) : (newsData?.items ?? []).map((article) => (
-              <div key={article.id} className="group card-hover">
-                <Link href={`/news/${article.slug}`}>
-                  <div className="w-full h-56 bg-muted img-hover mb-6 rounded-xl relative">
-                    {article.imageUrl ? (
-                      <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
-                    ) : (
-                      <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-4 text-xs font-display font-semibold text-muted-foreground tracking-wider uppercase mb-3">
-                    <span className="text-primary">{article.category}</span>
-                    <span>•</span>
+              <Link key={article.id} href={`/news/${article.slug}`} className="group border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
+                <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
+                  {article.imageUrl ? (
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  ) : (
+                    <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
+                  )}
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center justify-between text-xs font-display font-semibold text-muted-foreground tracking-wider uppercase mb-3">
+                    <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display font-bold text-2xl mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2">
+                  <h3 className="font-display font-bold text-xl mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-1">
                     {article.excerpt || "Read more about our latest developments and news."}
                   </p>
-                  <span className="text-primary font-bold flex items-center group-hover:text-accent transition-colors">
+                  <span className="text-accent font-bold flex items-center group-hover:gap-3 transition-all">
                     Read More <ArrowRight size={16} className="ml-1" />
                   </span>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
           

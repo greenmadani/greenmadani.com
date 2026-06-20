@@ -38,15 +38,17 @@ export default function News() {
         />
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="flex flex-col h-full bg-white shadow-sm p-4">
-                <Skeleton className="w-full h-56 rounded-xl mb-4" />
-                <Skeleton className="w-24 h-4 mb-3" />
-                <Skeleton className="w-full h-8 mb-2" />
-                <Skeleton className="w-full h-8 mb-4" />
-                <Skeleton className="w-2/3 h-4" />
+              <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
+                <Skeleton className="w-full h-48" />
+                <div className="p-6">
+                  <Skeleton className="w-24 h-4 mb-3" />
+                  <Skeleton className="w-full h-6 mb-2" />
+                  <Skeleton className="w-full h-6 mb-4" />
+                  <Skeleton className="w-2/3 h-4" />
+                </div>
               </div>
             ))
           ) : newsData?.items.length === 0 ? (
@@ -56,33 +58,30 @@ export default function News() {
             </div>
           ) : (
             newsData?.items.map((article) => (
-              <div key={article.id} className="group card-hover bg-white shadow-sm">
-                <Link href={`/news/${article.slug}`} className="flex flex-col h-full p-4">
-                  <div className="w-full h-56 bg-muted img-hover mb-6 relative">
-                    {article.imageUrl ? (
-                      <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
-                    ) : (
-                      <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
-                    )}
+              <Link key={article.id} href={`/news/${article.slug}`} className="group border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
+                <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
+                  {article.imageUrl ? (
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  ) : (
+                    <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
+                  )}
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center justify-between text-xs font-bold text-muted-foreground tracking-widest uppercase mb-3">
+                    <span className="text-accent">{article.category}</span>
+                    <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <div className="px-2 flex-1 flex flex-col">
-                    <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground tracking-widest uppercase mb-3">
-                      <span className="text-accent">{article.category}</span>
-                      <span>•</span>
-                      <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
-                    </div>
-                    <h3 className="font-display font-bold text-2xl mb-4 text-foreground group-hover:text-primary transition-colors leading-tight">
-                      {article.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-6 flex-1 line-clamp-3">
-                      {article.excerpt || "Read more about our latest developments and news."}
-                    </p>
-                    <span className="text-primary font-bold flex items-center group-hover:text-accent transition-colors mt-auto">
-                      Read Article <ArrowRight size={16} className="ml-2" />
-                    </span>
-                  </div>
-                </Link>
-              </div>
+                  <h3 className="font-display font-bold text-xl mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-tight">
+                    {article.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-3">
+                    {article.excerpt || "Read more about our latest developments and news."}
+                  </p>
+                  <span className="text-accent font-bold flex items-center group-hover:gap-3 transition-all mt-auto">
+                    Read Article <ArrowRight size={16} className="ml-1" />
+                  </span>
+                </div>
+              </Link>
             ))
           )}
         </div>
