@@ -258,15 +258,15 @@ export default function Home() {
             "Growing with Nature, Building for Generations"
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto">
-            <div className="glass-dark p-6 rounded-xl">
+            <div className="glass-dark p-6 rounded-xl card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">50,000+</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Trees Planted</div>
             </div>
-            <div className="glass-dark p-6 rounded-xl">
+            <div className="glass-dark p-6 rounded-xl card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">30%</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Water Reduction</div>
             </div>
-            <div className="glass-dark p-6 rounded-xl">
+            <div className="glass-dark p-6 rounded-xl card-hover">
               <div className="text-4xl font-display font-bold text-white mb-2">100%</div>
               <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Ethical Sourcing</div>
             </div>
@@ -290,7 +290,7 @@ export default function Home() {
               <span className="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Insights</span>
               <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">Latest News & Updates</h2>
             </div>
-            <Link href="/news" className="hidden md:flex items-center text-primary font-bold hover:text-accent transition-colors">
+            <Link href="/news" className="hidden md:flex items-center text-primary font-bold hover:text-accent transition-colors link-underline">
               View All News <ArrowRight size={20} className="ml-2" />
             </Link>
           </div>
