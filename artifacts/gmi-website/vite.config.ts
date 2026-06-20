@@ -39,6 +39,23 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("framer-motion")) return "vendor-motion";
+            if (id.includes("recharts") || id.includes("d3-")) return "vendor-charts";
+            if (id.includes("@supabase")) return "vendor-supabase";
+            if (id.includes("react-day-picker") || id.includes("date-fns")) return "vendor-dates";
+            if (id.includes("@radix-ui")) return "vendor-radix";
+            if (id.includes("lucide-react")) return "vendor-icons";
+            if (id.includes("react-hook-form") || id.includes("@hookform")) return "vendor-forms";
+            return "vendor";
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 500,
   },
   server: {
     port,

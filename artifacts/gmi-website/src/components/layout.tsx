@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X } from "lucide-react";
+import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -75,10 +75,19 @@ const socialLinkKeys = [
   { key: "linkedinUrl", label: "Linkedin" },
 ] as const;
 
+const bottomNavTabs = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/businesses", label: "Businesses", icon: Building2 },
+  { href: "/products", label: "Products", icon: ShoppingBasket },
+  { href: "/news", label: "News", icon: Tv },
+  { href: "/contact", label: "Contact", icon: Phone },
+];
+
 export function Layout({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const { data: s } = useSettings();
   const [announcementVisible, setAnnouncementVisible] = useState(true);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const dismissed = localStorage.getItem("announcementDismissed");
@@ -107,6 +116,14 @@ export function Layout({ children }: { children: ReactNode }) {
     setMeta("twitter:description", s.seoDescription || "");
     if (s.seoKeywords) setMeta("keywords", s.seoKeywords);
   }, [s]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 600);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks: NavLinkItem[] = (s?.navItems?.length ? s.navItems : [
     { href: "/", label: "Home" },
@@ -144,10 +161,25 @@ export function Layout({ children }: { children: ReactNode }) {
 
   const ctaText = s?.ctaButtonText || "Get A Quote";
   const ctaLink = s?.ctaButtonLink || "/contact";
-  const primaryColor = s?.primaryColor || "#1A5C38";
-  const accentColor = s?.accentColor || "#C8960C";
   const footerBg = s?.footerBgColor || "#0D3D25";
   const bodyBg = s?.bgColor || "#F9F7F2";
+
+  const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if ((window.scrollY > 50) !== scrolled) {
+        setScrolled(window.scrollY > 50);
+      }
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrolled]);
 
   function dismissAnnouncement() {
     setAnnouncementVisible(false);
@@ -156,21 +188,18 @@ export function Layout({ children }: { children: ReactNode }) {
     }
   }
 
+  function isActive(href: string) {
+    if (href === "/") return location === "/";
+    return location.startsWith(href);
+  }
+
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: bodyBg }}>
-      <style>{`
-        :root {
-          --color-primary: ${primaryColor};
-          --color-accent: ${accentColor};
-          --color-footer: ${footerBg};
-        }
-      `}</style>
-
       {/* Announcement Bar */}
       {s?.announcementEnabled !== false && announcementVisible && (
         <div
           className="text-xs py-1.5 px-4 flex justify-between items-center z-50 relative"
-          style={{ backgroundColor: s?.announcementBgColor || "#1A5C38", color: s?.announcementTextColor || "#ffffff" }}
+          style={{ backgroundColor: s?.announcementBgColor || "hsl(var(--primary))", color: s?.announcementTextColor || "#ffffff" }}
         >
           <div className="container mx-auto flex justify-between items-center">
             <span className="font-medium tracking-wide uppercase opacity-90">
@@ -198,13 +227,13 @@ export function Layout({ children }: { children: ReactNode }) {
       )}
 
       {/* Navbar */}
-      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
+      <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${scrolled ? "glass border-b border-border shadow-sm" : "bg-transparent"}`}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/">
             {s?.headerLogoUrl ? (
               <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className="h-12 w-auto" />
             ) : (
-              <span className="text-3xl font-display font-extrabold tracking-tighter cursor-pointer" style={{ color: accentColor }}>
+              <span className={`text-3xl font-display font-extrabold tracking-tighter cursor-pointer ${!scrolled ? "text-white" : "text-primary"}`}>
                 {s?.siteName || "GMI"}
               </span>
             )}
@@ -215,22 +244,18 @@ export function Layout({ children }: { children: ReactNode }) {
             {navLinks.map((link) => (
               link.isExternal ? (
                 <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                  className={`text-sm font-semibold transition-colors cursor-pointer ${location === link.href ? "" : "text-gray-700"}`}
-                  style={{ color: location === link.href ? accentColor : undefined }}
-                  onMouseEnter={(e) => { if (location !== link.href) (e.target as HTMLElement).style.color = primaryColor; }}
-                  onMouseLeave={(e) => { if (location !== link.href) (e.target as HTMLElement).style.color = ""; }}
+                  className={`relative text-sm font-display font-semibold transition-colors cursor-pointer ${!scrolled ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-foreground"} ${isActive(link.href) ? "text-accent" : ""}`}
                 >
                   {link.label}
+                  {isActive(link.href) && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded-full" />}
                 </a>
               ) : (
                 <Link key={link.href} href={link.href}>
                   <span
-                    className="text-sm font-semibold transition-colors cursor-pointer"
-                    style={{ color: location === link.href ? accentColor : "#374151" }}
-                    onMouseEnter={(e) => { if (location !== link.href) (e.target as HTMLElement).style.color = primaryColor; }}
-                    onMouseLeave={(e) => { if (location !== link.href) (e.target as HTMLElement).style.color = ""; }}
+                  className={`relative text-sm font-display font-semibold transition-colors cursor-pointer ${!scrolled ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-foreground"} ${isActive(link.href) ? "text-accent" : ""}`}
                   >
                     {link.label}
+                    {isActive(link.href) && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded-full" />}
                   </span>
                 </Link>
               )
@@ -239,12 +264,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
           <div className="hidden lg:flex items-center gap-4">
             <Link href={ctaLink}>
-              <Button
-                className="font-bold rounded-none px-6 text-white"
-                style={{ backgroundColor: accentColor, color: "#1A1A1A" }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a87d0a")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = accentColor)}
-              >
+              <Button variant="secondary" size="md">
                 {ctaText}
               </Button>
             </Link>
@@ -253,49 +273,94 @@ export function Layout({ children }: { children: ReactNode }) {
           {/* Mobile Nav */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" style={{ color: primaryColor }}>
+              <Button variant="ghost" size="icon" className={`lg:hidden ${!scrolled ? "text-white" : ""}`} aria-label="Open navigation menu">
                 <Menu size={24} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white">
-              <nav className="flex flex-col gap-6 mt-8">
-                {navLinks.map((link) => (
-                  link.isExternal ? (
-                    <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                      className="text-lg font-semibold" style={{ color: primaryColor }}
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link key={link.href} href={link.href}>
-                      <span className="text-lg font-semibold" style={{ color: primaryColor }}>{link.label}</span>
-                    </Link>
-                  )
-                ))}
-                <Link href={ctaLink}>
-                  <Button
-                    className="font-bold w-full rounded-none mt-4 text-white"
-                    style={{ backgroundColor: accentColor, color: "#1A1A1A" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#a87d0a")}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = accentColor)}
-                  >
-                    {ctaText}
-                  </Button>
-                </Link>
-              </nav>
+            <SheetContent side="right" className="bg-white p-0">
+              <div className="flex flex-col h-full">
+                <div className="border-b border-border px-6 py-5">
+                  <span className="text-xl font-display font-extrabold text-primary">
+                    {s?.siteName || "GMI"}
+                  </span>
+                </div>
+                <nav className="flex-1 flex flex-col gap-1 px-4 py-6 overflow-y-auto">
+                  {navLinks.map((link, i) => (
+                    <div key={link.href} style={{ animationDelay: `${i * 50}ms` }} className="animate-fade-in">
+                      {link.isExternal ? (
+                        <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
+                          className={`flex items-center gap-4 px-4 py-3 rounded-lg text-base font-display font-semibold transition-colors ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted/50"}`}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link href={link.href}>
+                          <span
+                            className={`flex items-center gap-4 px-4 py-3 rounded-lg text-base font-display font-semibold transition-colors cursor-pointer ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted/50"}`}
+                          >
+                            {link.label}
+                          </span>
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </nav>
+                <div className="border-t border-border px-4 py-6">
+                  <Link href={ctaLink}>
+                    <Button variant="secondary" size="lg" className="w-full">
+                      {ctaText}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
       </header>
 
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-0.5 bg-transparent pointer-events-none">
+        <div
+          className="h-full bg-accent transition-all duration-150 ease-out"
+          style={{ width: `${scrollProgress * 100}%` }}
+        />
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 pb-16 lg:pb-0">
         {children}
       </main>
 
+      {/* Back to Top */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-20 lg:bottom-8 right-4 z-50 w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg lift-hover flex items-center justify-center active:scale-90"
+          aria-label="Back to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
+
+      {/* Mobile Bottom Nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white/90 backdrop-blur-xl border-t border-border flex justify-around items-center h-16 px-2 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] safe-area-bottom">
+        {bottomNavTabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = isActive(tab.href);
+          return (
+            <Link key={tab.href} href={tab.href}>
+              <span className={`flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer transition-colors ${active ? "text-primary" : "text-gray-400 hover:text-foreground/60"}`}>
+                <Icon size={20} />
+                <span className="text-[10px] font-display font-semibold leading-none">{tab.label}</span>
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+
       {/* Footer */}
       <footer
-        className="text-white pt-16 pb-8 relative"
+        className="text-white pt-16 pb-24 lg:pb-8 relative"
         style={{ backgroundColor: footerBg }}
       >
         <div className="container mx-auto px-4 relative z-10">
@@ -304,7 +369,7 @@ export function Layout({ children }: { children: ReactNode }) {
               {s?.footerLogoUrl ? (
                 <img src={s.footerLogoUrl} alt={s.siteName || "GMI"} className="h-12 w-auto mb-6" />
               ) : (
-                <h2 className="text-4xl font-display font-extrabold mb-6" style={{ color: accentColor }}>
+                <h2 className="text-4xl font-display font-extrabold mb-6 text-accent">
                   {s?.siteName || "GMI"}
                 </h2>
               )}
@@ -319,7 +384,7 @@ export function Layout({ children }: { children: ReactNode }) {
                     const Icon = socialIconMap[key];
                     return (
                       <a key={key} href={url}
-                        className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:opacity-80 transition-opacity"
+                        className="icon-hover w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
                         title={label}
                       >
                         {Icon && <Icon size={14} />}
@@ -338,13 +403,13 @@ export function Layout({ children }: { children: ReactNode }) {
                     <li key={link.label}>
                       {link.href.startsWith("http") ? (
                         <a href={link.href} target="_blank" rel="noopener noreferrer"
-                          className="hover:opacity-80 cursor-pointer transition-opacity"
+                          className="hover:text-white cursor-pointer transition-colors link-underline"
                         >
                           {link.label}
                         </a>
                       ) : (
                         <Link href={link.href}>
-                          <span className="hover:opacity-80 cursor-pointer transition-opacity">{link.label}</span>
+                          <span className="hover:text-white cursor-pointer transition-colors link-underline">{link.label}</span>
                         </Link>
                       )}
                     </li>
@@ -357,15 +422,15 @@ export function Layout({ children }: { children: ReactNode }) {
               <h3 className="text-lg font-bold mb-6 font-display text-white">Contact Info</h3>
               <ul className="space-y-4 text-sm text-white/80">
                 <li className="flex items-start gap-3">
-                  <MapPin size={18} className="shrink-0 mt-0.5" style={{ color: accentColor }} />
+                  <MapPin size={18} className="shrink-0 mt-0.5 text-accent" />
                   <span>{s?.address || "924/C, Taltola Moor, Khilgaon-1219, Dhaka"}</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone size={18} className="shrink-0" style={{ color: accentColor }} />
+                  <Phone size={18} className="shrink-0 text-accent" />
                   <span>{s?.phone || "01340-862454"}</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail size={18} className="shrink-0" style={{ color: accentColor }} />
+                  <Mail size={18} className="shrink-0 text-accent" />
                   <span>{s?.email || "info@greenmadani.com"}</span>
                 </li>
               </ul>
@@ -376,10 +441,10 @@ export function Layout({ children }: { children: ReactNode }) {
             <p>&copy; {s?.copyrightText || "2026 Green Madani International Private Ltd. All rights reserved."}</p>
             <div className="flex gap-6">
               <Link href={s?.privacyPolicyUrl || "/privacy"}>
-                <span className="hover:text-white cursor-pointer">Privacy Policy</span>
+                <span className="hover:text-white cursor-pointer transition-colors link-underline">Privacy Policy</span>
               </Link>
               <Link href={s?.termsUrl || "/terms"}>
-                <span className="hover:text-white cursor-pointer">Terms of Service</span>
+                <span className="hover:text-white cursor-pointer transition-colors link-underline">Terms of Service</span>
               </Link>
             </div>
           </div>

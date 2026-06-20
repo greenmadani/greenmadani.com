@@ -29,11 +29,11 @@ interface Application {
 const statuses = ["received", "reviewed", "shortlisted", "rejected", "hired"];
 
 const statusColors: Record<string, string> = {
-  received: "bg-gray-100 text-gray-700",
+  received: "bg-muted text-muted-foreground",
   reviewed: "bg-blue-100 text-blue-700",
-  shortlisted: "bg-yellow-100 text-yellow-700",
-  rejected: "bg-red-100 text-red-700",
-  hired: "bg-green-100 text-green-700",
+  shortlisted: "bg-accent text-accent",
+  rejected: "bg-destructive text-destructive",
+  hired: "bg-primary text-primary",
 };
 
 export default function AdminApplications() {
@@ -119,11 +119,11 @@ export default function AdminApplications() {
                 <TableCell>{item.position}</TableCell>
                 <TableCell>#{item.jobId}</TableCell>
                 <TableCell>
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[item.status] || "bg-gray-100 text-gray-700"}`}>
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[item.status] || "bg-muted text-muted-foreground"}`}>
                     {item.status}
                   </span>
                 </TableCell>
-                <TableCell className="text-gray-500 text-sm">
+                <TableCell className="text-muted-foreground text-sm">
                   {new Date(item.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell onClick={(e) => e.stopPropagation()}>
@@ -139,7 +139,7 @@ export default function AdminApplications() {
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-gray-500 py-8">No applications found</TableCell>
+                <TableCell colSpan={8} className="text-center text-muted-foreground py-8">No applications found</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -155,29 +155,29 @@ export default function AdminApplications() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-xs text-gray-500">Name</Label>
+                  <Label className="text-xs text-muted-foreground">Name</Label>
                   <p className="text-sm font-medium">{selected.name}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-gray-500">Email</Label>
+                  <Label className="text-xs text-muted-foreground">Email</Label>
                   <p className="text-sm">{selected.email}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-gray-500">Phone</Label>
+                  <Label className="text-xs text-muted-foreground">Phone</Label>
                   <p className="text-sm">{selected.phone}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-gray-500">Position</Label>
+                  <Label className="text-xs text-muted-foreground">Position</Label>
                   <p className="text-sm">{selected.position}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-gray-500">Job ID</Label>
+                  <Label className="text-xs text-muted-foreground">Job ID</Label>
                   <p className="text-sm">#{selected.jobId}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-gray-500">Status</Label>
+                  <Label className="text-xs text-muted-foreground">Status</Label>
                   <p className="text-sm">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[selected.status] || "bg-gray-100 text-gray-700"}`}>
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[selected.status] || "bg-muted text-muted-foreground"}`}>
                       {selected.status}
                     </span>
                   </p>
@@ -185,13 +185,13 @@ export default function AdminApplications() {
               </div>
               {selected.coverLetter && (
                 <div>
-                  <Label className="text-xs text-gray-500">Cover Letter</Label>
-                  <p className="text-sm mt-1 bg-gray-50 rounded p-3 whitespace-pre-wrap">{selected.coverLetter}</p>
+                  <Label className="text-xs text-muted-foreground">Cover Letter</Label>
+                  <p className="text-sm mt-1 bg-muted rounded p-3 whitespace-pre-wrap">{selected.coverLetter}</p>
                 </div>
               )}
               {selected.linkedInUrl && (
                 <div>
-                  <Label className="text-xs text-gray-500">LinkedIn URL</Label>
+                  <Label className="text-xs text-muted-foreground">LinkedIn URL</Label>
                   <a href={selected.linkedInUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline block mt-1">
                     {selected.linkedInUrl}
                   </a>

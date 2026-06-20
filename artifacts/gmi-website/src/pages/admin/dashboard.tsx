@@ -19,8 +19,8 @@ export default function AdminDashboard() {
   }, []);
 
   const tiles = [
-    { label: "Businesses", value: stats.businesses ?? "—", color: "border-l-[#1A5C38]" },
-    { label: "Products", value: stats.products ?? "—", color: "border-l-[#C8960C]" },
+    { label: "Businesses", value: stats.businesses ?? "—", color: "border-l-primary" },
+    { label: "Products", value: stats.products ?? "—", color: "border-l-accent" },
     { label: "News", value: stats.news ?? "—", color: "border-l-[#2196F3]" },
     { label: "Jobs", value: stats.jobs ?? "—", color: "border-l-[#9C27B0]" },
     { label: "Contacts", value: stats.contacts ?? "—", color: "border-l-[#FF9800]" },
@@ -34,7 +34,7 @@ export default function AdminDashboard() {
         {tiles.map((t) => (
           <Card key={t.label} className={`border-l-4 ${t.color}`}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500">{t.label}</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">{t.label}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold">{t.value}</p>

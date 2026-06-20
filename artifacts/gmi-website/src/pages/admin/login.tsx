@@ -25,10 +25,10 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0D3D25]">
+    <div className="min-h-screen flex items-center justify-center bg-secondary">
       <Card className="w-full max-w-md mx-4">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-display text-[#1A5C38]">Admin Login</CardTitle>
+          <CardTitle className="text-2xl font-display text-primary">Admin Login</CardTitle>
           <CardDescription>Green Madani International</CardDescription>
         </CardHeader>
         <CardContent>
@@ -42,7 +42,7 @@ export default function AdminLogin() {
               <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
-            <Button type="submit" className="w-full bg-[#1A5C38] hover:bg-[#0D3D25]" disabled={loading}>
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>

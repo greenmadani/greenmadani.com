@@ -78,7 +78,7 @@ function InquiryTable({ title, endpoint, columns }: { title: string; endpoint: s
             <div className="space-y-3">
               {Object.entries(selected).filter(([k]) => k !== "id" && k !== "createdAt").map(([k, v]) => (
                 <div key={k}>
-                  <Label className="text-xs text-gray-500 capitalize">{k.replace(/_/g, " ")}</Label>
+                  <Label className="text-xs text-muted-foreground capitalize">{k.replace(/_/g, " ")}</Label>
                   <p className="text-sm">{String(v ?? "—")}</p>
                 </div>
               ))}

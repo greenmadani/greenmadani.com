@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ChevronRight, ArrowRight, Tv } from "lucide-react";
+import { ArrowRight, Tv } from "lucide-react";
 import { Link } from "wouter";
 import { useListNews, getListNewsQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
+import { PageHero } from "@/components/page-hero";
+import { FilterBar } from "@/components/filter-bar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
-import AnimatedBackground from "@/components/AnimatedBackground";
 
 export default function News() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -18,48 +19,30 @@ export default function News() {
   });
 
   return (
-    <div className="w-full pb-24 bg-[#F9F7F2]">
-      {/* Page Hero */}
-      <section className="bg-[#1A5C38] text-white pt-16 pb-24 relative border-b-4 border-[#C8960C] overflow-hidden">
-        <AnimatedBackground />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight size={14} className="mx-2" />
-            <span className="text-[#C8960C]">News & Insights</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-display font-extrabold mb-6">News & Updates</h1>
-          <p className="text-xl text-white/80 max-w-2xl leading-relaxed">
-            Stay informed with the latest developments, events, and insights from across the GMI conglomerate.
-          </p>
-        </div>
-      </section>
+    <div className="w-full pb-24 bg-background">
+      <PageHero
+        title="News & Updates"
+        subtitle="Stay informed with the latest developments, events, and insights from across the GMI conglomerate."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "News & Insights", href: "/news" }
+        ]}
+      />
 
       <div className="container mx-auto px-4 py-16">
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-12">
-          {categories.map(cat => (
-            <Button
-              key={cat}
-              variant={activeCategory === cat ? "default" : "outline"}
-              onClick={() => setActiveCategory(cat)}
-              className={`rounded-none font-bold ${
-                activeCategory === cat 
-                  ? "bg-[#1A5C38] text-white hover:bg-[#0D3D25]" 
-                  : "bg-white border-gray-300 text-gray-600 hover:text-[#1A5C38] hover:border-[#1A5C38]"
-              }`}
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
+        <FilterBar
+          categories={categories}
+          active={activeCategory}
+          onChange={setActiveCategory}
+        />
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex flex-col h-full bg-white shadow-sm p-4">
-                <Skeleton className="w-full h-56 rounded-none mb-4" />
+                <Skeleton className="w-full h-56 rounded-xl mb-4" />
                 <Skeleton className="w-24 h-4 mb-3" />
                 <Skeleton className="w-full h-8 mb-2" />
                 <Skeleton className="w-full h-8 mb-4" />
@@ -67,34 +50,34 @@ export default function News() {
               </div>
             ))
           ) : newsData?.items.length === 0 ? (
-            <div className="col-span-full py-20 text-center bg-white border border-dashed border-gray-300">
-              <h3 className="text-xl font-display font-bold text-gray-500">No articles found</h3>
-              <p className="text-gray-400 mt-2">Try selecting a different category.</p>
+            <div className="col-span-full py-20 text-center bg-white border border-dashed border-border">
+              <h3 className="text-xl font-display font-bold text-muted-foreground">No articles found</h3>
+              <p className="text-muted-foreground mt-2">Try selecting a different category.</p>
             </div>
           ) : (
             newsData?.items.map((article) => (
-              <div key={article.id} className="group cursor-pointer bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div key={article.id} className="group card-hover bg-white shadow-sm">
                 <Link href={`/news/${article.slug}`} className="flex flex-col h-full p-4">
-                  <div className="w-full h-56 bg-gray-100 overflow-hidden mb-6 relative">
+                  <div className="w-full h-56 bg-muted img-hover mb-6 relative">
                     {article.imageUrl ? (
-                      <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
-                      <div className="w-full h-full bg-[#0D3D25] flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
+                      <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
                     )}
                   </div>
                   <div className="px-2 flex-1 flex flex-col">
-                    <div className="flex items-center gap-4 text-xs font-bold text-gray-500 tracking-widest uppercase mb-3">
-                      <span className="text-[#C8960C]">{article.category}</span>
+                    <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground tracking-widest uppercase mb-3">
+                      <span className="text-accent">{article.category}</span>
                       <span>•</span>
                       <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                     </div>
-                    <h3 className="font-display font-bold text-2xl mb-4 text-[#1A1A1A] group-hover:text-[#1A5C38] transition-colors leading-tight">
+                    <h3 className="font-display font-bold text-2xl mb-4 text-foreground group-hover:text-primary transition-colors leading-tight">
                       {article.title}
                     </h3>
-                    <p className="text-gray-600 mb-6 flex-1 line-clamp-3">
+                    <p className="text-muted-foreground mb-6 flex-1 line-clamp-3">
                       {article.excerpt || "Read more about our latest developments and news."}
                     </p>
-                    <span className="text-[#1A5C38] font-bold flex items-center group-hover:text-[#C8960C] transition-colors mt-auto">
+                    <span className="text-primary font-bold flex items-center group-hover:text-accent transition-colors mt-auto">
                       Read Article <ArrowRight size={16} className="ml-2" />
                     </span>
                   </div>
@@ -107,7 +90,7 @@ export default function News() {
         {/* Pagination placeholder (simple) */}
         {!isLoading && (newsData?.total || 0) > (newsData?.items.length || 0) && (
           <div className="mt-16 flex justify-center">
-            <Button variant="outline" className="border-[#1A5C38] text-[#1A5C38] rounded-none px-8 py-6 font-bold">
+            <Button variant="outline" size="lg">
               Load More
             </Button>
           </div>

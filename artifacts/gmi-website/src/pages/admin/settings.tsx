@@ -127,7 +127,7 @@ export default function AdminSettings() {
       } else if (typeof result === "object" && "error" in result) {
         toast({ title: "Save Failed", description: (result as any).error, variant: "destructive" });
       } else {
-        toast({ title: "Settings Saved", description: "All changes have been saved.", className: "bg-[#1A5C38] text-white" });
+        toast({ title: "Settings Saved", description: "All changes have been saved.", className: "bg-primary text-white" });
         const fresh = await adminApi.get("/site-settings");
         if (fresh) setForm({ ...defaults, ...fresh });
       }
@@ -208,13 +208,13 @@ export default function AdminSettings() {
     }));
   }
 
-  if (!loaded) return <p className="text-gray-500">Loading settings...</p>;
+  if (!loaded) return <p className="text-muted-foreground">Loading settings...</p>;
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-display font-bold">Site Settings</h2>
-        <Button onClick={save} disabled={saving} className="bg-[#1A5C38] hover:bg-[#0D3D25]">
+        <Button onClick={save} disabled={saving} className="bg-primary">
           {saving ? "Saving..." : "Save Changes"}
         </Button>
       </div>
@@ -300,12 +300,12 @@ export default function AdminSettings() {
                 </Button>
               </div>
               {form.navItems.length === 0 && (
-                <p className="text-sm text-gray-400 italic">No custom nav items. Default links will be shown.</p>
+                <p className="text-sm text-muted-foreground italic">No custom nav items. Default links will be shown.</p>
               )}
               <div className="space-y-2">
                 {form.navItems.map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 bg-gray-50 rounded-lg p-2">
-                    <GripVertical className="h-4 w-4 text-gray-400 shrink-0" />
+                  <div key={i} className="flex items-center gap-2 bg-muted rounded-lg p-2">
+                    <GripVertical className="h-4 w-4 text-muted-foreground shrink-0" />
                     <Input
                       placeholder="Label"
                       value={item.label}
@@ -318,11 +318,11 @@ export default function AdminSettings() {
                       onChange={(e) => updateNavItem(i, "href", e.target.value)}
                       className="h-8 text-sm flex-1"
                     />
-                    <label className="flex items-center gap-1 text-xs text-gray-500 shrink-0">
+                    <label className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
                       <input type="checkbox" checked={!!item.isExternal} onChange={(e) => updateNavItem(i, "isExternal", e.target.checked)} />
                       External
                     </label>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600" onClick={() => removeNavItem(i)}>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-destructive" onClick={() => removeNavItem(i)}>
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
                   </div>
@@ -409,11 +409,11 @@ export default function AdminSettings() {
                 </Button>
               </div>
               {form.footerColumns.length === 0 && (
-                <p className="text-sm text-gray-400 italic">No custom footer columns. Default links will be shown.</p>
+                <p className="text-sm text-muted-foreground italic">No custom footer columns. Default links will be shown.</p>
               )}
               <div className="space-y-4">
                 {form.footerColumns.map((col, ci) => (
-                  <div key={ci} className="border rounded-lg p-3 bg-gray-50">
+                  <div key={ci} className="border rounded-lg p-3 bg-muted">
                     <div className="flex items-center justify-between mb-2">
                       <Input
                         placeholder="Column title"
@@ -421,7 +421,7 @@ export default function AdminSettings() {
                         onChange={(e) => updateFooterColumn(ci, e.target.value)}
                         className="h-8 text-sm font-medium max-w-xs"
                       />
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600" onClick={() => removeFooterColumn(ci)}>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-destructive" onClick={() => removeFooterColumn(ci)}>
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
@@ -440,7 +440,7 @@ export default function AdminSettings() {
                             onChange={(e) => updateFooterLink(ci, li, "href", e.target.value)}
                             className="h-7 text-xs flex-1"
                           />
-                          <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-red-600" onClick={() => removeFooterLink(ci, li)}>
+                          <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-destructive" onClick={() => removeFooterLink(ci, li)}>
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </div>
@@ -516,7 +516,7 @@ export default function AdminSettings() {
         </Card>
 
         <div className="flex justify-end pb-8">
-          <Button onClick={save} disabled={saving} className="bg-[#1A5C38] hover:bg-[#0D3D25] px-8">
+          <Button onClick={save} disabled={saving} className="bg-primary px-8">
             {saving ? "Saving..." : "Save Changes"}
           </Button>
         </div>
@@ -538,11 +538,11 @@ function ImageField({ label, value, onChange, browseField, browseOpen, onBrowseO
       <Label>{label}</Label>
       <div className="mt-1 space-y-3">
         {value && (
-          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border">
+          <div className="flex items-center gap-3 p-3 bg-muted rounded-lg border">
             <img src={value} alt={label} className="h-14 w-14 rounded object-cover border" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-gray-500 truncate">{value}</p>
-              <button className="text-xs text-red-600 hover:underline mt-1" onClick={() => onChange("")}>Remove</button>
+              <p className="text-xs text-muted-foreground truncate">{value}</p>
+              <button className="text-xs text-destructive hover:underline mt-1" onClick={() => onChange("")}>Remove</button>
             </div>
           </div>
         )}
@@ -555,7 +555,7 @@ function ImageField({ label, value, onChange, browseField, browseOpen, onBrowseO
           </Button>
         </div>
         <div className="relative">
-          <span className="text-xs text-gray-400 absolute -top-2 left-3 bg-white px-1">or paste URL</span>
+          <span className="text-xs text-muted-foreground absolute -top-2 left-3 bg-white px-1">or paste URL</span>
           <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="https://..." className="h-8 text-xs pt-3" />
         </div>
         <MediaBrowser open={browseOpen === browseField} onOpenChange={(open) => { if (!open) onBrowseOpen(null); }} onSelect={(url) => { onChange(url); onBrowseOpen(null); }} />

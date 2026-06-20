@@ -133,7 +133,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
         toast({ title: "Save Failed", description: (result as any).error, variant: "destructive" });
         return;
       }
-      toast({ title: "Saved", description: "Changes saved successfully.", className: "bg-[#1A5C38] text-white" });
+      toast({ title: "Saved", description: "Changes saved successfully.", className: "bg-primary text-white" });
       setOpen(false);
       adminApi.get(endpoint).then(setData);
     } catch (err) {
@@ -149,7 +149,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
         toast({ title: "Delete Failed", description: (result as any).error, variant: "destructive" });
         return;
       }
-      toast({ title: "Deleted", description: "Item removed successfully.", className: "bg-[#1A5C38] text-white" });
+      toast({ title: "Deleted", description: "Item removed successfully.", className: "bg-primary text-white" });
       adminApi.get(endpoint).then(setData);
     } catch (err) {
       toast({ title: "Delete Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
@@ -165,12 +165,12 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
     <div>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-display font-bold">{title}</h3>
-        <Button onClick={openNew} className="bg-[#1A5C38] hover:bg-[#0D3D25]">+ New</Button>
+        <Button onClick={openNew}>+ New</Button>
       </div>
 
       <div className="flex items-center gap-3 mb-4">
         <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search..."
             value={search}
@@ -219,14 +219,14 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
                 <TableCell>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => openEdit(item)}>Edit</Button>
-                    <Button variant="ghost" size="sm" className="text-red-600" onClick={() => remove(item.id)}>Del</Button>
+                    <Button variant="ghost" size="sm" className="text-destructive" onClick={() => remove(item.id)}>Del</Button>
                   </div>
                 </TableCell>
               </TableRow>
             ))}
             {paged.length === 0 && (
               <TableRow>
-                <TableCell colSpan={columns.length + 1} className="text-center text-gray-500 py-8">No results found</TableCell>
+                <TableCell colSpan={columns.length + 1} className="text-center text-muted-foreground py-8">No results found</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -234,7 +234,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
+        <div className="flex items-center justify-between mt-4 text-sm text-muted-foreground">
           <span>{filtered.length} total items</span>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" disabled={page === 0} onClick={() => setPage(page - 1)}>
@@ -275,12 +275,12 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
                 ) : f.type === "image" ? (
                   <div className="mt-1 space-y-3">
                     {edit[f.key] && (
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border">
+                      <div className="flex items-center gap-3 p-3 bg-muted rounded-lg border">
                         <img src={edit[f.key]} alt="Preview" className="h-16 w-16 rounded object-cover border" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs text-gray-500 truncate">{edit[f.key]}</p>
+                          <p className="text-xs text-muted-foreground truncate">{edit[f.key]}</p>
                           <button
-                            className="text-xs text-red-600 hover:underline mt-1"
+                            className="text-xs text-destructive hover:underline mt-1"
                             onClick={() => setEdit({ ...edit, [f.key]: "" })}
                           >
                             Remove
@@ -303,7 +303,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
                       </Button>
                     </div>
                     <div className="relative">
-                      <span className="text-xs text-gray-400 absolute -top-2 left-3 bg-white px-1">or paste URL</span>
+                      <span className="text-xs text-muted-foreground absolute -top-2 left-3 bg-background px-1">or paste URL</span>
                       <Input
                         value={edit[f.key] ?? ""}
                         onChange={(e) => setEdit({ ...edit, [f.key]: e.target.value })}
@@ -330,7 +330,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={save} className="bg-[#1A5C38] hover:bg-[#0D3D25]">{editingId ? "Update" : "Create"}</Button>
+            <Button onClick={save}>{editingId ? "Update" : "Create"}</Button>
           </div>
         </DialogContent>
       </Dialog>

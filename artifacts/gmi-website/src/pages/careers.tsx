@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronRight, Briefcase, GraduationCap, Heart, Rocket } from "lucide-react";
+import { Briefcase, GraduationCap, Heart, Rocket } from "lucide-react";
 import { Link } from "wouter";
 import { useListJobs, useSubmitApplication, getListJobsQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import { PageHero } from "@/components/page-hero";
 
 const applicationSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -64,7 +64,7 @@ export default function Careers() {
         toast({
           title: "Application Submitted",
           description: res.message || "Thank you for applying to GMI. We will review your application soon.",
-          className: "bg-[#1A5C38] text-white border-none"
+          className: "bg-primary text-primary-foreground border-none"
         });
         form.reset();
       },
@@ -79,25 +79,19 @@ export default function Careers() {
   };
 
   return (
-    <div className="w-full pb-24 bg-[#F9F7F2]">
-      {/* Page Hero */}
-      <section className="bg-[#1A5C38] text-white pt-16 pb-24 relative border-b-4 border-[#C8960C] overflow-hidden">
-        <AnimatedBackground />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight size={14} className="mx-2" />
-            <span className="text-[#C8960C]">Careers</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-display font-extrabold mb-6">Build Your Career with GMI</h1>
-          <p className="text-xl text-white/80 max-w-2xl leading-relaxed mb-8">
-            Join a purpose-driven conglomerate where your work creates real impact across Bangladesh.
-          </p>
-          <Button onClick={() => openApplyDialog()} className="bg-[#C8960C] text-[#1A1A1A] hover:bg-[#a87d0a] font-bold px-8 py-6 rounded-none text-lg">
-            Submit General Application
-          </Button>
-        </div>
-      </section>
+    <div className="w-full pb-24 bg-background">
+      <PageHero
+        title="Build Your Career with GMI"
+        subtitle="Join a purpose-driven conglomerate where your work creates real impact across Bangladesh."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Careers", href: "/careers" }
+        ]}
+      >
+        <Button onClick={() => openApplyDialog()} variant="secondary" className="px-8 py-6 text-lg">
+          Submit General Application
+        </Button>
+      </PageHero>
 
       {/* Benefits */}
       <section className="py-16 -mt-10 relative z-20">
@@ -111,12 +105,12 @@ export default function Careers() {
             ].map((b, i) => {
               const Icon = b.icon;
               return (
-                <div key={i} className="bg-white p-8 border border-gray-100 shadow-sm text-center">
-                  <div className="w-14 h-14 bg-[#EEF4F0] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon size={24} className="text-[#1A5C38]" />
+                <div key={i} className="bg-white p-8 border border-border shadow-sm text-center">
+                  <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon size={24} className="text-primary" />
                   </div>
-                  <h3 className="font-display font-bold text-[#1A1A1A] text-lg mb-2">{b.title}</h3>
-                  <p className="text-gray-600 text-sm">{b.desc}</p>
+                  <h3 className="font-display font-bold text-foreground text-lg mb-2">{b.title}</h3>
+                  <p className="text-muted-foreground text-sm">{b.desc}</p>
                 </div>
               );
             })}
@@ -128,17 +122,17 @@ export default function Careers() {
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-display font-bold text-[#1A1A1A] mb-8">Open Positions</h2>
+            <h2 className="text-4xl font-display font-bold text-foreground mb-8">Open Positions</h2>
             <div className="flex flex-wrap justify-center gap-3">
               {departments.map(dept => (
                 <Button
                   key={dept}
-                  variant={activeDepartment === dept ? "default" : "outline"}
+                  variant={activeDepartment === dept ? "primary" : "outline"}
                   onClick={() => setActiveDepartment(dept)}
                   className={`rounded-full font-bold px-6 ${
                     activeDepartment === dept 
-                      ? "bg-[#1A5C38] text-white hover:bg-[#0D3D25]" 
-                      : "bg-white border-gray-300 text-gray-600 hover:text-[#1A5C38] hover:border-[#1A5C38]"
+                      ? "bg-primary text-white hover:bg-secondary" 
+                      : "bg-white border-border text-muted-foreground hover:text-primary hover:border-primary"
                   }`}
                 >
                   {dept}
@@ -150,7 +144,7 @@ export default function Careers() {
           <div className="space-y-4">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="bg-white p-6 border border-gray-100 flex items-center justify-between">
+                <div key={i} className="bg-white p-6 border border-border flex items-center justify-between">
                   <div className="space-y-3 w-1/2">
                     <Skeleton className="w-3/4 h-6" />
                     <Skeleton className="w-1/2 h-4" />
@@ -159,25 +153,26 @@ export default function Careers() {
                 </div>
               ))
             ) : jobs?.length === 0 ? (
-              <div className="bg-white p-12 text-center border border-dashed border-gray-300">
-                <h3 className="text-xl font-bold text-gray-500 mb-2">No open positions found</h3>
-                <p className="text-gray-400">There are currently no openings in this department. Feel free to submit a general application.</p>
+              <div className="bg-white p-12 text-center border border-dashed border-border">
+                <h3 className="text-xl font-bold text-muted-foreground mb-2">No open positions found</h3>
+                <p className="text-muted-foreground">There are currently no openings in this department. Feel free to submit a general application.</p>
               </div>
             ) : (
               jobs?.map((job) => (
-                <div key={job.id} className="bg-white p-6 border border-gray-100 shadow-sm hover:border-[#1A5C38] transition-colors flex flex-col md:flex-row md:items-center justify-between gap-6 group">
+                <div key={job.id} className="bg-white p-6 border border-border card-hover flex flex-col md:flex-row md:items-center justify-between gap-6 group">
                   <div>
-                    <h3 className="text-2xl font-display font-bold text-[#1A1A1A] mb-2 group-hover:text-[#1A5C38] transition-colors">{job.title}</h3>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-600 font-medium">
-                      <span className="flex items-center"><Briefcase size={14} className="mr-1.5 text-[#C8960C]" /> {job.department}</span>
-                      <span className="flex items-center"><span className="text-[#1A5C38] bg-[#EEF4F0] px-2 py-0.5 font-bold uppercase text-xs tracking-wider">{job.type}</span></span>
+                    <h3 className="text-2xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{job.title}</h3>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground font-medium">
+                      <span className="flex items-center"><Briefcase size={14} className="mr-1.5 text-accent" /> {job.department}</span>
+                      <span className="flex items-center"><span className="text-primary bg-muted px-2 py-0.5 font-bold uppercase text-xs tracking-wider">{job.type}</span></span>
                       <span>{job.location}</span>
-                      <span className="text-gray-400 border-l border-gray-300 pl-4">Posted: {format(new Date(job.postedAt), 'MMM dd')}</span>
+                      <span className="text-muted-foreground border-l border-border pl-4">Posted: {format(new Date(job.postedAt), 'MMM dd')}</span>
                     </div>
                   </div>
                   <Button 
                     onClick={() => openApplyDialog(job.id, job.title)} 
-                    className="bg-transparent border-2 border-[#1A5C38] text-[#1A5C38] hover:bg-[#1A5C38] hover:text-white rounded-none font-bold px-8 md:w-max w-full"
+                    variant="outline"
+                    className="px-8 md:w-max w-full"
                   >
                     Apply Now
                   </Button>
@@ -189,11 +184,11 @@ export default function Careers() {
       </section>
 
       <Dialog open={isApplyOpen} onOpenChange={setIsApplyOpen}>
-        <DialogContent className="sm:max-w-[600px] bg-white p-0 overflow-hidden border-none rounded-none">
-          <div className="bg-[#1A5C38] p-6 text-white islamic-pattern-overlay">
+        <DialogContent className="sm:max-w-[600px] bg-white p-0 overflow-hidden border-none">
+          <div className="bg-primary p-6 text-white islamic-pattern-overlay">
             <DialogHeader>
               <DialogTitle className="text-2xl font-display font-bold">Submit Application</DialogTitle>
-              <DialogDescription className="text-white/80">
+              <DialogDescription className="text-primary-foreground/80">
                 Join the GMI family. Fill out the form below.
               </DialogDescription>
             </DialogHeader>
@@ -203,23 +198,23 @@ export default function Careers() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField control={form.control} name="positionApplying" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-bold text-[#1A1A1A]">Position Applying For *</FormLabel>
-                    <FormControl><Input {...field} className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38]" /></FormControl>
+                    <FormLabel className="font-bold text-foreground">Position Applying For *</FormLabel>
+                    <FormControl><Input {...field} className="border-border focus-visible:ring-primary" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="grid grid-cols-2 gap-4">
                   <FormField control={form.control} name="fullName" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-[#1A1A1A]">Full Name *</FormLabel>
-                      <FormControl><Input {...field} className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38]" /></FormControl>
+                      <FormLabel className="font-bold text-foreground">Full Name *</FormLabel>
+                      <FormControl><Input {...field} className="border-border focus-visible:ring-primary" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-[#1A1A1A]">Email Address *</FormLabel>
-                      <FormControl><Input type="email" {...field} className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38]" /></FormControl>
+                      <FormLabel className="font-bold text-foreground">Email Address *</FormLabel>
+                      <FormControl><Input type="email" {...field} className="border-border focus-visible:ring-primary" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -227,29 +222,29 @@ export default function Careers() {
                 <div className="grid grid-cols-2 gap-4">
                   <FormField control={form.control} name="phone" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-[#1A1A1A]">Phone Number *</FormLabel>
-                      <FormControl><Input {...field} className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38]" /></FormControl>
+                      <FormLabel className="font-bold text-foreground">Phone Number *</FormLabel>
+                      <FormControl><Input {...field} className="border-border focus-visible:ring-primary" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="linkedinUrl" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-[#1A1A1A]">LinkedIn Profile</FormLabel>
-                      <FormControl><Input {...field} placeholder="https://" className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38]" /></FormControl>
+                      <FormLabel className="font-bold text-foreground">LinkedIn Profile</FormLabel>
+                      <FormControl><Input {...field} placeholder="https://" className="border-border focus-visible:ring-primary" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                 </div>
                 <FormField control={form.control} name="coverLetter" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-bold text-[#1A1A1A]">Cover Letter / Notes</FormLabel>
-                    <FormControl><Textarea {...field} rows={4} className="rounded-none border-gray-300 focus-visible:ring-[#1A5C38] resize-none" /></FormControl>
+                    <FormLabel className="font-bold text-foreground">Cover Letter / Notes</FormLabel>
+                    <FormControl><Textarea {...field} rows={4} className="border-border focus-visible:ring-primary resize-none" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <div className="pt-4 flex justify-end gap-3">
-                  <Button type="button" variant="outline" onClick={() => setIsApplyOpen(false)} className="rounded-none border-gray-300">Cancel</Button>
-                  <Button type="submit" disabled={applyMutation.isPending} className="bg-[#C8960C] text-[#1A1A1A] hover:bg-[#a87d0a] font-bold rounded-none px-8">
+                  <Button type="button" variant="outline" onClick={() => setIsApplyOpen(false)}>Cancel</Button>
+                  <Button type="submit" disabled={applyMutation.isPending} variant="secondary" className="px-8">
                     {applyMutation.isPending ? "Submitting..." : "Submit Application"}
                   </Button>
                 </div>

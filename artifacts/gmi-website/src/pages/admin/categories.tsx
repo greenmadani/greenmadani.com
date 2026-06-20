@@ -59,7 +59,7 @@ export default function AdminCategories() {
         toast({ title: "Save Failed", description: (result as any).error, variant: "destructive" });
         return;
       }
-      toast({ title: "Saved", description: "Category saved successfully.", className: "bg-[#1A5C38] text-white" });
+      toast({ title: "Saved", description: "Category saved successfully.", className: "bg-primary text-white" });
       setOpen(false);
       adminApi.get("/categories").then(setData);
     } catch (err) {
@@ -75,7 +75,7 @@ export default function AdminCategories() {
         toast({ title: "Delete Failed", description: (result as any).error, variant: "destructive" });
         return;
       }
-      toast({ title: "Deleted", description: "Category removed.", className: "bg-[#1A5C38] text-white" });
+      toast({ title: "Deleted", description: "Category removed.", className: "bg-primary text-white" });
       adminApi.get("/categories").then(setData);
     } catch (err) {
       toast({ title: "Delete Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
@@ -86,7 +86,7 @@ export default function AdminCategories() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-display font-bold">Categories</h2>
-        <Button onClick={openNew} className="bg-[#1A5C38] hover:bg-[#0D3D25]">+ New Category</Button>
+        <Button onClick={openNew} className="bg-primary">+ New Category</Button>
       </div>
 
       <div className="border rounded-lg overflow-hidden">
@@ -104,15 +104,15 @@ export default function AdminCategories() {
             {data.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell className="text-gray-500">{item.slug}</TableCell>
+                <TableCell className="text-muted-foreground">{item.slug}</TableCell>
                 <TableCell>
-                  <span className="capitalize text-sm bg-gray-100 rounded px-2 py-0.5">{item.type}</span>
+                  <span className="capitalize text-sm bg-muted rounded px-2 py-0.5">{item.type}</span>
                 </TableCell>
                 <TableCell>{item.order}</TableCell>
                 <TableCell>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => openEdit(item)}>Edit</Button>
-                    <Button variant="ghost" size="sm" className="text-red-600" onClick={() => remove(item.id)}>Del</Button>
+                    <Button variant="ghost" size="sm" className="text-destructive" onClick={() => remove(item.id)}>Del</Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -174,7 +174,7 @@ export default function AdminCategories() {
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={save} className="bg-[#1A5C38] hover:bg-[#0D3D25]">{editingId ? "Update" : "Create"}</Button>
+            <Button onClick={save} className="bg-primary">{editingId ? "Update" : "Create"}</Button>
           </div>
         </DialogContent>
       </Dialog>

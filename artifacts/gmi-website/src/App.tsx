@@ -1,35 +1,64 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { lazy, Suspense } from "react";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
 import { Layout } from "@/components/layout";
+import { PageSkeleton } from "@/components/page-skeleton";
 
-// Public Pages
-import Home from "@/pages/home";
-import About from "@/pages/about";
-import Businesses from "@/pages/businesses";
-import BusinessDetail from "@/pages/business-detail";
-import Products from "@/pages/products";
-import ProductDetail from "@/pages/product-detail";
-import Sustainability from "@/pages/sustainability";
-import News from "@/pages/news";
-import NewsDetail from "@/pages/news-detail";
-import Careers from "@/pages/careers";
-import Contact from "@/pages/contact";
-import PrivacyPage from "@/pages/privacy";
-import TermsPage from "@/pages/terms";
+const Home = lazy(() => import("@/pages/home"));
+const About = lazy(() => import("@/pages/about"));
+const Businesses = lazy(() => import("@/pages/businesses"));
+const BusinessDetail = lazy(() => import("@/pages/business-detail"));
+const Products = lazy(() => import("@/pages/products"));
+const ProductDetail = lazy(() => import("@/pages/product-detail"));
+const Sustainability = lazy(() => import("@/pages/sustainability"));
+const News = lazy(() => import("@/pages/news"));
+const NewsDetail = lazy(() => import("@/pages/news-detail"));
+const Careers = lazy(() => import("@/pages/careers"));
+const Contact = lazy(() => import("@/pages/contact"));
+const PrivacyPage = lazy(() => import("@/pages/privacy"));
+const TermsPage = lazy(() => import("@/pages/terms"));
+const NotFound = lazy(() => import("@/pages/not-found"));
+const AdminLayout = lazy(() => import("@/pages/admin/layout"));
+const AdminLogin = lazy(() => import("@/pages/admin/login"));
+const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
+const AdminSettings = lazy(() => import("@/pages/admin/settings"));
+const AdminBusinesses = lazy(() => import("@/pages/admin/manage").then(m => ({ default: m.AdminBusinesses })));
+const AdminProducts = lazy(() => import("@/pages/admin/manage").then(m => ({ default: m.AdminProducts })));
+const AdminNews = lazy(() => import("@/pages/admin/manage").then(m => ({ default: m.AdminNews })));
+const AdminJobs = lazy(() => import("@/pages/admin/manage").then(m => ({ default: m.AdminJobs })));
+const AdminContacts = lazy(() => import("@/pages/admin/inquiries").then(m => ({ default: m.AdminContacts })));
+const AdminBizInquiries = lazy(() => import("@/pages/admin/inquiries").then(m => ({ default: m.AdminBizInquiries })));
+const AdminCategories = lazy(() => import("@/pages/admin/categories"));
+const AdminApplications = lazy(() => import("@/pages/admin/applications"));
+const AdminMediaPage = lazy(() => import("@/pages/admin/media-page"));
 
-// Admin Pages
-import AdminLayout from "@/pages/admin/layout";
-import AdminLogin from "@/pages/admin/login";
-import AdminDashboard from "@/pages/admin/dashboard";
-import AdminSettings from "@/pages/admin/settings";
-import { AdminBusinesses, AdminProducts, AdminNews, AdminJobs } from "@/pages/admin/manage";
-import { AdminContacts, AdminBizInquiries } from "@/pages/admin/inquiries";
-import AdminCategories from "@/pages/admin/categories";
-import AdminApplications from "@/pages/admin/applications";
-import AdminMediaPage from "@/pages/admin/media-page";
+function SuspenseWrapper({ component: Component }: { component: React.LazyExoticComponent<any> }) {
+  return (
+    <Suspense fallback={<PageSkeleton />}>
+      <Component />
+    </Suspense>
+  );
+}
+
+function AnimatedPage({ component: Component }: { component: React.LazyExoticComponent<any> }) {
+  const [location] = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
+      >
+        <SuspenseWrapper component={Component} />
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 const queryClient = new QueryClient();
 
@@ -37,20 +66,20 @@ function PublicRoutes() {
   return (
     <Layout>
       <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/businesses" component={Businesses} />
-        <Route path="/businesses/:slug" component={BusinessDetail} />
-        <Route path="/products" component={Products} />
-        <Route path="/products/:id" component={ProductDetail} />
-        <Route path="/sustainability" component={Sustainability} />
-        <Route path="/news" component={News} />
-        <Route path="/news/:slug" component={NewsDetail} />
-        <Route path="/careers" component={Careers} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route path="/terms" component={TermsPage} />
-        <Route component={NotFound} />
+        <Route path="/"><AnimatedPage component={Home} /></Route>
+        <Route path="/about"><AnimatedPage component={About} /></Route>
+        <Route path="/businesses/:slug"><AnimatedPage component={BusinessDetail} /></Route>
+        <Route path="/businesses"><AnimatedPage component={Businesses} /></Route>
+        <Route path="/products/:id"><AnimatedPage component={ProductDetail} /></Route>
+        <Route path="/products"><AnimatedPage component={Products} /></Route>
+        <Route path="/sustainability"><AnimatedPage component={Sustainability} /></Route>
+        <Route path="/news/:slug"><AnimatedPage component={NewsDetail} /></Route>
+        <Route path="/news"><AnimatedPage component={News} /></Route>
+        <Route path="/careers"><AnimatedPage component={Careers} /></Route>
+        <Route path="/contact"><AnimatedPage component={Contact} /></Route>
+        <Route path="/privacy"><AnimatedPage component={PrivacyPage} /></Route>
+        <Route path="/terms"><AnimatedPage component={TermsPage} /></Route>
+        <Route><AnimatedPage component={NotFound} /></Route>
       </Switch>
     </Layout>
   );
@@ -59,23 +88,25 @@ function PublicRoutes() {
 function AdminRoutes() {
   return (
     <Switch>
-      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/login"><SuspenseWrapper component={AdminLogin} /></Route>
       <Route>
-        <AdminLayout>
-          <Switch>
-            <Route path="/admin" component={AdminDashboard} />
-            <Route path="/admin/businesses" component={AdminBusinesses} />
-            <Route path="/admin/products" component={AdminProducts} />
-            <Route path="/admin/news" component={AdminNews} />
-            <Route path="/admin/jobs" component={AdminJobs} />
-            <Route path="/admin/inquiries" component={AdminInquiriesPage} />
-            <Route path="/admin/categories" component={AdminCategories} />
-            <Route path="/admin/applications" component={AdminApplications} />
-            <Route path="/admin/media" component={AdminMediaPage} />
-            <Route path="/admin/settings" component={AdminSettings} />
-            <Route component={AdminDashboard} />
-          </Switch>
-        </AdminLayout>
+        <Suspense fallback={<PageSkeleton />}>
+          <AdminLayout>
+            <Switch>
+              <Route path="/admin"><SuspenseWrapper component={AdminDashboard} /></Route>
+              <Route path="/admin/businesses"><SuspenseWrapper component={AdminBusinesses} /></Route>
+              <Route path="/admin/products"><SuspenseWrapper component={AdminProducts} /></Route>
+              <Route path="/admin/news"><SuspenseWrapper component={AdminNews} /></Route>
+              <Route path="/admin/jobs"><SuspenseWrapper component={AdminJobs} /></Route>
+              <Route path="/admin/inquiries"><AdminInquiriesPage /></Route>
+              <Route path="/admin/categories"><SuspenseWrapper component={AdminCategories} /></Route>
+              <Route path="/admin/applications"><SuspenseWrapper component={AdminApplications} /></Route>
+              <Route path="/admin/media"><SuspenseWrapper component={AdminMediaPage} /></Route>
+              <Route path="/admin/settings"><SuspenseWrapper component={AdminSettings} /></Route>
+              <Route><SuspenseWrapper component={AdminDashboard} /></Route>
+            </Switch>
+          </AdminLayout>
+        </Suspense>
       </Route>
     </Switch>
   );
@@ -84,8 +115,8 @@ function AdminRoutes() {
 function AdminInquiriesPage() {
   return (
     <div className="space-y-8">
-      <AdminContacts />
-      <AdminBizInquiries />
+      <SuspenseWrapper component={AdminContacts} />
+      <SuspenseWrapper component={AdminBizInquiries} />
     </div>
   );
 }
