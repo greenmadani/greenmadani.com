@@ -227,44 +227,42 @@ export function Layout({ children }: { children: ReactNode }) {
       )}
 
       {/* Navbar */}
-      <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${scrolled ? "glass border-b border-border shadow-sm" : "bg-transparent"}`}>
+      <header className={`sticky top-0 z-40 w-full transition-all duration-500 ${scrolled ? "bg-white/80 backdrop-blur-xl border-b border-border/50 shadow-lg shadow-black/[0.03]" : "bg-transparent"}`}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/">
             {s?.headerLogoUrl ? (
-              <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className="h-12 w-auto" />
+              <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className={`h-12 w-auto transition-all duration-500 ${scrolled ? "brightness-100" : "brightness-[1.2]"}`} />
             ) : (
-              <span className={`text-3xl font-display font-extrabold tracking-tighter cursor-pointer ${!scrolled ? "text-white" : "text-primary"}`}>
+              <span className={`text-2xl font-display font-extrabold tracking-tight transition-all duration-500 ${!scrolled ? "text-white" : "text-primary"}`}>
                 {s?.siteName || "GMI"}
               </span>
             )}
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               link.isExternal ? (
                 <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                  className={`relative text-sm font-display font-semibold transition-colors cursor-pointer ${!scrolled ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-foreground"} ${isActive(link.href) ? "text-accent" : ""}`}
+                  className={`nav-link px-4 py-2 text-sm font-display font-semibold rounded-lg transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
                 >
                   {link.label}
-                  {isActive(link.href) && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded-full" />}
                 </a>
               ) : (
                 <Link key={link.href} href={link.href}>
                   <span
-                  className={`relative text-sm font-display font-semibold transition-colors cursor-pointer ${!scrolled ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-foreground"} ${isActive(link.href) ? "text-accent" : ""}`}
+                  className={`nav-link px-4 py-2 text-sm font-display font-semibold rounded-lg transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
                   >
                     {link.label}
-                    {isActive(link.href) && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded-full" />}
                   </span>
                 </Link>
               )
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <Link href={ctaLink}>
-              <Button variant="secondary" size="md">
+              <Button variant="secondary" size="md" className="shadow-lg shadow-primary/20">
                 {ctaText}
               </Button>
             </Link>
@@ -273,30 +271,30 @@ export function Layout({ children }: { children: ReactNode }) {
           {/* Mobile Nav */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={`lg:hidden ${!scrolled ? "text-white" : ""}`} aria-label="Open navigation menu">
+              <Button variant="ghost" size="icon" className={`lg:hidden transition-all duration-300 ${!scrolled ? "text-white hover:bg-white/10" : "hover:bg-muted/50"}`} aria-label="Open navigation menu">
                 <Menu size={24} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white p-0">
+            <SheetContent side="right" className="bg-white/95 backdrop-blur-xl border-l border-border/50 p-0 w-80">
               <div className="flex flex-col h-full">
-                <div className="border-b border-border px-6 py-5">
-                  <span className="text-xl font-display font-extrabold text-primary">
+                <div className="border-b border-border/50 px-6 py-6">
+                  <span className="text-xl font-display font-extrabold text-primary tracking-tight">
                     {s?.siteName || "GMI"}
                   </span>
                 </div>
-                <nav className="flex-1 flex flex-col gap-1 px-4 py-6 overflow-y-auto">
+                <nav className="flex-1 flex flex-col gap-1 px-3 py-4 overflow-y-auto">
                   {navLinks.map((link, i) => (
                     <div key={link.href} style={{ animationDelay: `${i * 50}ms` }} className="animate-fade-in">
                       {link.isExternal ? (
                         <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                          className={`flex items-center gap-4 px-4 py-3 rounded-lg text-base font-display font-semibold transition-colors ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted/50"}`}
+                          className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-display font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
                         >
                           {link.label}
                         </a>
                       ) : (
                         <Link href={link.href}>
                           <span
-                            className={`flex items-center gap-4 px-4 py-3 rounded-lg text-base font-display font-semibold transition-colors cursor-pointer ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted/50"}`}
+                            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-display font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
                           >
                             {link.label}
                           </span>
@@ -305,9 +303,9 @@ export function Layout({ children }: { children: ReactNode }) {
                     </div>
                   ))}
                 </nav>
-                <div className="border-t border-border px-4 py-6">
+                <div className="border-t border-border/50 px-4 py-6">
                   <Link href={ctaLink}>
-                    <Button variant="secondary" size="lg" className="w-full">
+                    <Button variant="secondary" size="lg" className="w-full shadow-lg shadow-primary/20">
                       {ctaText}
                     </Button>
                   </Link>
