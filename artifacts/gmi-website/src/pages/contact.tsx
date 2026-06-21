@@ -140,9 +140,9 @@ export default function Contact() {
           {/* Form Column */}
           <div className="lg:col-span-2 bg-background p-10 border border-gray-100 shadow-sm">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-200  h-12 p-1">
-                <TabsTrigger value="general" className=" font-bold data-[state=active]:bg-white data-[state=active]:text-primary">General Inquiry</TabsTrigger>
-                <TabsTrigger value="business" className=" font-bold data-[state=active]:bg-primary data-[state=active]:text-white">Business / Partnership</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-200 h-12 p-1 rounded-none">
+                <TabsTrigger value="general" className="font-bold data-[state=active]:bg-white data-[state=active]:text-primary rounded-none">General Inquiry</TabsTrigger>
+                <TabsTrigger value="business" className="font-bold data-[state=active]:bg-primary data-[state=active]:text-white rounded-none">Business / Partnership</TabsTrigger>
               </TabsList>
               
               <TabsContent value="general">
@@ -152,14 +152,14 @@ export default function Contact() {
                       <FormField control={contactForm.control} name="name" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Your Name *</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                       <FormField control={contactForm.control} name="email" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Email Address *</FormLabel>
-                          <FormControl><Input type="email" {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input type="email" {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -168,14 +168,14 @@ export default function Contact() {
                       <FormField control={contactForm.control} name="phone" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Phone Number</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                       <FormField control={contactForm.control} name="subject" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Subject *</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -183,7 +183,7 @@ export default function Contact() {
                     <FormField control={contactForm.control} name="message" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-bold text-foreground">Message *</FormLabel>
-                        <FormControl><Textarea {...field} rows={6} className="bg-white  border-input focus-visible:ring-primary resize-none" /></FormControl>
+                        <FormControl><Textarea {...field} rows={6} className="bg-white border-input focus-visible:ring-primary resize-none rounded-none" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -206,7 +206,7 @@ export default function Contact() {
                           <FormLabel className="font-bold text-foreground">Inquiry Type *</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="bg-white  border-input focus:ring-primary">
+                              <SelectTrigger className="bg-white border-input focus:ring-primary rounded-none">
                                 <SelectValue placeholder="Select type" />
                               </SelectTrigger>
                             </FormControl>
@@ -224,7 +224,7 @@ export default function Contact() {
                       <FormField control={businessForm.control} name="company" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Company / Organization Name</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -233,14 +233,14 @@ export default function Contact() {
                       <FormField control={businessForm.control} name="name" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Contact Person *</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                       <FormField control={businessForm.control} name="email" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Business Email *</FormLabel>
-                          <FormControl><Input type="email" {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input type="email" {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -249,14 +249,14 @@ export default function Contact() {
                       <FormField control={businessForm.control} name="phone" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Phone Number *</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                       <FormField control={businessForm.control} name="region" render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold text-foreground">Target Region / Country</FormLabel>
-                          <FormControl><Input {...field} className="bg-white  border-input focus-visible:ring-primary" /></FormControl>
+                          <FormControl><Input {...field} className="bg-white border-input focus-visible:ring-primary rounded-none" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -264,7 +264,7 @@ export default function Contact() {
                     <FormField control={businessForm.control} name="message" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-bold text-foreground">Proposal Details *</FormLabel>
-                        <FormControl><Textarea {...field} rows={6} className="bg-white  border-input focus-visible:ring-primary resize-none" /></FormControl>
+                        <FormControl><Textarea {...field} rows={6} className="bg-white border-input focus-visible:ring-primary resize-none rounded-none" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
