@@ -160,6 +160,7 @@ export function Layout({ children }: { children: ReactNode }) {
         { label: "Products", href: "/products" },
         { label: "Sustainability", href: "/sustainability" },
         { label: "Careers", href: "/careers" },
+        { label: "FAQ", href: "/faq" },
         { label: "News & Updates", href: "/news" },
       ],
     },

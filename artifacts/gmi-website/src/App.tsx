@@ -20,7 +20,9 @@ const Careers = lazy(() => import("@/pages/careers"));
 const Contact = lazy(() => import("@/pages/contact"));
 const PrivacyPage = lazy(() => import("@/pages/privacy"));
 const TermsPage = lazy(() => import("@/pages/terms"));
+const FAQPage = lazy(() => import("@/pages/faq"));
 const NotFound = lazy(() => import("@/pages/not-found"));
+const ServerError = lazy(() => import("@/pages/server-error"));
 const AdminLayout = lazy(() => import("@/pages/admin/layout"));
 const AdminLogin = lazy(() => import("@/pages/admin/login"));
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
@@ -79,6 +81,8 @@ function PublicRoutes() {
         <Route path="/contact"><AnimatedPage component={Contact} /></Route>
         <Route path="/privacy"><AnimatedPage component={PrivacyPage} /></Route>
         <Route path="/terms"><AnimatedPage component={TermsPage} /></Route>
+        <Route path="/faq"><AnimatedPage component={FAQPage} /></Route>
+        <Route path="/500"><AnimatedPage component={ServerError} /></Route>
         <Route><AnimatedPage component={NotFound} /></Route>
       </Switch>
     </Layout>
