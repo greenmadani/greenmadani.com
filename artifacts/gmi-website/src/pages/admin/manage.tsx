@@ -164,7 +164,7 @@ function CrudTable({ title, endpoint, fields, columns }: { title: string; endpoi
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-display font-bold">{title}</h3>
+        <h3 className="font-display">{title}</h3>
         <Button onClick={openNew}>+ New</Button>
       </div>
 

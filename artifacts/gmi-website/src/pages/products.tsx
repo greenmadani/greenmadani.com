@@ -95,7 +95,7 @@ export default function Products() {
           ) : filteredProducts?.length === 0 ? (
             <div className="col-span-full py-20 text-center bg-background border border-dashed border-border">
               <ShoppingBasket size={48} className="mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-xl font-display font-bold text-muted-foreground">No products found</h3>
+              <h3 className="font-display text-muted-foreground">No products found</h3>
               <p className="text-muted-foreground mt-2">Try adjusting your search or filters.</p>
             </div>
           ) : (
@@ -111,10 +111,10 @@ export default function Products() {
                   )}
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
-                  <span className="inline-block text-accent font-display font-semibold text-xs tracking-wider uppercase mb-3">
+                  <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-3">
                     {product.category}
                   </span>
-                  <h3 className="font-display font-bold text-xl mb-3 text-foreground group-hover:text-primary transition-colors">{product.name}</h3>
+                  <h3 className="font-display mb-3 text-foreground group-hover:text-primary transition-colors">{product.name}</h3>
                   <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-2">{product.description}</p>
                   <Link href={`/products/${product.id}`}>
                     <Button variant="outline" className="w-full font-bold">

@@ -24,15 +24,15 @@ export default function Sustainability() {
         <div className="container mx-auto px-4">
           <div className="bg-white shadow-xl border-t-4 border-accent p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-8 lift-hover">
-              <div className="text-5xl font-display font-bold text-primary mb-2">{stats?.farmerServed?.toLocaleString() || "10,000"}+</div>
+              <div className="text-5xl font-bold text-primary mb-2">{stats?.farmerServed?.toLocaleString() || "10,000"}+</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Farmers Empowered</div>
             </div>
             <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-8 md:pl-4 lift-hover">
-              <div className="text-5xl font-display font-bold text-primary mb-2">50k+</div>
+              <div className="text-5xl font-bold text-primary mb-2">50k+</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Trees Planted</div>
             </div>
             <div className="text-center md:text-left md:pl-4 lift-hover">
-              <div className="text-5xl font-display font-bold text-primary mb-2">100%</div>
+              <div className="text-5xl font-bold text-primary mb-2">100%</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Ethical Sourcing</div>
             </div>
           </div>
@@ -51,7 +51,7 @@ export default function Sustainability() {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="bg-muted p-10 group hover:bg-primary transition-colors duration-500 border border-border card-hover">
               <Leaf size={48} className="text-primary mb-6 group-hover:text-accent transition-colors" />
-              <h3 className="text-2xl font-display font-bold text-foreground mb-4 group-hover:text-white transition-colors">Sustainable Agriculture</h3>
+              <h3 className="font-display text-foreground mb-4 group-hover:text-white transition-colors">Sustainable Agriculture</h3>
               <p className="text-muted-foreground group-hover:text-white/80 transition-colors leading-relaxed">
                 Promoting farming techniques that conserve water, reduce chemical dependency, and improve soil health for long-term yield.
               </p>
@@ -59,7 +59,7 @@ export default function Sustainability() {
             
             <div className="bg-muted p-10 group hover:bg-primary transition-colors duration-500 border border-border card-hover">
               <Sprout size={48} className="text-primary mb-6 group-hover:text-accent transition-colors" />
-              <h3 className="text-2xl font-display font-bold text-foreground mb-4 group-hover:text-white transition-colors">Farmer Development</h3>
+              <h3 className="font-display text-foreground mb-4 group-hover:text-white transition-colors">Farmer Development</h3>
               <p className="text-muted-foreground group-hover:text-white/80 transition-colors leading-relaxed">
                 Providing education, fair pricing, and direct market access to ensure farming communities thrive alongside our business.
               </p>
@@ -67,7 +67,7 @@ export default function Sustainability() {
 
             <div className="bg-muted p-10 group hover:bg-primary transition-colors duration-500 border border-border card-hover">
               <Droplets size={48} className="text-primary mb-6 group-hover:text-accent transition-colors" />
-              <h3 className="text-2xl font-display font-bold text-foreground mb-4 group-hover:text-white transition-colors">Environmental Responsibility</h3>
+              <h3 className="font-display text-foreground mb-4 group-hover:text-white transition-colors">Environmental Responsibility</h3>
               <p className="text-muted-foreground group-hover:text-white/80 transition-colors leading-relaxed">
                 Reducing water consumption by 30% across manufacturing facilities and transitioning to eco-friendly packaging materials.
               </p>

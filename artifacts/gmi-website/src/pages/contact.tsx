@@ -96,13 +96,13 @@ export default function Contact() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Info Column */}
           <div className="bg-secondary text-white p-10 shadow-xl border-t-4 border-accent card-hover border border-border">
-            <h2 className="text-3xl font-display font-bold mb-8">Corporate Headquarters</h2>
+            <h2 className="font-display mb-8">Corporate Headquarters</h2>
             
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <MapPin className="text-accent mt-1 shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-sm text-accent mb-1">Address</h4>
+                  <h4 className="uppercase tracking-wider text-accent mb-1">Address</h4>
                   <p className="text-white/80 leading-relaxed">924/C, Taltola Moor<br/>Khilgaon-1219<br/>Dhaka, Bangladesh</p>
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <Phone className="text-accent mt-1 shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-sm text-accent mb-1">Phone</h4>
+                  <h4 className="uppercase tracking-wider text-accent mb-1">Phone</h4>
                   <p className="text-white/80">01340-862454</p>
                   <p className="text-white/80">022 222 01623</p>
                 </div>
@@ -119,7 +119,7 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <Mail className="text-accent mt-1 shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-sm text-accent mb-1">Email</h4>
+                  <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
                   <p className="text-white/80">info@greenmadani.com</p>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <Clock className="text-accent mt-1 shrink-0" size={24} />
                 <div>
-                  <h4 className="font-bold uppercase tracking-wider text-sm text-accent mb-1">Business Hours</h4>
+                  <h4 className="uppercase tracking-wider text-accent mb-1">Business Hours</h4>
                   <p className="text-white/80">Sunday - Thursday: 9:00 AM - 6:00 PM</p>
                   <p className="text-white/80">Friday - Saturday: Closed</p>
                 </div>
@@ -285,21 +285,21 @@ export default function Contact() {
             <Link href="/contact?type=partnership">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
                 <Building2 size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display font-bold text-xl mb-2 text-foreground">Business Partnership</h3>
+                <h3 className="font-display mb-2 text-foreground">Business Partnership</h3>
                 <p className="text-muted-foreground text-sm">Collaborate with our subsidiaries.</p>
               </div>
             </Link>
             <Link href="/contact?type=distributor">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
                 <Box size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display font-bold text-xl mb-2 text-foreground">Product Inquiry</h3>
+                <h3 className="font-display mb-2 text-foreground">Product Inquiry</h3>
                 <p className="text-muted-foreground text-sm">Wholesale and distribution details.</p>
               </div>
             </Link>
             <Link href="/contact?type=investor">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
                 <Handshake size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display font-bold text-xl mb-2 text-foreground">For Investment</h3>
+                <h3 className="font-display mb-2 text-foreground">For Investment</h3>
                 <p className="text-muted-foreground text-sm">Explore investment opportunities.</p>
               </div>
             </Link>

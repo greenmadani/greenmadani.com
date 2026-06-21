@@ -85,7 +85,7 @@ export default function AdminCategories() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-display font-bold">Categories</h2>
+        <h2 className="font-display">Categories</h2>
         <Button onClick={openNew} className="bg-primary">+ New Category</Button>
       </div>
 

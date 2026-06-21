@@ -14,7 +14,7 @@ export function SectionHeader({ badge, title, description, align = "center", cla
           {badge}
         </span>
       )}
-      <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+      <h2 className="font-display text-foreground">
         {title}
       </h2>
       {description && (

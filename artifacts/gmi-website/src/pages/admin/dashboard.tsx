@@ -29,12 +29,12 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h2 className="text-2xl font-display font-bold mb-6">Dashboard</h2>
+      <h2 className="font-display mb-6">Dashboard</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {tiles.map((t) => (
           <Card key={t.label} className={`border-l-4 ${t.color}`}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{t.label}</CardTitle>
+              <CardTitle className="font-medium text-muted-foreground">{t.label}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold">{t.value}</p>

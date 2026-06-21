@@ -28,7 +28,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-secondary">
       <Card className="w-full max-w-md mx-4">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-display text-primary">Admin Login</CardTitle>
+          <CardTitle className="font-display text-primary">Admin Login</CardTitle>
           <CardDescription>Green Madani International</CardDescription>
         </CardHeader>
         <CardContent>

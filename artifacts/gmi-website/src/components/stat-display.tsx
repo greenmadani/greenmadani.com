@@ -56,7 +56,7 @@ export function StatDisplay({ value: rawValue, label, className = "" }: StatDisp
 
   return (
     <div ref={ref} className={`text-center ${className}`}>
-      <div className="text-3xl md:text-4xl font-display font-extrabold text-accent">{displayValue}</div>
+      <div className="text-3xl md:text-4xl font-extrabold text-accent">{displayValue}</div>
       <div className="text-sm text-white/50 tracking-widest uppercase mt-1">{label}</div>
     </div>
   );

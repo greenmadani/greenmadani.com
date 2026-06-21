@@ -74,7 +74,7 @@ export default function MediaManager() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-display font-bold">Media Library</h2>
+        <h2 className="font-display">Media Library</h2>
         <Button onClick={() => setShowUpload(true)} className="bg-[#1A5C38] hover:bg-[#0D3D25]">
           <Upload className="h-4 w-4 mr-2" />
           Upload

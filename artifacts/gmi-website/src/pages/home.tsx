@@ -41,10 +41,10 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-block text-accent font-display font-semibold tracking-[0.2em] uppercase text-sm mb-6 border-b-2 border-accent/40 pb-2">
+              <span className="inline-block text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-6 border-b-2 border-accent/40 pb-2">
                 Bangladesh's Premier Business Group
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold leading-tight mb-6">
+              <h1 className="font-display leading-tight mb-6">
                 Building Sustainable Solutions<br />
                 <span className="text-accent">for a Better Future</span>
               </h1>
@@ -58,7 +58,7 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <span className="text-white/70 hover:text-white font-display font-semibold text-sm link-underline">
+                  <span className="text-white/70 hover:text-white font-semibold text-sm link-underline">
                     Contact Us →
                   </span>
                 </Link>
@@ -84,7 +84,7 @@ export default function Home() {
           <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <span className="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Who We Are</span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-8">
+              <h2 className="font-display text-foreground mb-8">
                 A Diversified Business Group Driving Sustainable Growth
               </h2>
               <div className="space-y-6 text-muted-foreground text-lg mb-10">
@@ -97,7 +97,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {["Quality", "Innovation", "Integrity", "Sustainability"].map((val, idx) => (
-                  <div key={val} className="flex items-center gap-3 bg-muted p-4 font-display font-semibold text-primary lift-hover">
+                  <div key={val} className="flex items-center gap-3 bg-muted p-4 font-semibold text-primary lift-hover">
                     {idx === 0 && <Award size={20} className="text-accent shrink-0" />}
                     {idx === 1 && <FlaskConical size={20} className="text-accent shrink-0" />}
                     {idx === 2 && <Handshake size={20} className="text-accent shrink-0" />}
@@ -136,7 +136,7 @@ export default function Home() {
                       <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-300">
                         <Icon size={28} />
                       </div>
-                      <h3 className="font-display font-bold text-xl mb-2 text-foreground">{sub.name}</h3>
+                      <h3 className="font-display mb-2 text-foreground">{sub.name}</h3>
                       <p className="text-muted-foreground text-sm flex-1">{sub.desc}</p>
                     </div>
                   </Link>
@@ -161,7 +161,7 @@ export default function Home() {
             <div className="flex justify-between items-end mb-12">
               <div>
                 <span className="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Premium Quality</span>
-                <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">Featured Products</h2>
+                <h2 className="font-display text-foreground">Featured Products</h2>
               </div>
               <Link href="/products" className="hidden md:flex items-center text-primary font-bold hover:text-accent transition-colors">
                 View All Catalog <ArrowRight size={20} className="ml-2" />
@@ -199,10 +199,10 @@ export default function Home() {
                       )}
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
-                      <span className="inline-block bg-accent/10 text-accent font-display font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-4 self-start">
+                      <span className="inline-block bg-accent/10 text-accent font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-4 self-start">
                         {product.category}
                       </span>
-                      <h3 className="font-display font-bold text-2xl mb-3 text-foreground">{product.name}</h3>
+                      <h3 className="font-display mb-3 text-foreground">{product.name}</h3>
                       <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-3">{product.description}</p>
                       <Link href={`/products/${product.id}`}>
                         <Button variant="outline" size="lg" className="w-full">
@@ -241,7 +241,7 @@ export default function Home() {
                   <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Icon size={32} className="text-accent-foreground" />
                   </div>
-                  <h3 className="text-xl font-bold font-display mb-3">{feature.title}</h3>
+                  <h3 className="font-display mb-3">{feature.title}</h3>
                   <p className="text-white/70 text-sm">{feature.desc}</p>
                 </div>
               );
@@ -250,25 +250,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Partner / Investor CTA */}
+      <CTASection />
+
       {/* Sustainability Strip */}
-      <section className="py-24 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop')] bg-cover bg-center text-white text-center relative">
+      <section className="py-24 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop')] bg-cover bg-center bg-fixed text-white text-center relative">
         <div className="absolute inset-0 bg-secondary/90"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <h2 className="text-3xl md:text-5xl font-display font-bold italic mb-12 max-w-4xl mx-auto leading-relaxed text-accent">
-            "Growing with Nature, Building for Generations"
+          <h2 className="font-display italic mb-12 max-w-4xl min-w-[280px] mx-auto text-white">
+            "Growing with Nature,<br />Building for Generations"
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto">
             <div className="glass-dark p-6 card-hover">
-              <div className="text-4xl font-display font-bold text-white mb-2">50,000+</div>
-              <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Trees Planted</div>
+              <div className="text-4xl font-bold text-white mb-2">50,000+</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Trees Planted</div>
             </div>
             <div className="glass-dark p-6 card-hover">
-              <div className="text-4xl font-display font-bold text-white mb-2">30%</div>
-              <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Water Reduction</div>
+              <div className="text-4xl font-bold text-white mb-2">30%</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Water Reduction</div>
             </div>
             <div className="glass-dark p-6 card-hover">
-              <div className="text-4xl font-display font-bold text-white mb-2">100%</div>
-              <div className="text-sm uppercase tracking-widest font-display font-semibold text-accent">Ethical Sourcing</div>
+              <div className="text-4xl font-bold text-white mb-2">100%</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Ethical Sourcing</div>
             </div>
           </div>
           <Link href="/sustainability">
@@ -279,16 +282,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Partner / Investor CTA */}
-      <CTASection />
-
       {/* News Preview */}
       <section className="py-24 bg-card">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
             <div>
               <span className="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Insights</span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">Latest News & Updates</h2>
+              <h2 className="font-display text-foreground">Latest News & Updates</h2>
             </div>
             <Link href="/news" className="hidden md:flex items-center text-primary font-bold hover:text-accent transition-colors link-underline">
               View All News <ArrowRight size={20} className="ml-2" />
@@ -318,11 +318,11 @@ export default function Home() {
                   )}
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center justify-between text-xs font-display font-semibold text-muted-foreground tracking-wider uppercase mb-3">
+                  <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-3">
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display font-bold text-xl mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2">
+                  <h3 className="font-display mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-1">

@@ -53,7 +53,7 @@ export default function News() {
             ))
           ) : newsData?.items.length === 0 ? (
             <div className="col-span-full py-20 text-center bg-white border border-dashed border-border">
-              <h3 className="text-xl font-display font-bold text-muted-foreground">No articles found</h3>
+              <h3 className="font-display text-muted-foreground">No articles found</h3>
               <p className="text-muted-foreground mt-2">Try selecting a different category.</p>
             </div>
           ) : (
@@ -71,7 +71,7 @@ export default function News() {
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display font-bold text-xl mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-tight">
+                  <h3 className="font-display mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-tight">
                     {article.title}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-3">

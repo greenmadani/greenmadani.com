@@ -33,7 +33,7 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="w-full py-40 text-center">
-        <h2 className="text-3xl font-display font-bold text-foreground mb-4">Product Not Found</h2>
+        <h2 className="font-display text-foreground mb-4">Product Not Found</h2>
         <Link href="/products">
           <Button variant="primary">Back to Products</Button>
         </Link>
@@ -45,7 +45,7 @@ export default function ProductDetail() {
     <div className="w-full pb-24 bg-white">
       {/* Breadcrumb */}
       <div className="bg-background py-4 border-b border-border">
-        <div className="container mx-auto px-4 flex items-center text-sm font-display font-semibold tracking-wider uppercase text-muted-foreground overflow-x-auto whitespace-nowrap hide-scrollbar">
+        <div className="container mx-auto px-4 flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground overflow-x-auto whitespace-nowrap hide-scrollbar">
           <Link href="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight size={14} className="mx-2 shrink-0" />
           <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
@@ -55,7 +55,7 @@ export default function ProductDetail() {
       </div>
 
       <div className="container mx-auto px-4 py-16">
-        <Link href="/products" className="inline-flex items-center text-primary font-display font-semibold hover:text-accent mb-8 transition-colors">
+        <Link href="/products" className="inline-flex items-center text-primary font-semibold hover:text-accent mb-8 transition-colors">
           <ArrowLeft size={16} className="mr-2" /> Back to Catalog
         </Link>
 
@@ -75,7 +75,7 @@ export default function ProductDetail() {
               {product.category}
             </span>
             
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-6">
+            <h1 className="font-display text-foreground mb-6">
               {product.name}
             </h1>
             
@@ -93,7 +93,7 @@ export default function ProductDetail() {
 
             {product.tags && product.tags.length > 0 && (
               <div className="mb-10">
-                <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center">
+                <h4 className="uppercase tracking-wider text-muted-foreground mb-3 flex items-center">
                   <Tag size={14} className="mr-2" /> Tags
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -109,7 +109,7 @@ export default function ProductDetail() {
             <div className="mt-auto pt-8 border-t border-border">
               <div className="bg-background p-6 border-l-4 border-primary flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
-                  <h4 className="font-bold text-foreground mb-1">Interested in wholesale?</h4>
+                  <h4 className="text-foreground mb-1">Interested in wholesale?</h4>
                   <p className="text-sm text-muted-foreground">Contact our sales team for bulk pricing and distribution.</p>
                 </div>
                 <Link href={`/contact?subject=Inquiry about ${product.name}`}>

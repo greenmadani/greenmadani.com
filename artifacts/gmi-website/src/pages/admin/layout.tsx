@@ -35,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen flex bg-background">
       <aside className="w-64 bg-secondary text-white flex flex-col">
         <div className="p-6 border-b border-white/10">
-          <h1 className="font-display text-xl font-bold">GMI Admin</h1>
+          <h1 className="font-display">GMI Admin</h1>
           <p className="text-sm text-white/60 mt-1">Content Management</p>
         </div>
         <nav className="flex-1 p-4 space-y-1">

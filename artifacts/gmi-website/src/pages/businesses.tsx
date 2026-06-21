@@ -45,14 +45,14 @@ export default function Businesses() {
                   {business.imageUrl ? (
                     <img src={business.imageUrl} alt={business.name} className="w-full h-full object-cover opacity-80" loading="lazy" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-muted text-primary font-display font-bold text-3xl">GMI</div>
+                    <div className="w-full h-full flex items-center justify-center bg-muted text-primary font-bold text-3xl">GMI</div>
                   )}
                   <div className="absolute top-4 left-4 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1">
                     {business.industry}
                   </div>
                 </div>
                 <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-3xl font-display font-bold text-foreground mb-4">{business.name}</h3>
+                  <h3 className="font-display text-foreground mb-4">{business.name}</h3>
                   <p className="text-muted-foreground mb-8 flex-1 text-lg">{business.description}</p>
                   <Link href={`/businesses/${business.slug}`}>
                     <Button variant="primary">
@@ -76,7 +76,7 @@ export default function Businesses() {
               <Link key={business.id} href={`/businesses/${business.slug}`}>
                 <div className="bg-background p-8 border border-border card-hover h-full flex flex-col group">
                   <div className="text-accent text-xs font-bold uppercase tracking-wider mb-4">{business.industry}</div>
-                  <h4 className="text-xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{business.name}</h4>
+                  <h4 className="font-display text-foreground mb-3 group-hover:text-primary transition-colors">{business.name}</h4>
                   <p className="text-muted-foreground text-sm">{business.description}</p>
                 </div>
               </Link>

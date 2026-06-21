@@ -109,7 +109,7 @@ export default function Careers() {
                   <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon size={24} className="text-primary" />
                   </div>
-                  <h3 className="font-display font-bold text-foreground text-lg mb-2">{b.title}</h3>
+                  <h3 className="font-display text-foreground mb-2">{b.title}</h3>
                   <p className="text-muted-foreground text-sm">{b.desc}</p>
                 </div>
               );
@@ -122,7 +122,7 @@ export default function Careers() {
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-display font-bold text-foreground mb-8">Open Positions</h2>
+            <h2 className="font-display text-foreground mb-8">Open Positions</h2>
             <div className="flex flex-wrap justify-center gap-3">
               {departments.map(dept => (
                 <Button
@@ -154,14 +154,14 @@ export default function Careers() {
               ))
             ) : jobs?.length === 0 ? (
               <div className="bg-white p-12 text-center border border-dashed border-border">
-                <h3 className="text-xl font-bold text-muted-foreground mb-2">No open positions found</h3>
+                <h3 className="text-muted-foreground mb-2">No open positions found</h3>
                 <p className="text-muted-foreground">There are currently no openings in this department. Feel free to submit a general application.</p>
               </div>
             ) : (
               jobs?.map((job) => (
                 <div key={job.id} className="bg-white p-6 border border-border card-hover flex flex-col md:flex-row md:items-center justify-between gap-6 group">
                   <div>
-                    <h3 className="text-2xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{job.title}</h3>
+                    <h3 className="font-display text-foreground mb-2 group-hover:text-primary transition-colors">{job.title}</h3>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground font-medium">
                       <span className="flex items-center"><Briefcase size={14} className="mr-1.5 text-accent" /> {job.department}</span>
                       <span className="flex items-center"><span className="text-primary bg-muted px-2 py-0.5 font-bold uppercase text-xs tracking-wider">{job.type}</span></span>
@@ -187,7 +187,7 @@ export default function Careers() {
         <DialogContent className="sm:max-w-[600px] bg-white p-0 overflow-hidden border-none">
           <div className="bg-primary p-6 text-white islamic-pattern-overlay">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-display font-bold">Submit Application</DialogTitle>
+              <DialogTitle className="font-display">Submit Application</DialogTitle>
               <DialogDescription className="text-primary-foreground/80">
                 Join the GMI family. Fill out the form below.
               </DialogDescription>

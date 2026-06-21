@@ -37,7 +37,7 @@ export default function NewsDetail() {
   if (!article) {
     return (
       <div className="w-full py-40 text-center">
-        <h2 className="text-3xl font-display font-bold text-foreground mb-4">Article Not Found</h2>
+        <h2 className="font-display text-foreground mb-4">Article Not Found</h2>
         <Link href="/news">
           <Button variant="primary">Back to News</Button>
         </Link>
@@ -50,7 +50,7 @@ export default function NewsDetail() {
       {/* Article Header */}
       <div className="bg-background pt-16 pb-12">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="flex items-center text-sm font-display font-semibold tracking-wider uppercase text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap hide-scrollbar">
+          <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap hide-scrollbar">
             <Link href="/" className="hover:text-primary transition-colors">Home</Link>
             <ChevronRight size={14} className="mx-2 shrink-0" />
             <Link href="/news" className="hover:text-primary transition-colors">News</Link>
@@ -62,7 +62,7 @@ export default function NewsDetail() {
             {article.category}
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground mb-8 leading-tight">
+          <h1 className="font-display text-foreground mb-8 leading-tight">
             {article.title}
           </h1>
           

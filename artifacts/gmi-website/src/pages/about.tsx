@@ -40,13 +40,13 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="bg-white p-12 border-t-4 border-primary shadow-sm">
-              <h3 className="text-2xl font-display font-bold text-primary mb-4 uppercase tracking-wide">Our Vision</h3>
+              <h3 className="font-display text-primary mb-4 uppercase tracking-wide">Our Vision</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
                 "To be a globally recognized leader in sustainable agriculture and diversified business solutions, setting the benchmark for ethical corporate growth."
               </p>
             </div>
             <div className="bg-white p-12 border-t-4 border-accent shadow-sm">
-              <h3 className="text-2xl font-display font-bold text-accent mb-4 uppercase tracking-wide">Our Mission</h3>
+              <h3 className="font-display text-accent mb-4 uppercase tracking-wide">Our Mission</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
                 "To deliver innovative, high-quality products and services that uplift communities, empower farmers, and create lasting value for all stakeholders."
               </p>
@@ -75,7 +75,7 @@ export default function About() {
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
                     <Icon size={28} className="text-primary" />
                   </div>
-                  <h4 className="font-display font-bold text-lg mb-3 text-foreground">{value.title}</h4>
+                  <h4 className="font-display mb-3 text-foreground">{value.title}</h4>
                   <p className="text-muted-foreground text-sm">{value.desc}</p>
                 </div>
               );
@@ -101,8 +101,8 @@ export default function About() {
                 <div className="w-32 h-32 bg-primary rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-accent/30 overflow-hidden">
                   <UserCircle2 size={64} className="text-white/50" />
                 </div>
-                <h4 className="font-display font-bold text-xl mb-1 text-accent">{leader.name}</h4>
-                <p className="text-white/70 text-sm font-display font-semibold tracking-wider uppercase">{leader.title}</p>
+                <h4 className="font-display mb-1 text-accent">{leader.name}</h4>
+                <p className="text-white/70 text-sm font-semibold tracking-wider uppercase">{leader.title}</p>
               </div>
             ))}
           </div>
@@ -132,8 +132,8 @@ export default function About() {
                     <div className="w-2 h-2 bg-accent rounded-full"></div>
                   </div>
                   <div className={`w-full md:w-5/12 bg-background p-6 border border-border shadow-sm ${i % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
-                    <span className="text-3xl font-display font-extrabold text-accent mb-2 block">{milestone.year}</span>
-                    <h4 className="font-bold text-xl text-foreground mb-2">{milestone.title}</h4>
+                    <span className="text-3xl font-extrabold text-accent mb-2 block">{milestone.year}</span>
+                    <h4 className="text-foreground mb-2">{milestone.title}</h4>
                     <p className="text-muted-foreground">{milestone.desc}</p>
                   </div>
                 </div>

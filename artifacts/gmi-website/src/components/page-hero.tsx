@@ -23,7 +23,7 @@ export function PageHero({ title, subtitle, breadcrumbs, badge, children, classN
       <AnimatedBackground />
       <div className="container mx-auto px-4 relative z-10 text-center">
         {breadcrumbs && (
-          <div className="flex items-center justify-center text-sm font-display font-semibold tracking-wider uppercase text-white/60 mb-6">
+          <div className="flex items-center justify-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6">
             {breadcrumbs.map((crumb, i) => (
               <span key={crumb.href} className="flex items-center">
                 {i > 0 && <ChevronRight size={14} className="mx-2" />}
@@ -37,11 +37,11 @@ export function PageHero({ title, subtitle, breadcrumbs, badge, children, classN
           </div>
         )}
         {badge && (
-          <span className="inline-block text-accent font-display font-semibold tracking-widest uppercase text-sm mb-4 border border-accent/30 px-3 py-1 rounded-full bg-accent/10">
+          <span className="inline-block text-accent font-semibold tracking-widest uppercase text-sm mb-4 border border-accent/30 px-3 py-1 border bg-accent/10">
             {badge}
           </span>
         )}
-        <h1 className="text-5xl md:text-6xl font-display font-extrabold mb-6">{title}</h1>
+        <h1 className="font-display mb-6">{title}</h1>
         <p className="text-xl text-white/80 max-w-2xl leading-relaxed mx-auto">
           {subtitle}
         </p>

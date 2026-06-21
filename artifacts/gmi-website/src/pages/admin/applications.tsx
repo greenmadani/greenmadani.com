@@ -81,7 +81,7 @@ export default function AdminApplications() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-display font-bold">Job Applications</h2>
+        <h2 className="font-display">Job Applications</h2>
         <Button onClick={exportCsv} variant="outline">
           <Download className="h-4 w-4 mr-2" />
           Export CSV

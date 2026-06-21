@@ -19,7 +19,7 @@ export function GridCard({ icon: Icon, iconColor, title, description, className 
           <Icon size={28} />
         </div>
       )}
-      <h3 className="font-display font-bold text-xl mb-2 text-foreground">{title}</h3>
+      <h3 className="font-display mb-2 text-foreground">{title}</h3>
       <p className="text-muted-foreground text-sm flex-1">{description}</p>
       {children}
     </div>

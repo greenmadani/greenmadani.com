@@ -34,7 +34,7 @@ function InquiryTable({ title, endpoint, columns }: { title: string; endpoint: s
 
   return (
     <div>
-      <h3 className="text-xl font-display font-bold mb-4">{title}</h3>
+      <h3 className="font-display mb-4">{title}</h3>
       <div className="border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>

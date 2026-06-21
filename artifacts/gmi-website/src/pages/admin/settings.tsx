@@ -213,7 +213,7 @@ export default function AdminSettings() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-display font-bold">Site Settings</h2>
+        <h2 className="font-display">Site Settings</h2>
         <Button onClick={save} disabled={saving} className="bg-primary">
           {saving ? "Saving..." : "Save Changes"}
         </Button>
@@ -222,7 +222,7 @@ export default function AdminSettings() {
       <div className="space-y-6 max-w-3xl">
         {/* Top Bar / Announcement */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Top Header / Announcement Bar</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Top Header / Announcement Bar</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3">
               <Switch checked={form.announcementEnabled} onCheckedChange={(v) => set("announcementEnabled", v)} />
@@ -261,7 +261,7 @@ export default function AdminSettings() {
 
         {/* Header / Navigation */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Header / Navigation</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Header / Navigation</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div>
               <Label>Site Name</Label>
@@ -334,7 +334,7 @@ export default function AdminSettings() {
 
         {/* Branding / Colors */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Branding & Colors</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Branding & Colors</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -371,7 +371,7 @@ export default function AdminSettings() {
 
         {/* Footer */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Footer Settings</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Footer Settings</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <ImageField
               label="Footer Logo"
@@ -458,7 +458,7 @@ export default function AdminSettings() {
 
         {/* Contact Information */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Contact Information</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Contact Information</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div>
               <Label>Address</Label>
@@ -477,7 +477,7 @@ export default function AdminSettings() {
 
         {/* Social Media Links */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">Social Media Links</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Social Media Links</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             {(["facebookUrl", "twitterUrl", "youtubeUrl", "linkedinUrl", "instagramUrl"] as const).map((key) => (
               <div key={key}>
@@ -490,7 +490,7 @@ export default function AdminSettings() {
 
         {/* SEO */}
         <Card>
-          <CardHeader><CardTitle className="text-lg">SEO Settings</CardTitle></CardHeader>
+          <CardHeader><CardTitle>SEO Settings</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div>
               <Label>Default SEO Title</Label>
