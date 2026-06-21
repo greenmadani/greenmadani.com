@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { Linkedin, Facebook, MessageCircle } from "lucide-react";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function NewsDetail() {
   const params = useParams();
@@ -48,6 +49,7 @@ export default function NewsDetail() {
   return (
     <div className="w-full pb-24 bg-white">
       {/* Article Header */}
+      <AnimatedSection animation="fade-in">
       <div className="bg-background pt-16 pb-12">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap hide-scrollbar">
@@ -96,16 +98,21 @@ export default function NewsDetail() {
         </div>
       </div>
 
+      </AnimatedSection>
+
       {/* Featured Image */}
       {article.imageUrl && (
+        <AnimatedSection animation="scale-in" delay={100}>
         <div className="w-full max-w-5xl mx-auto -mt-6 px-4 z-10 relative">
           <div className="w-full h-[400px] md:h-[600px] shadow-xl img-hover bg-muted">
             <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
+        </AnimatedSection>
       )}
 
       {/* Article Content */}
+      <AnimatedSection animation="fade-up" delay={150}>
       <div className="container mx-auto px-4 max-w-3xl mt-16">
         {article.excerpt && (
           <p className="text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed italic mb-10 border-l-4 border-accent pl-6 py-2">
@@ -135,6 +142,7 @@ export default function NewsDetail() {
           </Link>
         </div>
       </div>
+      </AnimatedSection>
     </div>
   );
 }

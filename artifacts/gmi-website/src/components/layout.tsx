@@ -198,14 +198,13 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* Announcement Bar */}
       {s?.announcementEnabled !== false && announcementVisible && (
         <div
-          className="text-xs py-1.5 px-4 flex justify-between items-center z-50 relative"
-          style={{ backgroundColor: s?.announcementBgColor || "hsl(var(--primary))", color: s?.announcementTextColor || "#ffffff" }}
+          className="text-xs py-1.5 px-4 z-50 relative bg-accent text-accent-foreground"
         >
-          <div className="container mx-auto flex justify-between items-center">
-            <span className="font-medium tracking-wide uppercase opacity-90">
+          <div className="container mx-auto flex items-center justify-center gap-4">
+            <span className="font-medium tracking-wide uppercase opacity-90 text-center">
               {s?.announcementText || "Welcome to Green Madani International Private Ltd."}
             </span>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 shrink-0">
               {socialLinkKeys.map(({ key, label }) => {
                 const url = s?.[key as keyof SiteSettings] as string | undefined;
                 if (!url) return null;
@@ -217,7 +216,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 );
               })}
               {(s?.announcementDismissible || true) && (
-                <button onClick={dismissAnnouncement} className="ml-2 hover:opacity-80">
+                <button onClick={dismissAnnouncement} className="hover:opacity-80">
                   <X size={12} />
                 </button>
               )}

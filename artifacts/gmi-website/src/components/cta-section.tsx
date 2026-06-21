@@ -1,9 +1,11 @@
 import { ArrowUpRight, Building2, Handshake } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { AnimatedSection } from "@/components/animated-section";
 
 export function CTASection() {
   return (
+    <AnimatedSection animation="fade-up">
     <section className="py-24 bg-muted">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8">
@@ -39,5 +41,6 @@ export function CTASection() {
         </div>
       </div>
     </section>
+    </AnimatedSection>
   );
 }

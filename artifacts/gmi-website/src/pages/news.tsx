@@ -7,6 +7,7 @@ import { PageHero } from "@/components/page-hero";
 import { FilterBar } from "@/components/filter-bar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function News() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -29,6 +30,7 @@ export default function News() {
         ]}
       />
 
+      <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-16">
         {/* Filters */}
         <FilterBar
@@ -38,7 +40,7 @@ export default function News() {
         />
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-stagger">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
@@ -95,6 +97,7 @@ export default function News() {
           </div>
         )}
       </div>
+      </AnimatedSection>
     </div>
   );
 }

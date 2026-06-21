@@ -2,6 +2,7 @@ import { Award, FlaskConical, ShieldCheck, Leaf, Users, UserCircle2 } from "luci
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function About() {
   return (
@@ -16,6 +17,7 @@ export default function About() {
       />
 
       {/* Company Story */}
+      <AnimatedSection animation="fade-in">
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-16">
@@ -34,8 +36,10 @@ export default function About() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Vision & Mission */}
+      <AnimatedSection animation="fade-up">
       <section className="py-20 bg-muted">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -54,14 +58,16 @@ export default function About() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Core Values */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <SectionHeader title="Our Core Values" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-stagger">
             {[
               { icon: Award, title: "Quality", desc: "Uncompromising standards in every product and service." },
               { icon: FlaskConical, title: "Innovation", desc: "Pioneering solutions for tomorrow's challenges." },
@@ -83,15 +89,17 @@ export default function About() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Leadership */}
+      <AnimatedSection animation="fade-in">
       <section className="py-24 bg-secondary text-white border-y-4 border-accent overflow-hidden relative">
         <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <SectionHeader badge="Our Team" title="Leadership" className="[&_h2]:text-white" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-stagger">
             {[
               { name: "Abdullah Al Mahmud", title: "Chairman & Founder" },
               { name: "Dr. Hasan Rahman", title: "Managing Director" },
@@ -108,8 +116,10 @@ export default function About() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Timeline */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -142,6 +152,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
     </div>
   );
 }

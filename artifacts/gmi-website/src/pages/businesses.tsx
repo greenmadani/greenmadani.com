@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function Businesses() {
   const { data: businesses, isLoading } = useListBusinesses(undefined, {
@@ -23,9 +24,10 @@ export default function Businesses() {
       />
 
       {/* Featured Businesses (First 6) */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 animate-stagger">
             {isLoading ? (
               Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="flex flex-col bg-white border border-border shadow-sm">
@@ -65,13 +67,15 @@ export default function Businesses() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* All Businesses Grid */}
+      <AnimatedSection animation="fade-up" delay={100}>
       <section className="py-24 bg-white border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeader title="Complete Portfolio" align="center" />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
             {isLoading ? null : businesses?.map((business) => (
               <Link key={business.id} href={`/businesses/${business.slug}`}>
                 <div className="bg-background p-8 border border-border card-hover h-full flex flex-col group">
@@ -84,6 +88,7 @@ export default function Businesses() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
     </div>
   );
 }

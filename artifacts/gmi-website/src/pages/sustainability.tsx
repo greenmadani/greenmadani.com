@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useGetCompanyStats } from "@workspace/api-client-react";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function Sustainability() {
   const { data: stats } = useGetCompanyStats();
@@ -20,6 +21,7 @@ export default function Sustainability() {
       />
 
       {/* Intro Stats */}
+      <AnimatedSection animation="scale-in">
       <section className="relative -mt-16 z-20">
         <div className="container mx-auto px-4">
           <div className="bg-white shadow-xl border-t-4 border-accent p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -38,8 +40,10 @@ export default function Sustainability() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Pillars */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -48,7 +52,7 @@ export default function Sustainability() {
           />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-stagger">
             <div className="bg-muted p-10 group hover:bg-primary transition-colors duration-500 border border-border card-hover">
               <Leaf size={48} className="text-primary mb-6 group-hover:text-accent transition-colors" />
               <h3 className="font-display text-foreground mb-4 group-hover:text-white transition-colors">Sustainable Agriculture</h3>
@@ -75,8 +79,10 @@ export default function Sustainability() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Download Report */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24 bg-background border-t border-border">
         <div className="container mx-auto px-4 text-center max-w-3xl">
           <SectionHeader
@@ -89,6 +95,7 @@ export default function Sustainability() {
           <p className="text-xs text-gray-400 mt-4 uppercase tracking-widest">PDF format, 4.2 MB</p>
         </div>
       </section>
+      </AnimatedSection>
     </div>
   );
 }

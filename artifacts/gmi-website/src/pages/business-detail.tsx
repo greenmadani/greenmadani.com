@@ -5,6 +5,7 @@ import { useGetBusiness, getGetBusinessQueryKey } from "@workspace/api-client-re
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function BusinessDetail() {
   const params = useParams();
@@ -43,6 +44,7 @@ export default function BusinessDetail() {
   return (
     <div className="w-full pb-24 bg-white">
       {/* Hero */}
+      <AnimatedSection animation="fade-in" threshold={0}>
       <section className="bg-primary text-white pt-[64px] pb-24 -mt-20 relative border-b-4 border-accent overflow-hidden">
         <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
@@ -63,7 +65,9 @@ export default function BusinessDetail() {
           </p>
         </div>
       </section>
-
+      </AnimatedSection>
+      
+      <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-24">
         <div className="grid lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2 space-y-12">
@@ -77,7 +81,7 @@ export default function BusinessDetail() {
             {business.services && business.services.length > 0 && (
               <div>
                 <h2 className="font-display text-foreground mb-6">Key Offerings & Services</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4 animate-stagger">
                   {business.services.map((service, i) => (
                     <div key={i} className="bg-muted p-4 flex items-start gap-3">
                       <CheckCircle2 className="text-primary shrink-0 mt-0.5" size={20} />
@@ -120,6 +124,7 @@ export default function BusinessDetail() {
           </div>
         </div>
       </div>
+      </AnimatedSection>
     </div>
   );
 }

@@ -14,6 +14,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { PageHero } from "@/components/page-hero";
+import { AnimatedSection } from "@/components/animated-section";
 
 const applicationSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -94,9 +95,10 @@ export default function Careers() {
       </PageHero>
 
       {/* Benefits */}
+      <AnimatedSection animation="fade-up">
       <section className="py-16 -mt-10 relative z-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
             {[
               { icon: Rocket, title: "Career Growth", desc: "Clear pathways for advancement across 12 subsidiaries." },
               { icon: Heart, title: "Great Culture", desc: "A supportive environment rooted in strong ethical values." },
@@ -117,8 +119,10 @@ export default function Careers() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Open Positions */}
+      <AnimatedSection animation="fade-up">
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
@@ -141,7 +145,7 @@ export default function Careers() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 animate-stagger">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="bg-white p-6 border border-border flex items-center justify-between">
@@ -182,6 +186,7 @@ export default function Careers() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       <Dialog open={isApplyOpen} onOpenChange={setIsApplyOpen}>
         <DialogContent className="sm:max-w-[600px] bg-white p-0 overflow-hidden border-none">

@@ -1,8 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function NotFound() {
   return (
+    <AnimatedSection animation="scale-in" threshold={0}>
     <div className="min-h-screen w-full flex items-center justify-center bg-muted">
       <Card className="w-full max-w-md mx-4">
         <CardContent className="pt-6">
@@ -17,5 +19,6 @@ export default function NotFound() {
         </CardContent>
       </Card>
     </div>
+    </AnimatedSection>
   );
 }

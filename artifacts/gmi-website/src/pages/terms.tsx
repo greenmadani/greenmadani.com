@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { AnimatedSection } from "@/components/animated-section";
 
 interface SiteSettings {
   siteName: string;
@@ -12,6 +13,7 @@ export default function TermsPage() {
   });
 
   return (
+    <AnimatedSection animation="fade-up">
     <div className="container mx-auto px-4 py-16 max-w-3xl">
       <h1 className="font-display mb-8">Terms of Service</h1>
       <div className="prose prose-gray max-w-none">
@@ -39,5 +41,6 @@ export default function TermsPage() {
         </p>
       </div>
     </div>
+    </AnimatedSection>
   );
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHero } from "@/components/page-hero";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function Products() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -41,6 +42,7 @@ export default function Products() {
         ]}
       />
 
+      <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-16">
         {/* Controls */}
         <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-12 bg-background p-6 border border-border">
@@ -79,7 +81,7 @@ export default function Products() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-stagger">
           {loadingProducts ? (
             Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="border border-border shadow-sm flex flex-col h-full">
@@ -127,6 +129,7 @@ export default function Products() {
           )}
         </div>
       </div>
+      </AnimatedSection>
     </div>
   );
 }

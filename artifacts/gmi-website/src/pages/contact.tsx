@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
+import { AnimatedSection } from "@/components/animated-section";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -92,6 +93,7 @@ export default function Contact() {
       />
 
       {/* Main Content */}
+      <AnimatedSection animation="scale-in">
       <div className="container mx-auto px-4 -mt-16 relative z-20">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Info Column */}
@@ -277,11 +279,14 @@ export default function Contact() {
         </div>
       </div>
 
+      </AnimatedSection>
+
       {/* Quick Inquiry Cards */}
+      <AnimatedSection animation="fade-up">
       <section className="py-24 bg-white mt-12">
         <div className="container mx-auto px-4">
           <SectionHeader title="How can we help you grow?" align="center" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-stagger">
             <Link href="/contact?type=partnership">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
                 <Building2 size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
@@ -306,6 +311,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
     </div>
   );
 }

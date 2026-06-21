@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { useGetProduct, getGetProductQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -44,6 +45,7 @@ export default function ProductDetail() {
   return (
     <div className="w-full pb-24 bg-white">
       {/* Breadcrumb */}
+      <AnimatedSection animation="fade-down" threshold={0}>
       <div className="bg-background py-4 border-b border-border">
         <div className="container mx-auto px-4 flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground overflow-x-auto whitespace-nowrap hide-scrollbar">
           <Link href="/" className="hover:text-primary transition-colors">Home</Link>
@@ -53,7 +55,9 @@ export default function ProductDetail() {
           <span className="text-primary truncate">{product.name}</span>
         </div>
       </div>
+      </AnimatedSection>
 
+      <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-16">
         <Link href="/products" className="inline-flex items-center text-primary font-semibold hover:text-accent mb-8 transition-colors">
           <ArrowLeft size={16} className="mr-2" /> Back to Catalog
@@ -122,6 +126,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+      </AnimatedSection>
     </div>
   );
 }

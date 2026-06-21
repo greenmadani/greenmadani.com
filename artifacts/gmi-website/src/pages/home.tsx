@@ -79,7 +79,7 @@ export default function Home() {
       </section>
 
       {/* Company Intro */}
-      <AnimatedSection>
+      <AnimatedSection animation="fade-in">
         <section className="py-24 bg-card">
           <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -127,7 +127,7 @@ export default function Home() {
               title="Our Diverse Business Portfolio"
               align="center"
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
               {subsidiaries.map((sub, i) => {
                 const Icon = sub.icon;
                 return (
@@ -176,7 +176,7 @@ export default function Home() {
               <Button variant="outline">Beverage</Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-stagger">
               {loadingProducts ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
@@ -219,6 +219,7 @@ export default function Home() {
       </AnimatedSection>
 
       {/* Why Choose GMI */}
+      <AnimatedSection animation="fade-in">
       <section className="py-24 bg-primary text-white relative border-y-4 border-accent overflow-hidden">
         <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
@@ -228,7 +229,7 @@ export default function Home() {
             align="center"
             className="[&_h2]:text-white [&_p]:text-white/70"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-stagger">
             {[
               { icon: Award, title: "Trusted Quality", desc: "Rigorous standards across all 12 subsidiaries." },
               { icon: Leaf, title: "Sustainable Practices", desc: "Eco-friendly operations from farm to shelf." },
@@ -249,18 +250,20 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* Partner / Investor CTA */}
       <CTASection />
 
       {/* Sustainability Strip */}
+      <AnimatedSection animation="fade-in">
       <section className="py-24 bg-[url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop')] bg-cover bg-center bg-fixed text-white text-center relative">
         <div className="absolute inset-0 bg-secondary/90"></div>
         <div className="container mx-auto px-4 relative z-10">
           <h2 className="font-display italic mb-12 max-w-4xl min-w-[280px] mx-auto text-white">
             "Growing with Nature,<br />Building for Generations"
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto animate-stagger">
             <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-bold text-white mb-2">50,000+</div>
               <div className="text-sm uppercase tracking-widest font-semibold text-accent">Trees Planted</div>
@@ -281,8 +284,10 @@ export default function Home() {
           </Link>
         </div>
       </section>
+      </AnimatedSection>
 
       {/* News Preview */}
+      <AnimatedSection>
       <section className="py-24 bg-card">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
@@ -295,7 +300,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-stagger">
             {loadingNews ? (
                Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
@@ -345,6 +350,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </AnimatedSection>
     </div>
   );
 }
