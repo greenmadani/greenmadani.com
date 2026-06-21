@@ -119,33 +119,38 @@ export default function Home() {
         </section>
       </AnimatedSection>
 
-      {/* Business Categories */}
+      {/* Business Portfolio */}
       <AnimatedSection>
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
+        <section className="py-24 bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white relative overflow-hidden">
+          <AnimatedBackground />
+          <div className="container mx-auto px-4 relative z-10">
             <SectionHeader
               title="Our Diverse Business Portfolio"
               align="center"
+              className="[&_h2]:text-white [&_span]:text-accent"
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => {
                 const Icon = sub.icon;
                 return (
-                  <Link key={i} href="/businesses">
-                    <div className="bg-card p-8 border border-border card-hover group h-full flex flex-col active:scale-[0.98]">
-                      <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                        <Icon size={28} />
+                  <Link key={i} href="/businesses" className="group">
+                    <div className="p-8 h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-500">
+                      <div className="w-14 h-14 flex items-center justify-center mb-6 border border-accent/30 bg-accent/10 group-hover:bg-accent/20 group-hover:border-accent/60 transition-all duration-300">
+                        <Icon size={26} className="text-accent" />
                       </div>
-                      <h3 className="font-display mb-2 text-foreground">{sub.name}</h3>
-                      <p className="text-muted-foreground text-sm flex-1">{sub.desc}</p>
+                      <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300">{sub.name}</h3>
+                      <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300">{sub.desc}</p>
+                      <span className="mt-6 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent transition-colors duration-300">
+                        Learn More →
+                      </span>
                     </div>
                   </Link>
                 );
               })}
             </div>
-            <div className="text-center mt-12">
+            <div className="text-center">
               <Link href="/businesses">
-                <Button variant="primary" size="lg">
+                <Button variant="secondary" size="lg">
                   View All Businesses <ArrowRight className="ml-2" />
                 </Button>
               </Link>

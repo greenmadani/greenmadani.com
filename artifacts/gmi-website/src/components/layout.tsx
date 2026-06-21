@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp } from "lucide-react";
+import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp, ChevronDown, Sprout, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, FlaskConical, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -83,11 +83,27 @@ const bottomNavTabs = [
   { href: "/contact", label: "Contact", icon: Phone },
 ];
 
+const businessSubs = [
+  { name: "GMI Power Agro Ltd.", slug: "gmi-power-agro", icon: Sprout },
+  { name: "GMI Essential Food", slug: "gmi-essential-food", icon: ShoppingBasket },
+  { name: "GMI Beverage Ltd.", slug: "gmi-beverage", icon: Coffee },
+  { name: "GMI Skin Care Ltd.", slug: "gmi-skin-care", icon: Sparkles },
+  { name: "GMI Fashion House", slug: "gmi-fashion-house", icon: Shirt },
+  { name: "GMI Hotel & Restaurant", slug: "gmi-hotel-restaurant", icon: Hotel },
+  { name: "GMI Tour & Travels", slug: "gmi-tour-travels", icon: Plane },
+  { name: "GMI Education", slug: "gmi-education", icon: GraduationCap },
+  { name: "GMI Hospital", slug: "gmi-hospital", icon: Heart },
+  { name: "GMI Media", slug: "gmi-media", icon: Tv },
+  { name: "GMI R&D", slug: "gmi-rd", icon: FlaskConical },
+  { name: "GMI Super Shop", slug: "gmi-super-shop", icon: Store },
+];
+
 export function Layout({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const { data: s } = useSettings();
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
   useEffect(() => {
     const dismissed = localStorage.getItem("announcementDismissed");
@@ -159,8 +175,8 @@ export function Layout({ children }: { children: ReactNode }) {
     },
   ]);
 
-  const ctaText = s?.ctaButtonText || "Get A Quote";
-  const ctaLink = s?.ctaButtonLink || "/contact";
+  const rightLinks = navLinks.filter(l => l.href === "/careers" || l.href === "/contact");
+  const mainNavLinks = navLinks.filter(l => l.href !== "/careers" && l.href !== "/contact");
   const footerBg = s?.footerBgColor || "#0D3D25";
   const bodyBg = s?.bgColor || "#F9F7F2";
 
@@ -237,32 +253,71 @@ export function Layout({ children }: { children: ReactNode }) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              link.isExternal ? (
+          <nav className="hidden lg:flex items-center gap-1" onMouseLeave={() => setOpenSubmenu(null)}>
+            {mainNavLinks.map((link) => {
+              if (link.href === "/businesses") {
+                return (
+                  <div key={link.href} className="relative" onMouseEnter={() => setOpenSubmenu("businesses")}>
+                    <Link href={link.href}>
+                      <span
+                        className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer inline-flex items-center gap-1 ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
+                      >
+                        {link.label} <ChevronDown size={14} className={`transition-transform duration-200 ${openSubmenu === "businesses" ? "rotate-180" : ""}`} />
+                      </span>
+                    </Link>
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${openSubmenu === "businesses" ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}`}>
+                      <div className="bg-white/90 backdrop-blur-xl shadow-xl border border-border/50 w-64">
+                        <div className="px-4 py-3 border-b border-border/50">
+                          <Link href="/businesses">
+                            <span className="text-xs font-bold tracking-widest uppercase text-primary hover:text-accent transition-colors cursor-pointer">
+                              View All →
+                            </span>
+                          </Link>
+                        </div>
+                        <div className="max-h-[70vh] overflow-y-auto scrollbar-none" style={{ maskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)' }}>
+                          {businessSubs.map((sub, i) => {
+                            const Icon = sub.icon;
+                            return (
+                              <Link key={sub.slug} href={`/businesses/${sub.slug}`}>
+                                <span className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:text-accent transition-colors duration-200 cursor-pointer border-b border-border/40 last:border-b-0">
+                                  <Icon size={16} className="text-accent shrink-0" />
+                                  <span className="flex-1">{sub.name}</span>
+                                </span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              return link.isExternal ? (
                 <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                  className={`nav-link px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
+                  className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
                 >
                   {link.label}
                 </a>
               ) : (
                 <Link key={link.href} href={link.href}>
                   <span
-                  className={`nav-link px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
+                  className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" : ""}`}
                   >
                     {link.label}
                   </span>
                 </Link>
-              )
-            ))}
+              );
+            })}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href={ctaLink}>
-              <Button variant="secondary" size="md" className="shadow-lg shadow-primary/20">
-                {ctaText}
-              </Button>
-            </Link>
+          <div className="hidden lg:flex items-center gap-2">
+            {rightLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <span className="px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer bg-accent text-accent-foreground border border-black hover:opacity-90">
+                  {link.label}
+                </span>
+              </Link>
+            ))}
           </div>
 
           {/* Mobile Nav */}
@@ -280,32 +335,66 @@ export function Layout({ children }: { children: ReactNode }) {
                   </span>
                 </div>
                 <nav className="flex-1 flex flex-col gap-1 px-3 py-4 overflow-y-auto">
-                  {navLinks.map((link, i) => (
-                    <div key={link.href} style={{ animationDelay: `${i * 50}ms` }} className="animate-fade-in">
-                      {link.isExternal ? (
-                        <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                          className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
-                        >
-                          {link.label}
-                        </a>
-                      ) : (
-                        <Link href={link.href}>
-                          <span
-                            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                  {mainNavLinks.map((link, i) => {
+                    const isBiz = link.href === "/businesses";
+                    return (
+                      <div key={link.href} style={{ animationDelay: `${i * 50}ms` }} className="animate-fade-in">
+                        {link.isExternal ? (
+                          <a href={link.href} target="_blank" rel="noopener noreferrer"
+                            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
                           >
                             {link.label}
-                          </span>
-                        </Link>
-                      )}
-                    </div>
-                  ))}
+                          </a>
+                        ) : (
+                          <div>
+                            <div className="flex items-center justify-between">
+                              <Link href={link.href}>
+                                <span
+                                  className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                                >
+                                  {link.label}
+                                </span>
+                              </Link>
+                              {isBiz && (
+                                <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-muted/50 rounded-lg transition-colors">
+                                  <ChevronDown size={18} className={`transition-transform duration-200 ${openSubmenu === "businesses-mobile" ? "rotate-180" : ""}`} />
+                                </button>
+                              )}
+                            </div>
+                            {isBiz && openSubmenu === "businesses-mobile" && (
+                              <div className="ml-4 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
+                                <Link href="/businesses">
+                                  <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
+                                    View All Businesses →
+                                  </span>
+                                </Link>
+                                {businessSubs.map((sub) => {
+                                  const Icon = sub.icon;
+                                  return (
+                                    <Link key={sub.slug} href={`/businesses/${sub.slug}`}>
+                                      <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-lg transition-colors cursor-pointer">
+                                        <Icon size={15} className="text-accent shrink-0" />
+                                        {sub.name}
+                                      </span>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </nav>
-                <div className="border-t border-border/50 px-4 py-6">
-                  <Link href={ctaLink}>
-                    <Button variant="secondary" size="lg" className="w-full shadow-lg shadow-primary/20">
-                      {ctaText}
-                    </Button>
-                  </Link>
+                <div className="border-t border-border/50 px-4 py-6 flex flex-col gap-3">
+                  {rightLinks.map((link) => (
+                    <Link key={link.href} href={link.href}>
+                      <span className="flex items-center justify-center px-4 py-3 text-base font-semibold transition-all duration-200 cursor-pointer bg-accent text-accent-foreground border border-black hover:opacity-90">
+                        {link.label}
+                      </span>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </SheetContent>

@@ -386,6 +386,15 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* === Scrollbar Utilities === */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* === Image Fade-In on Load === */
 img {
   opacity: 0;
