@@ -1,4 +1,4 @@
-import { Award, FlaskConical, ShieldCheck, Leaf, Users, UserCircle2 } from "lucide-react";
+import { Award, FlaskConical, ShieldCheck, Leaf, Users, UserCircle2, Cog, Handshake } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
@@ -8,8 +8,9 @@ export default function About() {
   return (
     <div className="w-full pb-24">
       <PageHero
-        title="About GMI"
-        subtitle="A diversified business conglomerate driving sustainable growth and community empowerment."
+        title="About Green Madani International"
+        subtitle="Building Bangladesh's most diversified industrial group — from agriculture to innovation, healthcare to hospitality."
+        badge="Our Story"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "About Us", href: "/about" }
@@ -21,16 +22,16 @@ export default function About() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <SectionHeader badge="Our Heritage" title="Rooted in Values, Growing with Purpose" />
+            <SectionHeader badge="Our Heritage" title="From Green Universe Group to Green Madani International" />
             <div className="space-y-6 text-muted-foreground text-lg leading-relaxed text-left">
               <p>
-                Founded originally as Green Universe Group, our journey began with a simple mission: to empower local farmers and provide high-quality agricultural solutions. Recognizing the need for sustainable, ethical business practices across multiple sectors, we rebranded to Green Madani International Private Ltd. (GMI).
+                Green Madani International Private Ltd. began its journey as Green Universe Group, founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
               </p>
               <p>
-                The word "Madani" reflects our commitment to ethical, community-focused development rooted in Islamic heritage. We operate with a deep sense of responsibility towards our people, our nation, and our environment.
+                Today, GMI operates 12 fully integrated business verticals, connecting farmers, manufacturers, and consumers through a seamless farm-to-shelf supply chain. Our in-house R&D center continuously develops new, safer agricultural solutions using American formulas — while our media arm and education institutions support the entire group through internal marketing and a steady talent pipeline.
               </p>
               <p>
-                Today, GMI stands as a rapidly expanding conglomerate spanning 12 distinct subsidiaries — from essential food and beverages to healthcare, education, and fashion. While our portfolio is diverse, our core philosophy remains unchanged: delivering excellence while building a better future for generations to come.
+                With a presence in 42 districts and an ambitious 2030 roadmap, GMI is steadily building toward becoming an internationally recognized, top-tier diversified group — one rooted in Bangladeshi soil but built for the world.
               </p>
             </div>
           </div>
@@ -46,13 +47,13 @@ export default function About() {
             <div className="bg-white p-12 border-t-4 border-primary shadow-sm">
               <h3 className="font-display text-primary mb-4 uppercase tracking-wide">Our Vision</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
-                "To be a globally recognized leader in sustainable agriculture and diversified business solutions, setting the benchmark for ethical corporate growth."
+                "To become Bangladesh's most diversified industrial group by 2030, while establishing a strong presence in international markets through innovation, sustainability, and integrated business excellence."
               </p>
             </div>
             <div className="bg-white p-12 border-t-4 border-accent shadow-sm">
               <h3 className="font-display text-accent mb-4 uppercase tracking-wide">Our Mission</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
-                "To deliver innovative, high-quality products and services that uplift communities, empower farmers, and create lasting value for all stakeholders."
+                "To deliver quality, innovation, and large-scale employment across all 12 of our business verticals — building a better Bangladesh through ethical, sustainable, and technology-driven growth."
               </p>
             </div>
           </div>
@@ -69,11 +70,11 @@ export default function About() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-stagger">
             {[
-              { icon: Award, title: "Quality", desc: "Uncompromising standards in every product and service." },
-              { icon: FlaskConical, title: "Innovation", desc: "Pioneering solutions for tomorrow's challenges." },
-              { icon: ShieldCheck, title: "Integrity", desc: "Transparent, honest, and ethical business practices." },
-              { icon: Leaf, title: "Sustainability", desc: "Protecting our environment and resources." },
-              { icon: Users, title: "Customer Focus", desc: "Putting our customers and community first." }
+              { icon: Award, title: "Quality", desc: "We never compromise on the standards of our products and services." },
+              { icon: Cog, title: "Innovation", desc: "We invest in R&D and modern technology to lead, not follow, our industries." },
+              { icon: Handshake, title: "Integrity", desc: "We build every relationship — with farmers, partners, and customers — on trust and transparency." },
+              { icon: Leaf, title: "Sustainability", desc: "We are committed to safe soil, healthy ecosystems, and zero harmful chemicals." },
+              { icon: Users, title: "Customer Focus", desc: "Every decision we make starts with the people we serve." }
             ].map((value, i) => {
               const Icon = value.icon;
               return (
@@ -101,9 +102,9 @@ export default function About() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-stagger">
             {[
-              { name: "Abdullah Al Mahmud", title: "Chairman & Founder" },
-              { name: "Dr. Hasan Rahman", title: "Managing Director" },
-              { name: "Syed Tariqul Islam", title: "Chief Operations Officer" }
+              { name: "A.R. Reju", title: "Founder & Managing Director" },
+              { name: "[To be confirmed]", title: "Director of Operations" },
+              { name: "[To be confirmed]", title: "Head of Agriculture & R&D" }
             ].map((leader, i) => (
               <div key={i} className="bg-white/5 border border-white/10 p-8 text-center backdrop-blur card-hover">
                 <div className="w-32 h-32 bg-primary rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-accent/30 overflow-hidden">
@@ -130,11 +131,11 @@ export default function About() {
               <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary/20 -translate-x-1/2"></div>
               
               {[
-                { year: "2018", title: "Founded", desc: "Established as Green Universe Group focusing on agriculture." },
-                { year: "2020", title: "First 100 Products", desc: "Expanded agricultural inputs and launched consumer foods." },
-                { year: "2022", title: "Expanded to 6 Subsidiaries", desc: "Entered fashion, beauty, and beverage sectors." },
-                { year: "2024", title: "Rebranded to GMI", desc: "Unified under Green Madani International Private Ltd." },
-                { year: "2026", title: "12 Subsidiaries & Global Reach", desc: "Full conglomerate status with international export operations." }
+                { year: "2018", title: "Foundation", desc: "Green Universe Group was founded, beginning operations in the agricultural sector." },
+                { year: "2020", title: "Expansion into Food", desc: "Launched GMI Essential Food & Consumer, extending the farm-to-shelf model." },
+                { year: "2022", title: "Diversification", desc: "Expanded into healthcare, hospitality, and education verticals." },
+                { year: "2024", title: "Nationwide Network", desc: "Reached active operations across 42 districts with a growing distribution network." },
+                { year: "2026", title: "Rebranding to GMI", desc: "Green Universe Group rebrands as Green Madani International Private Ltd., signaling our global ambitions." }
               ].map((milestone, i) => (
                 <div key={i} className={`relative flex flex-col md:flex-row items-center justify-between ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                   <div className="hidden md:block w-1/2"></div>

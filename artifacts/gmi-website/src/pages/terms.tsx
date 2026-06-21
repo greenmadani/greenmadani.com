@@ -18,23 +18,23 @@ export default function TermsPage() {
       <h1 className="font-display mb-8">Terms of Service</h1>
       <div className="prose prose-gray max-w-none">
         <p className="text-lg text-muted-foreground mb-6">
-          Welcome to {s?.siteName || "Green Madani International Private Ltd."}. By using our website and services, you agree to comply with and be bound by the following terms and conditions.
+          By accessing or using the Green Madani International website, you agree to be bound by these Terms of Service and all applicable laws and regulations.
         </p>
-        <h2 className="mt-8 mb-4">Use of Website</h2>
+        <h2 className="mt-8 mb-4">Acceptance of Terms</h2>
         <p className="text-muted-foreground mb-4">
-          You agree to use our website for lawful purposes only and in a way that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the website.
+          By accessing or using the Green Madani International website, you agree to be bound by these Terms of Service and all applicable laws and regulations.
         </p>
-        <h2 className="mt-8 mb-4">Intellectual Property</h2>
+        <h2 className="mt-8 mb-4">Use of Content</h2>
         <p className="text-muted-foreground mb-4">
-          All content, trademarks, and intellectual property on this website are owned by or licensed to {s?.siteName || "Green Madani International Private Ltd."}. You may not reproduce, distribute, or use any content without prior written permission.
+          All content on this website, including text, images, logos, and product information, is the property of Green Madani International Private Ltd. and may not be reproduced without written permission.
+        </p>
+        <h2 className="mt-8 mb-4">Product Information</h2>
+        <p className="text-muted-foreground mb-4">
+          While we strive for accuracy, GMI does not guarantee that all product descriptions, pricing, or availability information on this website is error-free or current at all times.
         </p>
         <h2 className="mt-8 mb-4">Limitation of Liability</h2>
         <p className="text-muted-foreground mb-4">
-          {s?.siteName || "Green Madani International Private Ltd."} shall not be liable for any direct, indirect, incidental, or consequential damages arising out of your use of this website.
-        </p>
-        <h2 className="mt-8 mb-4">Changes to Terms</h2>
-        <p className="text-muted-foreground mb-4">
-          We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to the website.
+          Green Madani International Private Ltd. shall not be held liable for any indirect, incidental, or consequential damages arising from the use of this website or its content.
         </p>
         <p className="text-sm text-muted-foreground mt-12">
           Last updated: June 2026

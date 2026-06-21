@@ -35,7 +35,7 @@ export default function Products() {
     <div className="w-full pb-24 bg-white">
       <PageHero
         title="Our Products"
-        subtitle="Premium quality products spanning agriculture, FMCG, skincare, and beyond."
+        subtitle="Discover GMI's growing portfolio of 170+ products across agriculture, food, beverages, and more — all built on quality and innovation."
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Products", href: "/products" }

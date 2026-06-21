@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sprout, ShoppingBasket, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, Tv, FlaskConical, Store, Award, Leaf, MapPin, Handshake } from "lucide-react";
+import { ArrowRight, ShoppingBag, GlassWater, Heart, Building2, Cog, FlaskConical, Hammer, Cpu, Tractor, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useListProducts, useListNews, useGetCompanyStats, getListProductsQueryKey, getListNewsQueryKey } from "@workspace/api-client-react";
@@ -19,18 +19,18 @@ export default function Home() {
   const { data: newsData, isLoading: loadingNews } = useListNews({ limit: 3 }, { query: { queryKey: getListNewsQueryKey({ limit: 3 }) } });
 
   const subsidiaries = [
-    { name: "GMI Power Agro Ltd.", icon: Sprout, desc: "Agriculture Inputs & Solutions" },
-    { name: "GMI Essential Food", icon: ShoppingBasket, desc: "Food & FMCG" },
-    { name: "GMI Beverage Ltd.", icon: Coffee, desc: "Beverages" },
-    { name: "GMI Skin Care Ltd.", icon: Sparkles, desc: "Beauty & Personal Care" },
-    { name: "GMI Fashion House", icon: Shirt, desc: "Apparel & Fashion" },
-    { name: "GMI Hotel & Restaurant", icon: Hotel, desc: "Hospitality" },
-    { name: "GMI Tour & Travels", icon: Plane, desc: "Travel & Tourism" },
-    { name: "GMI Education", icon: GraduationCap, desc: "Educational Services" },
-    { name: "GMI Hospital", icon: Heart, desc: "Healthcare" },
-    { name: "GMI Media", icon: Tv, desc: "Media & Communications" },
-    { name: "GMI R&D", icon: FlaskConical, desc: "Research & Development" },
-    { name: "GMI Super Shop", icon: Store, desc: "Retail" },
+    { name: "GMI Power Agro", icon: Tractor, industry: "Agriculture", desc: "Hybrid seeds, organic fertilizers, and export-quality rice — powering Bangladesh's agricultural transformation with American-formula solutions." },
+    { name: "GMI Essential Food & Consumer", icon: ShoppingBag, industry: "Food & FMCG", desc: "Rice, oil, flour, and packaged food essentials delivered through a fully integrated farm-to-shelf supply chain." },
+    { name: "GMI Beverage", icon: GlassWater, industry: "Beverages", desc: "Pure drinking water, natural fruit juices, and healthy soft drinks crafted for everyday wellness." },
+    { name: "GMI Hospital", icon: Heart, industry: "Healthcare", desc: "Multi-specialized and digital healthcare services bringing modern medical care closer to communities." },
+    { name: "GMI Hotel & Resort", icon: Building2, industry: "Hospitality", desc: "Luxury city hotels and eco-friendly resorts offering premium hospitality experiences nationwide." },
+    { name: "GMI Supermarket", icon: ShoppingBag, industry: "Retail", desc: "City-based chain supermarkets with online delivery, bringing GMI's farm-fresh products directly to customers." },
+    { name: "GMI Tour & Travels", icon: Cog, industry: "Travel & Tourism", desc: "Hajj, Umrah, and domestic and international tour packages designed for comfort and trust." },
+    { name: "GMI Education", icon: Building2, industry: "Education", desc: "Schools, vocational training centers, and online learning platforms building the workforce of tomorrow." },
+    { name: "GMI Skin Care", icon: FlaskConical, industry: "Beauty & Personal Care", desc: "Herbal, organic, and medical-grade skincare products formulated for natural beauty and wellness." },
+    { name: "GMI Fashion House", icon: Hammer, industry: "Apparel & Fashion", desc: "Export-quality garments for men, women, and children — combining comfort, style, and sustainability." },
+    { name: "GMI News & Media", icon: Cpu, industry: "Media & Communications", desc: "Digital news portal and in-house brand promotion center powering zero-cost marketing across the group." },
+    { name: "GMI R&D Center", icon: FlaskConical, industry: "Research & Development", desc: "The innovation engine behind GMI — developing new products and ensuring quality control across every vertical." },
   ];
 
   return (
@@ -42,14 +42,14 @@ export default function Home() {
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <span className="inline-block text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-6 border-b-2 border-accent/40 pb-2">
-                Bangladesh's Premier Business Group
+                Bangladesh's Premier Diversified Business Group
               </span>
               <h1 className="font-display leading-tight mb-6">
                 Building Sustainable Solutions<br />
                 <span className="text-accent">for a Better Future</span>
               </h1>
               <p className="text-sm md:text-base text-white/60 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Green Madani International Private Ltd. delivers quality solutions through innovation, technology, and sustainable growth.
+                Green Madani International Private Ltd. delivers quality solutions across agriculture, food, health, and lifestyle — through innovation, technology, and sustainable growth.
               </p>
               <div className="flex flex-wrap gap-4 items-center justify-center">
                 <Link href="/businesses">
@@ -85,24 +85,24 @@ export default function Home() {
             <div>
               <span className="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Who We Are</span>
               <h2 className="font-display text-foreground mb-8">
-                A Diversified Business Group Driving Sustainable Growth
+                A Legacy of Growth, A Future of Innovation
               </h2>
               <div className="space-y-6 text-muted-foreground text-lg mb-10">
                 <p>
-                  Founded on the principles of Islamic heritage and community empowerment, Green Madani International has grown from a humble agricultural enterprise into a nationwide conglomerate.
+                  Green Madani International Private Ltd. (formerly Green Universe Group) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Founded and led by A.R. Reju (Rafiqul Islam A.R. Chowdhury Reju), GMI was built on a single belief: that sustainable, technology-driven business can transform communities while delivering lasting value.
                 </p>
                 <p>
-                  We believe that true business success is measured not just in profit, but in the positive impact we create for our farmers, our customers, and our environment.
+                  With operations across 42 districts and a growing network of distribution points, GMI connects farmers, manufacturers, and consumers through a fully integrated farm-to-shelf model. Our mission extends beyond profit — we aim to build a better Bangladesh through quality, innovation, and large-scale employment opportunities.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {["Quality", "Innovation", "Integrity", "Sustainability"].map((val, idx) => (
-                  <div key={val} className="flex items-center gap-3 bg-muted p-4 font-semibold text-primary lift-hover">
-                    {idx === 0 && <Award size={20} className="text-accent shrink-0" />}
-                    {idx === 1 && <FlaskConical size={20} className="text-accent shrink-0" />}
-                    {idx === 2 && <Handshake size={20} className="text-accent shrink-0" />}
-                    {idx === 3 && <Leaf size={20} className="text-accent shrink-0" />}
-                    {val}
+                {[{title:"Quality", icon: Award, desc:"We maintain uncompromising standards across every product and service we deliver."}, {title:"Innovation", icon: Cog, desc:"We embrace modern technology and American-formula R&D to stay ahead of industry needs."}, {title:"Integrity", icon: Handshake, desc:"We operate with transparency and honesty in every business relationship."}, {title:"Sustainability", icon: Leaf, desc:"We are committed to 100% safe soil, healthy crops, and zero harmful chemicals."}].map((val) => (
+                  <div key={val.title} className="flex flex-col gap-1 bg-muted p-4 font-semibold text-primary lift-hover">
+                    <div className="flex items-center gap-3">
+                      <val.icon size={20} className="text-accent shrink-0" />
+                      {val.title}
+                    </div>
+                    <span className="text-xs font-normal text-muted-foreground">{val.desc}</span>
                   </div>
                 ))}
               </div>
@@ -138,6 +138,7 @@ export default function Home() {
                       <div className="w-14 h-14 flex items-center justify-center mb-6 border border-accent/30 bg-accent/10 group-hover:bg-accent/20 group-hover:border-accent/60 transition-all duration-300">
                         <Icon size={26} className="text-accent" />
                       </div>
+                      <span className="text-accent/70 text-xs font-semibold tracking-widest uppercase mb-1">{sub.industry}</span>
                       <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300">{sub.name}</h3>
                       <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300">{sub.desc}</p>
                       <span className="mt-6 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent transition-colors duration-300">
@@ -165,8 +166,8 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-end mb-12">
               <div>
-                <span className="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Premium Quality</span>
-                <h2 className="font-display text-foreground">Featured Products</h2>
+                <span className="text-accent font-bold tracking-widest uppercase text-sm mb-2 block">Our Products</span>
+                <h2 className="font-display text-foreground">Featured Products from Green Power Agro</h2>
               </div>
               <Link href="/products" className="hidden md:flex items-center text-primary font-bold hover:text-accent transition-colors">
                 View All Catalog <ArrowRight size={20} className="ml-2" />
@@ -200,7 +201,7 @@ export default function Home() {
                       {product.imageUrl ? (
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted"><ShoppingBasket size={48} className="opacity-20" /></div>
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted"><ShoppingBag size={48} className="opacity-20" /></div>
                       )}
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
@@ -230,16 +231,16 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <SectionHeader
             title="Why Partner With GMI"
-            description="A legacy of trust, quality, and commitment to the nation."
+            description="GMI's integrated business model, nationwide distribution network, and commitment to innovation make us the trusted partner for farmers, distributors, and businesses across Bangladesh."
             align="center"
             className="[&_h2]:text-white [&_p]:text-white/70"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-stagger">
             {[
-              { icon: Award, title: "Trusted Quality", desc: "Rigorous standards across all 12 subsidiaries." },
-              { icon: Leaf, title: "Sustainable Practices", desc: "Eco-friendly operations from farm to shelf." },
-              { icon: MapPin, title: "Nation-Wide Distribution", desc: "Reaching every corner of Bangladesh." },
-              { icon: Sprout, title: "Farmer-First Approach", desc: "Empowering local communities directly." }
+              { icon: Award, title: "Vertical Integration", desc: "Our farm-to-shelf model eliminates middlemen, ensuring better margins and consistent quality at every step." },
+              { icon: Building2, title: "Diversified Strength", desc: "Operating across 12 sectors means stability — we're never dependent on a single market or industry." },
+              { icon: MapPin, title: "Nationwide Reach", desc: "Active in 42 districts with a growing distribution network of 1,000+ planned points." },
+              { icon: Leaf, title: "Export-Ready Quality", desc: "Our products are built to international standards, ready for both local and global markets." }
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
@@ -270,16 +271,16 @@ export default function Home() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto animate-stagger">
             <div className="glass-dark p-6 card-hover">
-              <div className="text-4xl font-bold text-white mb-2">50,000+</div>
-              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Trees Planted</div>
-            </div>
-            <div className="glass-dark p-6 card-hover">
-              <div className="text-4xl font-bold text-white mb-2">30%</div>
-              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Water Reduction</div>
-            </div>
-            <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-bold text-white mb-2">100%</div>
-              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Ethical Sourcing</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Safe Soil Initiative</div>
+            </div>
+            <div className="glass-dark p-6 card-hover">
+              <div className="text-4xl font-bold text-white mb-2">42</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">Districts Covered</div>
+            </div>
+            <div className="glass-dark p-6 card-hover">
+              <div className="text-4xl font-bold text-white mb-2">70+</div>
+              <div className="text-sm uppercase tracking-widest font-semibold text-accent">High-Yield Seeds</div>
             </div>
           </div>
           <Link href="/sustainability">

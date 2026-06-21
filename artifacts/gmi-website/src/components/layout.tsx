@@ -84,18 +84,18 @@ const bottomNavTabs = [
 ];
 
 const businessSubs = [
-  { name: "GMI Power Agro Ltd.", slug: "gmi-power-agro", icon: Sprout },
-  { name: "GMI Essential Food", slug: "gmi-essential-food", icon: ShoppingBasket },
-  { name: "GMI Beverage Ltd.", slug: "gmi-beverage", icon: Coffee },
-  { name: "GMI Skin Care Ltd.", slug: "gmi-skin-care", icon: Sparkles },
-  { name: "GMI Fashion House", slug: "gmi-fashion-house", icon: Shirt },
-  { name: "GMI Hotel & Restaurant", slug: "gmi-hotel-restaurant", icon: Hotel },
+  { name: "GMI Power Agro", slug: "gmi-power-agro", icon: Sprout },
+  { name: "GMI Essential Food & Consumer", slug: "gmi-essential-food-consumer", icon: ShoppingBasket },
+  { name: "GMI Beverage", slug: "gmi-beverage", icon: Coffee },
+  { name: "GMI Hospital", slug: "gmi-hospital", icon: Heart },
+  { name: "GMI Hotel & Resort", slug: "gmi-hotel-resort", icon: Hotel },
+  { name: "GMI Supermarket", slug: "gmi-supermarket", icon: Store },
   { name: "GMI Tour & Travels", slug: "gmi-tour-travels", icon: Plane },
   { name: "GMI Education", slug: "gmi-education", icon: GraduationCap },
-  { name: "GMI Hospital", slug: "gmi-hospital", icon: Heart },
-  { name: "GMI Media", slug: "gmi-media", icon: Tv },
-  { name: "GMI R&D", slug: "gmi-rd", icon: FlaskConical },
-  { name: "GMI Super Shop", slug: "gmi-super-shop", icon: Store },
+  { name: "GMI Skin Care", slug: "gmi-skin-care", icon: Sparkles },
+  { name: "GMI Fashion House", slug: "gmi-fashion-house", icon: Shirt },
+  { name: "GMI News & Media", slug: "gmi-news-media", icon: Tv },
+  { name: "GMI R&D Center", slug: "gmi-rd-center", icon: FlaskConical },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -458,7 +458,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 </h2>
               )}
               <p className="text-white/80 text-sm leading-relaxed mb-6">
-                {s?.tagline || "A diversified business group driving sustainable growth across Bangladesh and beyond."}
+                {s?.tagline || "Building Bangladesh's Most Diversified Industrial Group"}
               </p>
               {s?.showSocialInFooter !== false && (
                 <div className="flex items-center gap-4">

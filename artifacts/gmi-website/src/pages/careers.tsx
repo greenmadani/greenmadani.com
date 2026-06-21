@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Briefcase, GraduationCap, Heart, Rocket } from "lucide-react";
+import { Briefcase, Heart, Cog, Building2 } from "lucide-react";
 import { Link } from "wouter";
 import { useListJobs, useSubmitApplication, getListJobsQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -83,14 +83,14 @@ export default function Careers() {
     <div className="w-full pb-24 bg-background">
       <PageHero
         title="Build Your Career with GMI"
-        subtitle="Join a purpose-driven conglomerate where your work creates real impact across Bangladesh."
+        subtitle="Join a nationwide team of over 7,000 professionals helping bring 170+ products to communities across Bangladesh."
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Careers", href: "/careers" }
         ]}
       >
         <Button onClick={() => openApplyDialog()} variant="secondary" className="px-8 py-6 text-lg">
-          Submit General Application
+          View Open Positions
         </Button>
       </PageHero>
 
@@ -100,10 +100,10 @@ export default function Careers() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
             {[
-              { icon: Rocket, title: "Career Growth", desc: "Clear pathways for advancement across 12 subsidiaries." },
-              { icon: Heart, title: "Great Culture", desc: "A supportive environment rooted in strong ethical values." },
-              { icon: Briefcase, title: "Premium Benefits", desc: "Competitive compensation and comprehensive healthcare." },
-              { icon: GraduationCap, title: "Continuous Learning", desc: "Regular training and skill development programs." }
+              { icon: Heart, title: "Attractive Compensation", desc: "Competitive salary plus allowance, with performance-based annual increments." },
+              { icon: Cog, title: "Festival Bonuses", desc: "Half-salary bonus twice a year during Eid celebrations." },
+              { icon: Building2, title: "Vehicle Benefits", desc: "Motorbikes for DSMs and private cars for ASMs based on performance in the first 3 months." },
+              { icon: Heart, title: "Long-Term Rewards", desc: "A cash honor of ৳10 lakh for employees completing 10 years of continuous service." }
             ].map((b, i) => {
               const Icon = b.icon;
               return (
@@ -121,68 +121,69 @@ export default function Careers() {
       </section>
       </AnimatedSection>
 
-      {/* Open Positions */}
+      {/* Open Positions Table */}
       <AnimatedSection animation="fade-up">
       <section className="py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
-            <h2 className="font-display text-foreground mb-8">Open Positions</h2>
-            <div className="flex flex-wrap justify-center gap-3">
-              {departments.map(dept => (
-                <Button
-                  key={dept}
-                  variant={activeDepartment === dept ? "primary" : "outline"}
-                  onClick={() => setActiveDepartment(dept)}
-                  className={`rounded-full font-bold px-6 ${
-                    activeDepartment === dept 
-                      ? "bg-primary text-white hover:bg-secondary" 
-                      : "bg-white border-border text-muted-foreground hover:text-primary hover:border-primary"
-                  }`}
-                >
-                  {dept}
-                </Button>
-              ))}
-            </div>
+            <h2 className="font-display text-foreground mb-4">Open Positions</h2>
+            <p className="text-muted-foreground">Current recruitment drive across Agro and Consumer sectors</p>
           </div>
 
-          <div className="space-y-4 animate-stagger">
-            {isLoading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="bg-white p-6 border border-border flex items-center justify-between">
-                  <div className="space-y-3 w-1/2">
-                    <Skeleton className="w-3/4 h-6" />
-                    <Skeleton className="w-1/2 h-4" />
-                  </div>
-                  <Skeleton className="w-32 h-10" />
-                </div>
-              ))
-            ) : jobs?.length === 0 ? (
-              <div className="bg-white p-12 text-center border border-dashed border-border">
-                <h3 className="text-muted-foreground mb-2">No open positions found</h3>
-                <p className="text-muted-foreground">There are currently no openings in this department. Feel free to submit a general application.</p>
+          <div className="overflow-x-auto mb-12">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-primary text-white">
+                  <th className="text-left p-4 font-semibold">Position</th>
+                  <th className="text-left p-4 font-semibold">Openings</th>
+                  <th className="text-left p-4 font-semibold">Qualification</th>
+                  <th className="text-left p-4 font-semibold">Experience</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { position: "Divisional Sales Manager (DSM)", openings: "50", qualification: "Bachelor's/Master's", experience: "3–5 years" },
+                  { position: "Area Sales Manager (ASM)", openings: "150", qualification: "Bachelor's/Master's", experience: "3–5 years" },
+                  { position: "Thana Sales Manager (TSM)", openings: "600", qualification: "Degree/Bachelor's", experience: "3–5 years" },
+                  { position: "Union Sales Manager (USM)", openings: "7,000 (phased, 1 per union)", qualification: "—", experience: "—" }
+                ].map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-muted/50"}>
+                    <td className="p-4 font-semibold text-foreground">{row.position}</td>
+                    <td className="p-4 text-muted-foreground">{row.openings}</td>
+                    <td className="p-4 text-muted-foreground">{row.qualification}</td>
+                    <td className="p-4 text-muted-foreground">{row.experience}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      </AnimatedSection>
+
+      {/* How to Apply */}
+      <AnimatedSection animation="fade-up">
+      <section className="py-16 bg-muted border-y border-border">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="font-display text-foreground text-center mb-8">How to Apply</h2>
+          <div className="bg-white p-8 md:p-12 shadow-sm border border-border">
+            <p className="text-muted-foreground mb-6">
+              Bring 2 copies of your photo, NID copy, Chairman certificate, and updated CV for direct interview.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div>
+                <h4 className="font-bold text-foreground mb-2">Interview Days</h4>
+                <p className="text-muted-foreground">Every Friday & Saturday<br/>9 AM – 5 PM</p>
               </div>
-            ) : (
-              jobs?.map((job) => (
-                <div key={job.id} className="bg-white p-6 border border-border card-hover flex flex-col md:flex-row md:items-center justify-between gap-6 group">
-                  <div>
-                    <h3 className="font-display text-foreground mb-2 group-hover:text-primary transition-colors">{job.title}</h3>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground font-medium">
-                      <span className="flex items-center"><Briefcase size={14} className="mr-1.5 text-accent" /> {job.department}</span>
-                      <span className="flex items-center"><span className="text-primary bg-muted px-2 py-0.5 font-bold uppercase text-xs tracking-wider">{job.type}</span></span>
-                      <span>{job.location}</span>
-                      <span className="text-muted-foreground border-l border-border pl-4">Posted: {format(new Date(job.postedAt), 'MMM dd')}</span>
-                    </div>
-                  </div>
-                  <Button 
-                    onClick={() => openApplyDialog(job.id, job.title)} 
-                    variant="outline"
-                    className="px-8 md:w-max w-full"
-                  >
-                    Apply Now
-                  </Button>
-                </div>
-              ))
-            )}
+              <div>
+                <h4 className="font-bold text-foreground mb-2">Location</h4>
+                <p className="text-muted-foreground">924/C, Khilgaon, Dhaka-1219</p>
+              </div>
+              <div>
+                <h4 className="font-bold text-foreground mb-2">Contact</h4>
+                <p className="text-muted-foreground">01340-862454<br/>02222201623</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

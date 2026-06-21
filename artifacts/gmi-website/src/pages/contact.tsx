@@ -85,7 +85,7 @@ export default function Contact() {
     <div className="w-full pb-24 bg-white">
       <PageHero
         title="Get in Touch"
-        subtitle="Whether you have a question about our products, want to partner with us, or are interested in investment opportunities."
+        subtitle="Whether you're a farmer, distributor, investor, or future team member — we'd love to hear from you."
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Contact", href: "/contact" }
@@ -130,8 +130,8 @@ export default function Contact() {
                 <Clock className="text-accent mt-1 shrink-0" size={24} />
                 <div>
                   <h4 className="uppercase tracking-wider text-accent mb-1">Business Hours</h4>
-                  <p className="text-white/80">Sunday - Thursday: 9:00 AM - 6:00 PM</p>
-                  <p className="text-white/80">Friday - Saturday: Closed</p>
+                  <p className="text-white/80">Sunday – Thursday: 9:00 AM – 6:00 PM</p>
+                  <p className="text-white/80">Friday & Saturday (Recruitment Interviews): 9:00 AM – 5:00 PM</p>
                 </div>
               </div>
             </div>
@@ -289,23 +289,23 @@ export default function Contact() {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-stagger">
             <Link href="/contact?type=partnership">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
-                <Building2 size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display mb-2 text-foreground">Business Partnership</h3>
-                <p className="text-muted-foreground text-sm">Collaborate with our subsidiaries.</p>
+                <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Business Partnership</span>
+                <h3 className="font-display mb-2 text-foreground">Partner With Us</h3>
+                <p className="text-muted-foreground text-sm">Interested in becoming a distributor or dealer? Let's discuss partnership opportunities.</p>
               </div>
             </Link>
             <Link href="/contact?type=distributor">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
-                <Box size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display mb-2 text-foreground">Product Inquiry</h3>
-                <p className="text-muted-foreground text-sm">Wholesale and distribution details.</p>
+                <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Product Inquiry</span>
+                <h3 className="font-display mb-2 text-foreground">Ask About Our Products</h3>
+                <p className="text-muted-foreground text-sm">Questions about Green Power Agro products or any of our 12 business verticals? Reach out.</p>
               </div>
             </Link>
             <Link href="/contact?type=investor">
               <div className="bg-muted p-8 text-center border border-transparent hover:border-primary cursor-pointer transition-colors group lift-hover">
-                <Handshake size={40} className="text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-display mb-2 text-foreground">For Investment</h3>
-                <p className="text-muted-foreground text-sm">Explore investment opportunities.</p>
+                <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Investment</span>
+                <h3 className="font-display mb-2 text-foreground">Investment Opportunities</h3>
+                <p className="text-muted-foreground text-sm">Explore how you can invest in Bangladesh's most diversified industrial group.</p>
               </div>
             </Link>
           </div>

@@ -20,23 +20,23 @@ export default function PrivacyPage() {
       <h1 className="font-display mb-8">Privacy Policy</h1>
       <div className="prose prose-gray max-w-none">
         <p className="text-lg text-muted-foreground mb-6">
-          At {s?.siteName || "Green Madani International"}, we are committed to protecting your privacy and ensuring the security of your personal information.
+          At {s?.siteName || "Green Madani International Private Ltd."}, we are committed to protecting your privacy and ensuring the security of your personal information.
         </p>
         <h2 className="mt-8 mb-4">Information We Collect</h2>
         <p className="text-muted-foreground mb-4">
-          We collect information you provide directly to us, such as when you submit a contact form, apply for a career opportunity, or send a business inquiry. This may include your name, email address, phone number, and any other information you choose to share.
+          We collect personal information such as your name, email address, phone number, and any details you voluntarily provide when submitting inquiries, job applications, or partnership requests through our website.
         </p>
         <h2 className="mt-8 mb-4">How We Use Your Information</h2>
         <p className="text-muted-foreground mb-4">
-          We use the information we collect to respond to your inquiries, process your job applications, improve our services, and communicate with you about our business activities.
+          Your information is used to respond to inquiries, process job applications, manage business partnerships, and improve our products and services across all GMI business verticals.
         </p>
-        <h2 className="mt-8 mb-4">Data Security</h2>
+        <h2 className="mt-8 mb-4">Data Protection</h2>
         <p className="text-muted-foreground mb-4">
-          We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.
+          We implement reasonable technical and organizational measures to protect your personal data from unauthorized access, alteration, or disclosure.
         </p>
         <h2 className="mt-8 mb-4">Contact Us</h2>
         <p className="text-muted-foreground mb-4">
-          If you have any questions about this Privacy Policy, please contact us at info@greenmadani.com.
+          If you have any questions about this Privacy Policy or how your data is handled, please contact us at info@greenmadani.com.
         </p>
         <p className="text-sm text-muted-foreground mt-12">
           Last updated: June 2026
