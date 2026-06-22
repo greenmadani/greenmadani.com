@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ShoppingBag, GlassWater, Heart, Building2, Cog, FlaskConical, Hammer, Cpu, Tractor, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
+import { ArrowRight, ShoppingBag, Building2, Cog, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useListProducts, useListNews, useGetCompanyStats, getListProductsQueryKey, getListNewsQueryKey } from "@workspace/api-client-react";
@@ -19,18 +19,18 @@ export default function Home() {
   const { data: newsData, isLoading: loadingNews } = useListNews({ limit: 3 }, { query: { queryKey: getListNewsQueryKey({ limit: 3 }) } });
 
   const subsidiaries = [
-    { name: "GMI Power Agro", icon: Tractor, industry: "Agriculture", desc: "Hybrid seeds, organic fertilizers, and export-quality rice — powering Bangladesh's agricultural transformation with American-formula solutions." },
-    { name: "GMI Essential Food & Consumer", icon: ShoppingBag, industry: "Food & FMCG", desc: "Rice, oil, flour, and packaged food essentials delivered through a fully integrated farm-to-shelf supply chain." },
-    { name: "GMI Beverage", icon: GlassWater, industry: "Beverages", desc: "Pure drinking water, natural fruit juices, and healthy soft drinks crafted for everyday wellness." },
-    { name: "GMI Hospital", icon: Heart, industry: "Healthcare", desc: "Multi-specialized and digital healthcare services bringing modern medical care closer to communities." },
-    { name: "GMI Hotel & Resort", icon: Building2, industry: "Hospitality", desc: "Luxury city hotels and eco-friendly resorts offering premium hospitality experiences nationwide." },
-    { name: "GMI Supermarket", icon: ShoppingBag, industry: "Retail", desc: "City-based chain supermarkets with online delivery, bringing GMI's farm-fresh products directly to customers." },
-    { name: "GMI Tour & Travels", icon: Cog, industry: "Travel & Tourism", desc: "Hajj, Umrah, and domestic and international tour packages designed for comfort and trust." },
-    { name: "GMI Education", icon: Building2, industry: "Education", desc: "Schools, vocational training centers, and online learning platforms building the workforce of tomorrow." },
-    { name: "GMI Skin Care", icon: FlaskConical, industry: "Beauty & Personal Care", desc: "Herbal, organic, and medical-grade skincare products formulated for natural beauty and wellness." },
-    { name: "GMI Fashion House", icon: Hammer, industry: "Apparel & Fashion", desc: "Export-quality garments for men, women, and children — combining comfort, style, and sustainability." },
-    { name: "GMI News & Media", icon: Cpu, industry: "Media & Communications", desc: "Digital news portal and in-house brand promotion center powering zero-cost marketing across the group." },
-    { name: "GMI R&D Center", icon: FlaskConical, industry: "Research & Development", desc: "The innovation engine behind GMI — developing new products and ensuring quality control across every vertical." },
+    { name: "GMI Power Agro", image: "/images/businesses/gmi-power-agro.webp", industry: "Agriculture", desc: "Hybrid seeds, organic fertilizers, and export-quality rice — powering Bangladesh's agricultural transformation with American-formula solutions." },
+    { name: "GMI Essential Food & Consumer", image: "/images/businesses/gmi-essential-food-consumer.webp", industry: "Food & FMCG", desc: "Rice, oil, flour, and packaged food essentials delivered through a fully integrated farm-to-shelf supply chain." },
+    { name: "GMI Beverage", image: "/images/businesses/gmi-beverage.webp", industry: "Beverages", desc: "Pure drinking water, natural fruit juices, and healthy soft drinks crafted for everyday wellness." },
+    { name: "GMI Hospital", image: "/images/businesses/gmi-hospital.webp", industry: "Healthcare", desc: "Multi-specialized and digital healthcare services bringing modern medical care closer to communities." },
+    { name: "GMI Hotel & Resort", image: "/images/businesses/gmi-hotel-resort.webp", industry: "Hospitality", desc: "Luxury city hotels and eco-friendly resorts offering premium hospitality experiences nationwide." },
+    { name: "GMI Supermarket", image: "/images/businesses/gmi-supermarket.webp", industry: "Retail", desc: "City-based chain supermarkets with online delivery, bringing GMI's farm-fresh products directly to customers." },
+    { name: "GMI Tour & Travels", image: "/images/businesses/gmi-tour-travels.webp", industry: "Travel & Tourism", desc: "Hajj, Umrah, and domestic and international tour packages designed for comfort and trust." },
+    { name: "GMI Education", image: "/images/businesses/gmi-education.webp", industry: "Education", desc: "Schools, vocational training centers, and online learning platforms building the workforce of tomorrow." },
+    { name: "GMI Skin Care", image: "/images/businesses/gmi-skin-care.webp", industry: "Beauty & Personal Care", desc: "Herbal, organic, and medical-grade skincare products formulated for natural beauty and wellness." },
+    { name: "GMI Fashion House", image: "/images/businesses/gmi-fashion-house.webp", industry: "Apparel & Fashion", desc: "Export-quality garments for men, women, and children — combining comfort, style, and sustainability." },
+    { name: "GMI News & Media", image: "/images/businesses/gmi-news-media.webp", industry: "Media & Communications", desc: "Digital news portal and in-house brand promotion center powering zero-cost marketing across the group." },
+    { name: "GMI R&D Center", image: "/images/businesses/gmi-rd-center.webp", industry: "Research & Development", desc: "The innovation engine behind GMI — developing new products and ensuring quality control across every vertical." },
   ];
 
   return (
@@ -130,24 +130,24 @@ export default function Home() {
               className="[&_h2]:text-white [&_span]:text-accent"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
-              {subsidiaries.map((sub, i) => {
-                const Icon = sub.icon;
-                return (
-                  <Link key={i} href="/businesses" className="group">
-                    <div className="p-8 h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all duration-500">
-                      <div className="w-14 h-14 flex items-center justify-center mb-6 border border-accent/30 bg-accent/10 group-hover:bg-accent/20 group-hover:border-accent/60 transition-all duration-300">
-                        <Icon size={26} className="text-accent" />
-                      </div>
-                      <span className="text-accent/70 text-xs font-semibold tracking-widest uppercase mb-1">{sub.industry}</span>
+              {subsidiaries.map((sub, i) => (
+                <Link key={i} href="/businesses" className="group">
+                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 overflow-hidden">
+                    <div className="relative h-48 overflow-hidden">
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F14]/80 to-transparent" />
+                      <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
+                    </div>
+                    <div className="p-6 flex flex-col items-center text-center flex-1">
                       <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300">{sub.name}</h3>
                       <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300">{sub.desc}</p>
-                      <span className="mt-6 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent transition-colors duration-300">
+                      <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent group-hover:translate-x-1 transition-all duration-300">
                         Learn More →
                       </span>
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </div>
             <div className="text-center">
               <Link href="/businesses">
