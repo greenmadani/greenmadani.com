@@ -10,6 +10,7 @@ import { SectionHeader } from "@/components/section-header";
 import { StatDisplay } from "@/components/stat-display";
 import { AnimatedSection } from "@/components/animated-section";
 import { CTASection } from "@/components/cta-section";
+import { subsidiaries } from "@/data/subsidiaries";
 
 export default function Home() {
   const { data: stats } = useGetCompanyStats();
@@ -17,21 +18,6 @@ export default function Home() {
   const { data: productsData, isLoading: loadingProducts } = useListProducts({ featured: true, limit: 3 }, { query: { queryKey: getListProductsQueryKey({ featured: true, limit: 3 }) } });
   
   const { data: newsData, isLoading: loadingNews } = useListNews({ limit: 3 }, { query: { queryKey: getListNewsQueryKey({ limit: 3 }) } });
-
-  const subsidiaries = [
-    { name: "GMI Power Agro", image: "/images/businesses/gmi-power-agro.webp", industry: "Agriculture", desc: "Hybrid seeds, organic fertilizers, and export-quality rice — powering Bangladesh's agricultural transformation with American-formula solutions." },
-    { name: "GMI Essential Food & Consumer", image: "/images/businesses/gmi-essential-food-consumer.webp", industry: "Food & FMCG", desc: "Rice, oil, flour, and packaged food essentials delivered through a fully integrated farm-to-shelf supply chain." },
-    { name: "GMI Beverage", image: "/images/businesses/gmi-beverage.webp", industry: "Beverages", desc: "Pure drinking water, natural fruit juices, and healthy soft drinks crafted for everyday wellness." },
-    { name: "GMI Hospital", image: "/images/businesses/gmi-hospital.webp", industry: "Healthcare", desc: "Multi-specialized and digital healthcare services bringing modern medical care closer to communities." },
-    { name: "GMI Hotel & Resort", image: "/images/businesses/gmi-hotel-resort.webp", industry: "Hospitality", desc: "Luxury city hotels and eco-friendly resorts offering premium hospitality experiences nationwide." },
-    { name: "GMI Supermarket", image: "/images/businesses/gmi-supermarket.webp", industry: "Retail", desc: "City-based chain supermarkets with online delivery, bringing GMI's farm-fresh products directly to customers." },
-    { name: "GMI Tour & Travels", image: "/images/businesses/gmi-tour-travels.webp", industry: "Travel & Tourism", desc: "Hajj, Umrah, and domestic and international tour packages designed for comfort and trust." },
-    { name: "GMI Education", image: "/images/businesses/gmi-education.webp", industry: "Education", desc: "Schools, vocational training centers, and online learning platforms building the workforce of tomorrow." },
-    { name: "GMI Skin Care", image: "/images/businesses/gmi-skin-care.webp", industry: "Beauty & Personal Care", desc: "Herbal, organic, and medical-grade skincare products formulated for natural beauty and wellness." },
-    { name: "GMI Fashion House", image: "/images/businesses/gmi-fashion-house.webp", industry: "Apparel & Fashion", desc: "Export-quality garments for men, women, and children — combining comfort, style, and sustainability." },
-    { name: "GMI News & Media", image: "/images/businesses/gmi-news-media.webp", industry: "Media & Communications", desc: "Digital news portal and in-house brand promotion center powering zero-cost marketing across the group." },
-    { name: "GMI R&D Center", image: "/images/businesses/gmi-rd-center.webp", industry: "Research & Development", desc: "The innovation engine behind GMI — developing new products and ensuring quality control across every vertical." },
-  ];
 
   return (
     <div className="w-full">
@@ -131,10 +117,10 @@ export default function Home() {
             />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => (
-                <Link key={i} href="/businesses" className="group">
-                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 ease-out overflow-hidden">
-                    <div className="relative h-48 overflow-hidden">
-                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform" loading="lazy" />
+                <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
+                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 ease-out overflow-hidden rounded-sm">
+                    <div className="relative h-48 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110" style={{ transform: 'translateZ(0)', willChange: 'transform' }} loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F14]/80 to-transparent" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
                     </div>
