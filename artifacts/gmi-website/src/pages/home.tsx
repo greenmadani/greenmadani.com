@@ -132,9 +132,9 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href="/businesses" className="group">
-                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 overflow-hidden">
+                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 ease-out overflow-hidden">
                     <div className="relative h-48 overflow-hidden">
-                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out will-change-transform" loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F14]/80 to-transparent" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
                     </div>
