@@ -89,7 +89,7 @@ export default function Careers() {
           { label: "Careers", href: "/careers" }
         ]}
       >
-        <Button onClick={() => openApplyDialog()} variant="secondary" className="px-8 py-6 text-lg">
+        <Button onClick={() => openApplyDialog()} variant="secondary" size="lg">
           View Open Positions
         </Button>
       </PageHero>

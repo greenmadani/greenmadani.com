@@ -86,7 +86,7 @@ export default function Sustainability() {
             title="Our Sustainability Report"
             description="Learn more about our soil safety initiatives, farmer development programs, and environmental commitments across all 12 GMI verticals."
           />
-          <Button variant="secondary" className="px-8 py-6 font-bold text-lg">
+          <Button variant="secondary" size="lg">
             <Download className="mr-2" size={20} /> Download Report
           </Button>
           <p className="text-xs text-gray-400 mt-4 uppercase tracking-widest">Report available in English and Bengali. Updated annually.</p>

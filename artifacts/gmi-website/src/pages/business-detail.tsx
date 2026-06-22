@@ -110,12 +110,12 @@ export default function BusinessDetail() {
               </p>
               <div className="space-y-4">
                 <Link href="/contact">
-                  <Button variant="primary" className="w-full py-6 text-lg">
+                  <Button variant="secondary" size="lg" className="w-full">
                     Contact Sales <ArrowUpRight className="ml-2" size={18} />
                   </Button>
                 </Link>
                 {business.website && (
-                  <Button variant="outline" className="w-full py-6 text-lg" onClick={() => window.open(business.website as string, '_blank')}>
+                  <Button variant="outline" size="lg" className="w-full" onClick={() => window.open(business.website as string, '_blank')}>
                     Visit Dedicated Website
                   </Button>
                 )}

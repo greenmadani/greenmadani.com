@@ -117,7 +117,7 @@ export default function ProductDetail() {
                   <p className="text-sm text-muted-foreground">Contact our sales team for bulk pricing and distribution.</p>
                 </div>
                 <Link href={`/contact?subject=Inquiry about ${product.name}`}>
-                  <Button variant="primary" className="whitespace-nowrap">
+                  <Button variant="secondary">
                     Inquire Now
                   </Button>
                 </Link>

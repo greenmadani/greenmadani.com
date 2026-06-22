@@ -187,7 +187,7 @@ export default function Contact() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="submit" variant="primary" disabled={contactMutation.isPending} className="w-full py-6 font-bold text-lg">
+                    <Button type="submit" variant="secondary" size="lg" disabled={contactMutation.isPending} className="w-full">
                       {contactMutation.isPending ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
@@ -268,7 +268,7 @@ export default function Contact() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="submit" variant="secondary" disabled={businessMutation.isPending} className="w-full py-6 font-bold text-lg">
+                    <Button type="submit" variant="secondary" size="lg" disabled={businessMutation.isPending} className="w-full">
                       {businessMutation.isPending ? "Submitting..." : "Submit Business Inquiry"}
                     </Button>
                   </form>

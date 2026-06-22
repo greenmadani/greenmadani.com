@@ -136,7 +136,7 @@ export default function NewsDetail() {
         
         <div className="mt-16 text-center">
           <Link href="/news">
-            <Button variant="outline" className="px-8 font-bold">
+            <Button variant="outline" size="lg">
               <ArrowLeft size={16} className="mr-2" /> Back to News
             </Button>
           </Link>

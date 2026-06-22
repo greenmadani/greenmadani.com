@@ -57,7 +57,7 @@ export default function Businesses() {
                   <h3 className="font-display text-foreground mb-4">{business.name}</h3>
                   <p className="text-muted-foreground mb-8 flex-1 text-lg">{business.description}</p>
                   <Link href={`/businesses/${business.slug}`}>
-                    <Button variant="primary">
+                    <Button variant="secondary">
                       Learn More <ArrowRight className="ml-2" size={16} />
                     </Button>
                   </Link>
