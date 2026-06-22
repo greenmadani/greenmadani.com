@@ -1,8 +1,8 @@
 import { useParams } from "wouter";
-import { ChevronRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 import { subsidiaries } from "@/data/subsidiaries";
 
@@ -24,29 +24,16 @@ export default function BusinessDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
-      {/* Hero */}
-      <AnimatedSection animation="fade-in" threshold={0}>
-      <section className="bg-primary text-white pt-[64px] pb-24 -mt-20 relative border-b-4 border-accent overflow-hidden">
-        <AnimatedBackground />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-white/60 mb-6 flex-wrap gap-y-2">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <ChevronRight size={14} className="mx-2 shrink-0" />
-            <Link href="/businesses" className="hover:text-white transition-colors">Businesses</Link>
-            <ChevronRight size={14} className="mx-2 shrink-0" />
-            <span className="text-accent">{business.name}</span>
-          </div>
-
-          <div className="inline-block bg-accent text-accent-foreground font-bold text-xs uppercase tracking-widest px-4 py-1.5 mb-6">
-            {business.industry}
-          </div>
-          <h1 className="font-display mb-6 max-w-4xl">{business.name}</h1>
-          <p className="text-xl text-white/80 max-w-3xl leading-relaxed">
-            {business.desc}
-          </p>
-        </div>
-      </section>
-      </AnimatedSection>
+      <PageHero
+        title={business.name}
+        subtitle={business.desc}
+        badge={business.industry}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Businesses", href: "/businesses" },
+          { label: business.name, href: `/businesses/${business.slug}` }
+        ]}
+      />
 
       <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-24">

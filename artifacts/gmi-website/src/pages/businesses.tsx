@@ -22,7 +22,7 @@ export default function Businesses() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
             {subsidiaries.map((sub, i) => (
               <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
-                <div className="h-full flex flex-col bg-white border border-border shadow-sm hover:shadow-xl transition-all duration-500 ease-out overflow-hidden rounded-sm">
+                <div className="h-full flex flex-col bg-white border border-border shadow-sm hover:shadow-xl transition-all duration-500 ease-out overflow-hidden">
                   <div className="relative h-44 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
                     <img
                       src={sub.image}
