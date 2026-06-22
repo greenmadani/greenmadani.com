@@ -112,9 +112,9 @@ export function Layout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!s) return;
-    const title = s.seoTitle || `${s.siteName || "GMI"} — Corporate Website`;
-    document.title = title;
+    if (s.seoTitle) document.title = s.seoTitle;
     const setMeta = (name: string, content: string) => {
+      if (!content) return;
       let el = document.querySelector(`meta[name="${name}"], meta[property="${name}"]`);
       if (!el) {
         el = document.createElement("meta");
@@ -124,12 +124,12 @@ export function Layout({ children }: { children: ReactNode }) {
       }
       el.setAttribute("content", content);
     };
-    setMeta("description", s.seoDescription || `${s.siteName || "GMI"} — A diversified business group driving sustainable growth across Bangladesh and beyond.`);
-    setMeta("og:title", title);
-    setMeta("og:description", s.seoDescription || "");
+    setMeta("description", s.seoDescription);
+    setMeta("og:title", s.seoTitle);
+    setMeta("og:description", s.seoDescription);
     if (s.seoOgImage) setMeta("og:image", s.seoOgImage);
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", s.seoDescription || "");
+    setMeta("twitter:title", s.seoTitle);
+    setMeta("twitter:description", s.seoDescription);
     if (s.seoKeywords) setMeta("keywords", s.seoKeywords);
   }, [s]);
 
