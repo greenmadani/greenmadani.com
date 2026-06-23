@@ -5,7 +5,7 @@ const router = Router();
 
 const defaults = {
   siteName: "Green Madani International Private Ltd.",
-  tagline: "Building Bangladesh's Most Diversified Industrial Group",
+  tagline: "Building Bangladesh's Most Diversified Industrial Group — connecting agriculture, food, healthcare, hospitality, education, and beyond.",
   announcementText: "Welcome to Green Madani International — Better Food, Better Life, Our Food, Our Life",
   seoTitle: "Green Madani International Private Ltd. — Better Food, Better Life, Our Food, Our Life",
   seoDescription: "Green Madani International Private Ltd. is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media.",

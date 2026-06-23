@@ -73,7 +73,7 @@ const defaults: SiteSettings = {
   siteName: "Green Madani International Private Ltd.",
   headerLogoUrl: "",
   footerLogoUrl: "",
-  tagline: "Building Bangladesh's Most Diversified Industrial Group",
+  tagline: "Building Bangladesh's Most Diversified Industrial Group — connecting agriculture, food, healthcare, hospitality, education, and beyond.",
   ctaButtonText: "Explore Businesses",
   ctaButtonLink: "/businesses",
   navItems: [],

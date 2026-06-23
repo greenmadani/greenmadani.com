@@ -459,25 +459,23 @@ export function Layout({ children }: { children: ReactNode }) {
                 </h2>
               )}
               <p className="text-white/80 text-sm leading-relaxed mb-6">
-                {s?.tagline || "Building Bangladesh's Most Diversified Industrial Group"}
+                {s?.tagline || "Building Bangladesh's Most Diversified Industrial Group — connecting agriculture, food, healthcare, hospitality, education, and beyond to create a self-reliant future."}
               </p>
-              {s?.showSocialInFooter !== false && (
-                <div className="flex items-center gap-4">
-                  {socialLinkKeys.map(({ key, label }) => {
-                    const url = s?.[key as keyof SiteSettings] as string | undefined;
-                    if (!url) return null;
-                    const Icon = socialIconMap[key];
-                    return (
-                      <a key={key} href={url}
-                        className="icon-hover w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
-                        title={label}
-                      >
-                        {Icon && <Icon size={14} />}
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
+              <div className="flex items-center gap-4">
+                {socialLinkKeys.map(({ key, label }) => {
+                  const url = s?.[key as keyof SiteSettings] as string | undefined;
+                  if (!url) return null;
+                  const Icon = socialIconMap[key];
+                  return (
+                    <a key={key} href={url}
+                      className="icon-hover w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
+                      title={label}
+                    >
+                      {Icon && <Icon size={14} />}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
 
             {footerCols.map((col) => (
