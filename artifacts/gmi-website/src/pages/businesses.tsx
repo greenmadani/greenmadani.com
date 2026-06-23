@@ -23,24 +23,24 @@ export default function Businesses() {
             {subsidiaries.map((sub, i) => (
               <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                 <div className="h-full flex flex-col bg-white border border-border shadow-sm hover:shadow-xl transition-all duration-500 ease-out overflow-hidden">
-                  <div className="relative h-44 overflow-hidden group/image" style={{ transform: 'translateZ(0)' }}>
+                  <div className="relative h-44 overflow-hidden group" style={{ transform: 'translateZ(0)' }}>
                     <img
                       src={sub.image}
                       alt={sub.name}
-                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/image:scale-105"
+                      className="w-full h-full object-cover transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105"
                       style={{ willChange: 'transform' }}
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover/image:opacity-40 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]" />
                     <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">
                       {sub.industry}
                     </span>
-                    <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover/image:translate-y-0 opacity-0 group-hover/image:opacity-100 transition-all duration-500">
+                    <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
                       <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
                         Explore {sub.name}
                       </span>
                     </div>
-                    <div className="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md text-white p-1.5 rounded-full opacity-0 group-hover/image:opacity-100 transition-opacity duration-500">
+                    <div className="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
                       <ArrowUpRight size={16} />
                     </div>
                   </div>
