@@ -23,11 +23,11 @@ export default function Businesses() {
             {subsidiaries.map((sub, i) => (
               <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                 <div className="h-full flex flex-col bg-white border border-border shadow-sm hover:shadow-xl transition-shadow duration-300 ease-in-out overflow-hidden">
-                  <div className="relative h-44 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
+                  <div className="relative h-44 overflow-hidden img-hover" style={{ transform: 'translateZ(0)' }}>
                     <img
                       src={sub.image}
                       alt={sub.name}
-                      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                      className="w-full h-full object-cover"
                       style={{ willChange: 'transform' }}
                       loading="lazy"
                     />

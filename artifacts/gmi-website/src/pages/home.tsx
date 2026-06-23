@@ -145,8 +145,8 @@ export default function Home() {
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-colors duration-300 ease-in-out overflow-hidden rounded-sm">
-                    <div className="relative h-48 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
-                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" style={{ willChange: 'transform' }} loading="lazy" />
+                    <div className="relative h-48 overflow-hidden img-hover" style={{ transform: 'translateZ(0)' }}>
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover" style={{ willChange: 'transform' }} loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300 ease-in-out" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
                       <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
