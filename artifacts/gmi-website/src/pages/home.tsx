@@ -98,7 +98,7 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4 relative z-10">
                 <div className="relative h-[460px] img-hover rounded-lg overflow-hidden shadow-xl border border-border/50 group">
                   <img
-                    src="/images/about/business-growth-concept-modern-infographic-showing-upward-trend-with-green-chart-clean-white-background_1326207-6986.avif"
+                    src="/images/about/Copilot_20260624_002230.webp"
                     alt="Business Growth"
                     className="w-full h-full object-cover"
                     loading="lazy"
