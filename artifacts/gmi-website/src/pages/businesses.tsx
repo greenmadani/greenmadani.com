@@ -27,7 +27,7 @@ export default function Businesses() {
                     <img
                       src={sub.image}
                       alt={sub.name}
-                      className="w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                       style={{ willChange: 'transform' }}
                       loading="lazy"
                     />

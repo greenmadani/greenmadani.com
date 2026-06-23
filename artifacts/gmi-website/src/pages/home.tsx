@@ -120,7 +120,7 @@ export default function Home() {
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 ease-out overflow-hidden rounded-sm">
                     <div className="relative h-48 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
-                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110" style={{ transform: 'translateZ(0)', willChange: 'transform' }} loading="lazy" />
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105" style={{ willChange: 'transform' }} loading="lazy" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F14]/80 to-transparent" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
                     </div>
