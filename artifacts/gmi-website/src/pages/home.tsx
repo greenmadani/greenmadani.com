@@ -93,13 +93,39 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 h-[500px]">
-              <div className="bg-muted h-full img-hover shadow-lg border border-border">
-                 <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop" alt="Modern Factory" className="w-full h-full object-cover" loading="lazy" />
+            <div className="relative">
+              <div className="absolute -top-4 -left-4 w-28 h-28 border-2 border-accent/20 rounded-sm z-0 hidden lg:block" />
+              <div className="grid grid-cols-2 gap-4 relative z-10">
+                <div className="relative h-[460px] img-hover rounded-lg overflow-hidden shadow-xl border border-border/50 group">
+                  <img
+                    src="/images/about/business-growth-concept-modern-infographic-showing-upward-trend-with-green-chart-clean-white-background_1326207-6986.avif"
+                    alt="Business Growth"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+                  <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
+                      Innovation & Growth
+                    </span>
+                  </div>
+                </div>
+                <div className="relative h-[460px] mt-10 img-hover rounded-lg overflow-hidden shadow-xl border border-border/50 group">
+                  <img
+                    src="/images/about/Export-Bangladesh-SEO-Game-Plan.webp"
+                    alt="Export Bangladesh"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+                  <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
+                      Global Reach
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="bg-muted h-full mt-8 img-hover shadow-lg border border-border">
-                 <img src="https://images.unsplash.com/photo-1592982537447-6f2c6c0c2834?q=80&w=2069&auto=format&fit=crop" alt="Agriculture" className="w-full h-full object-cover" loading="lazy" />
-              </div>
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-accent/10 rounded-sm z-0 hidden lg:block" />
             </div>
           </div>
         </section>
