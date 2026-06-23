@@ -144,21 +144,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
-                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-all duration-500 ease-out overflow-hidden rounded-sm">
-                    <div className="relative h-48 overflow-hidden group" style={{ transform: 'translateZ(0)' }}>
-                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105" style={{ willChange: 'transform' }} loading="lazy" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]" />
+                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-colors duration-300 ease-in-out overflow-hidden rounded-sm">
+                    <div className="relative h-48 overflow-hidden" style={{ transform: 'translateZ(0)' }}>
+                      <img src={sub.image} alt={sub.name} className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" style={{ willChange: 'transform' }} loading="lazy" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300 ease-in-out" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
-                      <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                      <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
                         <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
                           Explore {sub.name}
                         </span>
                       </div>
                     </div>
                     <div className="p-6 flex flex-col items-center text-center flex-1">
-                      <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300">{sub.name}</h3>
-                      <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300">{sub.desc}</p>
-                      <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent group-hover:translate-x-1 transition-all duration-300">
+                      <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300 ease-in-out">{sub.name}</h3>
+                      <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300 ease-in-out">{sub.desc}</p>
+                      <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent group-hover:translate-x-1 transition-all duration-300 ease-in-out">
                         Learn More →
                       </span>
                     </div>
