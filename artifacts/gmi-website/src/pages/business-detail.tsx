@@ -39,7 +39,7 @@ export default function BusinessDetail() {
       <div className="container mx-auto px-4 py-24">
         <div className="grid lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2 space-y-12">
-            <div className="shimmer-wrap img-hover rounded-lg shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden mb-8">
+            <div className="shimmer-wrap img-hover shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden mb-8">
               <div className="aspect-[21/9]">
                 <img
                   src={business.image}
