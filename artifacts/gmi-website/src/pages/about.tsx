@@ -102,7 +102,7 @@ export default function About() {
           </div>
           <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-12 items-center">
             <div className="md:col-span-2 flex justify-center">
-              <div className="w-full max-w-sm shimmer-wrap img-hover rounded-lg shadow-xl border border-white/10">
+              <div className="w-full max-w-sm shimmer-wrap img-hover rounded-lg shadow-xl border border-white/10 border-b-4 border-b-accent/30">
                 <div className="aspect-[3/4]">
                   <img
                     src="/images/Founder-of-Green-Universe-Ltd.jpg"
