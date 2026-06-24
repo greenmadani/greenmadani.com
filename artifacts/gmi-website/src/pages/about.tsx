@@ -102,13 +102,16 @@ export default function About() {
           </div>
           <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-12 items-center">
             <div className="md:col-span-2 flex justify-center">
-              <div className="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-accent/30 shadow-xl">
-                <img
-                  src="/images/Founder-of-Green-Universe-Ltd.jpg"
-                  alt="Md. Rejaul Karim Majumder"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+              <div className="w-full max-w-sm shimmer-wrap img-hover rounded-lg shadow-xl border border-white/10">
+                <div className="aspect-[3/4]">
+                  <img
+                    src="/images/Founder-of-Green-Universe-Ltd.jpg"
+                    alt="Md. Rejaul Karim Majumder"
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    onLoad={(e) => e.currentTarget.closest('.shimmer-wrap')?.classList.add('loaded')}
+                  />
+                </div>
               </div>
             </div>
             <div className="md:col-span-3 space-y-6">

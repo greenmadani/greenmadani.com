@@ -395,6 +395,35 @@
   }
 }
 
+/* === Glossy Shimmer Loading === */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s ease-in-out infinite;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.shimmer-wrap.loaded::before {
+  opacity: 0;
+}
+
 /* === Image Fade-In on Load === */
 img {
   opacity: 0;
