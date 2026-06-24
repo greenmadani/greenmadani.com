@@ -217,25 +217,25 @@
 }
 
 /* === Scroll Animation Utilities === */
-@utility animate-fade-in {
+.animate-fade-in {
   animation: fadeIn 0.7s ease-out both;
 }
-@utility animate-fade-up {
+.animate-fade-up {
   animation: fadeUp 0.7s ease-out both;
 }
-@utility animate-fade-down {
+.animate-fade-down {
   animation: fadeDown 0.7s ease-out both;
 }
-@utility animate-fade-left {
+.animate-fade-left {
   animation: fadeLeft 0.7s ease-out both;
 }
-@utility animate-fade-right {
+.animate-fade-right {
   animation: fadeRight 0.7s ease-out both;
 }
-@utility animate-scale-in {
+.animate-scale-in {
   animation: scaleIn 0.7s ease-out both;
 }
-@utility animate-zoom-in {
+.animate-zoom-in {
   animation: zoomIn 0.7s ease-out both;
 }
 

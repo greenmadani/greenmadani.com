@@ -351,7 +351,7 @@ export function Layout({ children }: { children: ReactNode }) {
                         {link.isExternal ? (
                           <SheetClose asChild>
                             <a href={link.href} target="_blank" rel="noopener noreferrer"
-                              className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 border-l-2 border-transparent hover:border-primary hover:bg-black/[0.03] ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" : "text-foreground hover:text-primary"}`}
+                              className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" : "text-foreground hover:text-primary"}`}
                             >
                               {link.label}
                             </a>
@@ -362,14 +362,14 @@ export function Layout({ children }: { children: ReactNode }) {
                               <SheetClose asChild>
                                 <Link href={link.href}>
                                   <span
-                                    className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 cursor-pointer border-l-2 border-transparent hover:border-primary hover:bg-black/[0.03] ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" : "text-foreground hover:text-primary"}`}
+                                    className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 cursor-pointer border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" : "text-foreground hover:text-primary"}`}
                                   >
                                     {link.label}
                                   </span>
                                 </Link>
                               </SheetClose>
                               {isBiz && (
-                                <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-black/[0.03] transition-colors">
+                                <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-black/5 transition-colors">
                                   <ChevronDown size={18} className={`transition-transform duration-200 ${openSubmenu === "businesses-mobile" ? "rotate-180" : ""}`} />
                                 </button>
                               )}
