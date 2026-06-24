@@ -295,7 +295,7 @@
   width: 100%;
 }
 
-@utility card-hover {
+.card-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
@@ -306,7 +306,7 @@
   border-color: hsl(var(--primary) / 0.3);
 }
 
-@utility icon-hover {
+.icon-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
@@ -317,7 +317,7 @@
   color: hsl(var(--primary-foreground));
 }
 
-@utility img-hover {
+.img-hover {
   overflow: hidden;
 }
 .img-hover img {
@@ -328,7 +328,7 @@
   transform: scale(1.06);
 }
 
-@utility lift-hover {
+.lift-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }

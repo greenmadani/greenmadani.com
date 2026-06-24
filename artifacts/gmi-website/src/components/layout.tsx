@@ -328,7 +328,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 <Menu size={24} />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-white/95 backdrop-blur-xl border-l border-border/50 p-0 w-80">
+            <SheetContent side="right" className="bg-white/70 backdrop-blur-2xl border-l border-border/50 p-0 w-80">
               <div className="flex flex-col h-full">
                 <div className="border-b border-border/50 px-6 py-6">
                   <Link href="/">
@@ -343,7 +343,7 @@ export function Layout({ children }: { children: ReactNode }) {
                     </SheetClose>
                   </Link>
                 </div>
-                <nav className="flex-1 flex flex-col gap-1 px-3 py-4 overflow-y-auto">
+                <nav className="flex-1 flex flex-col px-0 py-2 overflow-y-auto divide-y divide-border/20">
                   {mainNavLinks.map((link, i) => {
                     const isBiz = link.href === "/businesses";
                     return (
@@ -351,7 +351,7 @@ export function Layout({ children }: { children: ReactNode }) {
                         {link.isExternal ? (
                           <SheetClose asChild>
                             <a href={link.href} target="_blank" rel="noopener noreferrer"
-                              className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                              className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
                             >
                               {link.label}
                             </a>
@@ -362,20 +362,20 @@ export function Layout({ children }: { children: ReactNode }) {
                               <SheetClose asChild>
                                 <Link href={link.href}>
                                   <span
-                                    className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                                    className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
                                   >
                                     {link.label}
                                   </span>
                                 </Link>
                               </SheetClose>
                               {isBiz && (
-                                <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-muted/50 rounded-lg transition-colors">
+                                <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-muted/50 transition-colors">
                                   <ChevronDown size={18} className={`transition-transform duration-200 ${openSubmenu === "businesses-mobile" ? "rotate-180" : ""}`} />
                                 </button>
                               )}
                             </div>
                             {isBiz && openSubmenu === "businesses-mobile" && (
-                              <div className="ml-4 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
+                              <div className="ml-6 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
                                 <SheetClose asChild>
                                   <Link href="/businesses">
                                     <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
@@ -388,7 +388,7 @@ export function Layout({ children }: { children: ReactNode }) {
                                   return (
                                     <SheetClose asChild key={sub.slug}>
                                       <Link href={`/businesses/${sub.slug}`}>
-                                        <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-lg transition-colors cursor-pointer">
+                                        <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors cursor-pointer">
                                           <Icon size={15} className="text-accent shrink-0" />
                                           {sub.name}
                                         </span>
