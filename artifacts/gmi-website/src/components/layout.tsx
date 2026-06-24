@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp, ChevronDown, Sprout, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, FlaskConical, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 
 interface NavLinkItem {
   label: string;
@@ -331,9 +331,17 @@ export function Layout({ children }: { children: ReactNode }) {
             <SheetContent side="right" className="bg-white/95 backdrop-blur-xl border-l border-border/50 p-0 w-80">
               <div className="flex flex-col h-full">
                 <div className="border-b border-border/50 px-6 py-6">
-                  <span className="text-xl font-extrabold text-primary tracking-tight">
-                    {s?.siteName || "GMI"}
-                  </span>
+                  <Link href="/">
+                    <SheetClose asChild>
+                      <span>
+                        {s?.headerLogoUrl ? (
+                          <img src={s.headerLogoUrl} alt={s.siteName || "GMI"} className="h-10 w-auto" />
+                        ) : (
+                          <img src="/header-logo.png" alt={s?.siteName || "GMI"} className="h-10 w-auto" />
+                        )}
+                      </span>
+                    </SheetClose>
+                  </Link>
                 </div>
                 <nav className="flex-1 flex flex-col gap-1 px-3 py-4 overflow-y-auto">
                   {mainNavLinks.map((link, i) => {
@@ -341,21 +349,25 @@ export function Layout({ children }: { children: ReactNode }) {
                     return (
                       <div key={link.href} style={{ animationDelay: `${i * 50}ms` }} className="animate-fade-in">
                         {link.isExternal ? (
-                          <a href={link.href} target="_blank" rel="noopener noreferrer"
-                            className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
-                          >
-                            {link.label}
-                          </a>
+                          <SheetClose asChild>
+                            <a href={link.href} target="_blank" rel="noopener noreferrer"
+                              className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                            >
+                              {link.label}
+                            </a>
+                          </SheetClose>
                         ) : (
                           <div>
                             <div className="flex items-center justify-between">
-                              <Link href={link.href}>
-                                <span
-                                  className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
-                                >
-                                  {link.label}
-                                </span>
-                              </Link>
+                              <SheetClose asChild>
+                                <Link href={link.href}>
+                                  <span
+                                    className={`flex items-center gap-4 px-4 py-3 rounded-xl text-base font-semibold transition-all duration-200 cursor-pointer hover:bg-primary/5 ${isActive(link.href) ? "bg-primary/10 text-primary" : "text-foreground hover:text-primary"}`}
+                                  >
+                                    {link.label}
+                                  </span>
+                                </Link>
+                              </SheetClose>
                               {isBiz && (
                                 <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null : "businesses-mobile")} className="p-3 hover:bg-muted/50 rounded-lg transition-colors">
                                   <ChevronDown size={18} className={`transition-transform duration-200 ${openSubmenu === "businesses-mobile" ? "rotate-180" : ""}`} />
@@ -364,20 +376,24 @@ export function Layout({ children }: { children: ReactNode }) {
                             </div>
                             {isBiz && openSubmenu === "businesses-mobile" && (
                               <div className="ml-4 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
-                                <Link href="/businesses">
-                                  <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
-                                    View All Businesses →
-                                  </span>
-                                </Link>
+                                <SheetClose asChild>
+                                  <Link href="/businesses">
+                                    <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
+                                      View All Businesses →
+                                    </span>
+                                  </Link>
+                                </SheetClose>
                                 {businessSubs.map((sub) => {
                                   const Icon = sub.icon;
                                   return (
-                                    <Link key={sub.slug} href={`/businesses/${sub.slug}`}>
-                                      <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-lg transition-colors cursor-pointer">
-                                        <Icon size={15} className="text-accent shrink-0" />
-                                        {sub.name}
-                                      </span>
-                                    </Link>
+                                    <SheetClose asChild key={sub.slug}>
+                                      <Link href={`/businesses/${sub.slug}`}>
+                                        <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-lg transition-colors cursor-pointer">
+                                          <Icon size={15} className="text-accent shrink-0" />
+                                          {sub.name}
+                                        </span>
+                                      </Link>
+                                    </SheetClose>
                                   );
                                 })}
                               </div>
@@ -390,11 +406,13 @@ export function Layout({ children }: { children: ReactNode }) {
                 </nav>
                 <div className="border-t border-border/50 px-4 py-6 flex flex-col gap-3">
                   {rightLinks.map((link) => (
-                    <Link key={link.href} href={link.href}>
-                      <span className="flex items-center justify-center px-4 py-3 text-base font-semibold transition-all duration-200 cursor-pointer bg-accent text-accent-foreground border border-black hover:opacity-90">
-                        {link.label}
-                      </span>
-                    </Link>
+                    <SheetClose asChild key={link.href}>
+                      <Link href={link.href}>
+                        <span className="flex items-center justify-center px-4 py-3 text-base font-semibold transition-all duration-200 cursor-pointer bg-accent text-accent-foreground border border-black hover:opacity-90">
+                          {link.label}
+                        </span>
+                      </Link>
+                    </SheetClose>
                   ))}
                 </div>
               </div>
