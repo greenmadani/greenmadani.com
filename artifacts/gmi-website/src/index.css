@@ -299,20 +299,24 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
-.card-hover:hover {
-  translate: 0 -4px;
-  box-shadow: 0 12px 40px oklch(0 0 0 / 0.1);
-  border-color: hsl(var(--primary) / 0.3);
+@media (hover: hover) {
+  .card-hover:hover {
+    translate: 0 -4px;
+    box-shadow: 0 12px 40px oklch(0 0 0 / 0.1);
+    border-color: hsl(var(--primary) / 0.3);
+  }
 }
 
 @utility icon-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
-.icon-hover:hover {
-  scale: 1.12;
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+@media (hover: hover) {
+  .icon-hover:hover {
+    scale: 1.12;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
 }
 
 @utility img-hover {
@@ -321,17 +325,21 @@
 .img-hover img {
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.img-hover:hover img {
-  transform: scale(1.06);
+@media (hover: hover) {
+  .img-hover:hover img {
+    transform: scale(1.06);
+  }
 }
 
 @utility lift-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
-.lift-hover:hover {
-  translate: 0 -4px;
-  box-shadow: 0 12px 40px oklch(0 0 0 / 0.1);
+@media (hover: hover) {
+  .lift-hover:hover {
+    translate: 0 -4px;
+    box-shadow: 0 12px 40px oklch(0 0 0 / 0.1);
+  }
 }
 
 @utility link-underline {
