@@ -137,8 +137,8 @@ heroHeading: "About Green Madani International"
 heroSubtitle: "Building Bangladesh's most diversified industrial group — from agriculture to innovation, healthcare to hospitality."
 heroBadge: "Our Story"
 
-storyHeading: "From Green Universe Group to Green Madani International"
-storyP1: "Green Madani International Private Ltd. began its journey as Green Universe Group, founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media."
+storyHeading: "A Decade of Diversified Growth"
+storyP1: "Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media."
 storyP2: "Today, GMI operates 12 fully integrated business verticals, connecting farmers, manufacturers, and consumers through a seamless farm-to-shelf supply chain. Our in-house R&D center continuously develops new, safer agricultural solutions using American formulas — while our media arm and education institutions support the entire group through internal marketing and a steady talent pipeline."
 storyP3: "With a presence in 42 districts and an ambitious 2030 roadmap, GMI is steadily building toward becoming an internationally recognized, top-tier diversified group — one rooted in Bangladeshi soil but built for the world."
 
@@ -162,11 +162,11 @@ Leadership (3):
   3) name="[To be confirmed]"    title="Head of Agriculture & R&D"
 
 Timeline (5 milestones):
-  2018 — title="Foundation"             desc="Green Universe Group was founded, beginning operations in the agricultural sector."
+  2018 — title="Foundation"             desc="Green Madani International was founded, beginning operations in the agricultural sector."
   2020 — title="Expansion into Food"    desc="Launched GMI Essential Food & Consumer, extending the farm-to-shelf model."
   2022 — title="Diversification"        desc="Expanded into healthcare, hospitality, and education verticals."
   2024 — title="Nationwide Network"     desc="Reached active operations across 42 districts with a growing distribution network."
-  2026 — title="Rebranding to GMI"      desc="Green Universe Group rebrands as Green Madani International Private Ltd., signaling our global ambitions."
+  2026 — title="Integrated Excellence"  desc="Green Madani International achieves full vertical integration across all 12 business verticals, with a growing presence in international markets."
 ```
 
 ---

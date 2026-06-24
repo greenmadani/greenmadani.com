@@ -22,10 +22,10 @@ export default function About() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <SectionHeader badge="Our Heritage" title="From Green Universe Group to Green Madani International" />
+            <SectionHeader badge="Our Heritage" title="A Decade of Diversified Growth" />
             <div className="space-y-6 text-muted-foreground text-lg leading-relaxed text-left">
               <p>
-                Green Madani International Private Ltd. began its journey as Green Universe Group, founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
+                Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
               </p>
               <p>
                 Today, GMI operates 12 fully integrated business verticals, connecting farmers, manufacturers, and consumers through a seamless farm-to-shelf supply chain. Our in-house R&D center continuously develops new, safer agricultural solutions using American formulas — while our media arm and education institutions support the entire group through internal marketing and a steady talent pipeline.
@@ -131,11 +131,11 @@ export default function About() {
               <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary/20 -translate-x-1/2"></div>
               
               {[
-                { year: "2018", title: "Foundation", desc: "Green Universe Group was founded, beginning operations in the agricultural sector." },
+                { year: "2018", title: "Foundation", desc: "Green Madani International was founded, beginning operations in the agricultural sector." },
                 { year: "2020", title: "Expansion into Food", desc: "Launched GMI Essential Food & Consumer, extending the farm-to-shelf model." },
                 { year: "2022", title: "Diversification", desc: "Expanded into healthcare, hospitality, and education verticals." },
                 { year: "2024", title: "Nationwide Network", desc: "Reached active operations across 42 districts with a growing distribution network." },
-                { year: "2026", title: "Rebranding to GMI", desc: "Green Universe Group rebrands as Green Madani International Private Ltd., signaling our global ambitions." }
+                { year: "2026", title: "Integrated Excellence", desc: "Green Madani International achieves full vertical integration across all 12 business verticals, with a growing presence in international markets." }
               ].map((milestone, i) => (
                 <div key={i} className={`relative flex flex-col md:flex-row items-center justify-between ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                   <div className="hidden md:block w-1/2"></div>
