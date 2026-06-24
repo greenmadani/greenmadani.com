@@ -1,9 +1,10 @@
 import { useParams } from "wouter";
-import { ChevronRight, ShoppingBasket, ArrowLeft, Tag, Building2 } from "lucide-react";
+import { ShoppingBasket, ArrowLeft, Tag, Building2 } from "lucide-react";
 import { Link } from "wouter";
 import { useGetProduct, getGetProductQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 
 export default function ProductDetail() {
@@ -44,18 +45,16 @@ export default function ProductDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
-      {/* Breadcrumb */}
-      <AnimatedSection animation="fade-down" threshold={0}>
-      <div className="bg-background py-4 border-b border-border">
-        <div className="container mx-auto px-4 flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground overflow-x-auto whitespace-nowrap hide-scrollbar">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-          <ChevronRight size={14} className="mx-2 shrink-0" />
-          <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
-          <ChevronRight size={14} className="mx-2 shrink-0" />
-          <span className="text-primary truncate">{product.name}</span>
-        </div>
-      </div>
-      </AnimatedSection>
+      <PageHero
+        title={product.name}
+        subtitle={product.description}
+        badge={product.category}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: product.name, href: `/products/${product.id}` }
+        ]}
+      />
 
       <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-16">
@@ -75,14 +74,6 @@ export default function ProductDetail() {
 
           {/* Details */}
           <div className="flex flex-col">
-            <span className="inline-block bg-accent/10 text-accent font-bold text-xs tracking-widest uppercase px-3 py-1 mb-4 self-start">
-              {product.category}
-            </span>
-            
-            <h1 className="font-display text-foreground mb-6">
-              {product.name}
-            </h1>
-            
             {product.businessSlug && (
               <div className="flex items-center text-muted-foreground mb-8 pb-8 border-b border-border">
                 <Building2 size={18} className="text-primary mr-2" />
@@ -90,10 +81,11 @@ export default function ProductDetail() {
               </div>
             )}
 
-            <div className="prose prose-lg prose-green mb-10 text-muted-foreground">
-              <p className="text-xl font-medium mb-6">{product.description}</p>
-              {product.longDescription && <p>{product.longDescription}</p>}
-            </div>
+            {product.longDescription && (
+              <div className="prose prose-lg prose-green mb-10 text-muted-foreground">
+                <p>{product.longDescription}</p>
+              </div>
+            )}
 
             {product.tags && product.tags.length > 0 && (
               <div className="mb-10">

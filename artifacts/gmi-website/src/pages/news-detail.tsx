@@ -1,11 +1,11 @@
 import { useParams } from "wouter";
-import { ChevronRight, ArrowLeft, UserCircle2 } from "lucide-react";
+import { ArrowLeft, UserCircle2, Linkedin, Facebook, MessageCircle } from "lucide-react";
 import { Link } from "wouter";
 import { useGetNewsArticle, getGetNewsArticleQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
-import { Linkedin, Facebook, MessageCircle } from "lucide-react";
+import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 
 export default function NewsDetail() {
@@ -48,29 +48,24 @@ export default function NewsDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
-      {/* Article Header */}
-      <AnimatedSection animation="fade-in">
-      <div className="bg-background pt-16 pb-12">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="flex items-center text-sm font-semibold tracking-wider uppercase text-muted-foreground mb-8 overflow-x-auto whitespace-nowrap hide-scrollbar">
-            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-            <ChevronRight size={14} className="mx-2 shrink-0" />
-            <Link href="/news" className="hover:text-primary transition-colors">News</Link>
-            <ChevronRight size={14} className="mx-2 shrink-0" />
-            <span className="text-primary truncate">{article.category}</span>
-          </div>
+      <PageHero
+        title={article.title}
+        subtitle={article.excerpt || "Read more about our latest developments and news."}
+        badge={article.category}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "News", href: "/news" },
+          { label: article.category, href: `/news?category=${article.category}` }
+        ]}
+      />
 
-          <div className="inline-block bg-accent/10 text-accent font-bold text-xs tracking-widest uppercase px-3 py-1 mb-6">
-            {article.category}
-          </div>
-          
-          <h1 className="font-display text-foreground mb-8 leading-tight">
-            {article.title}
-          </h1>
-          
-          <div className="flex items-center justify-between border-t border-border pt-6 mt-6">
+      {/* Article Meta */}
+      <AnimatedSection animation="fade-up" delay={50}>
+      <div className="bg-background border-b border-border">
+        <div className="container mx-auto px-4 max-w-5xl py-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center overflow-hidden">
+              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center overflow-hidden shrink-0">
                 {article.authorAvatarUrl ? (
                   <img src={article.authorAvatarUrl} alt={article.authorName} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
@@ -97,14 +92,13 @@ export default function NewsDetail() {
           </div>
         </div>
       </div>
-
       </AnimatedSection>
 
       {/* Featured Image */}
       {article.imageUrl && (
         <AnimatedSection animation="scale-in" delay={100}>
-        <div className="w-full max-w-5xl mx-auto -mt-6 px-4 z-10 relative">
-          <div className="w-full h-[400px] md:h-[600px] shadow-xl img-hover bg-muted">
+        <div className="w-full max-w-5xl mx-auto mt-8 px-4 z-10 relative">
+          <div className="w-full h-[400px] md:h-[500px] shadow-xl img-hover bg-muted rounded-lg overflow-hidden">
             <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
           </div>
         </div>
@@ -114,12 +108,6 @@ export default function NewsDetail() {
       {/* Article Content */}
       <AnimatedSection animation="fade-up" delay={150}>
       <div className="container mx-auto px-4 max-w-3xl mt-16">
-        {article.excerpt && (
-          <p className="text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed italic mb-10 border-l-4 border-accent pl-6 py-2">
-            {article.excerpt}
-          </p>
-        )}
-        
         <div className="prose prose-lg prose-green max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br/>') }} />
 
         {article.tags && article.tags.length > 0 && (
