@@ -9,7 +9,7 @@
 export interface CompanyStats {
   subsidiaries: number;
   products: number;
-  farmerServed: number;
+  districtsCovered: number;
   yearsActive: number;
   dealerCount: number;
   countriesExported: number;

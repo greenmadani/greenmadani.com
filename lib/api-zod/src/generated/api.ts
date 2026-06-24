@@ -258,7 +258,7 @@ export const SubmitBusinessInquiryBody = zod.object({
 export const GetCompanyStatsResponse = zod.object({
   "subsidiaries": zod.number(),
   "products": zod.number(),
-  "farmerServed": zod.number(),
+  "districtsCovered": zod.number(),
   "yearsActive": zod.number(),
   "dealerCount": zod.number(),
   "countriesExported": zod.number()

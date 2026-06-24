@@ -56,10 +56,10 @@ export default function Home() {
         {/* Stats */}
         <div className="container mx-auto px-4 mt-20 md:mt-24 relative z-10">
           <div className="border-t border-white/10 pt-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatDisplay value={stats?.subsidiaries || "12+"} label="Subsidiaries" className="lift-hover" />
-            <StatDisplay value={stats?.products || "500+"} label="Products" className="lift-hover" />
-            <StatDisplay value={stats?.farmerServed?.toLocaleString() || "10,000+"} label="Farmers Served" className="lift-hover" />
-            <StatDisplay value={stats?.yearsActive || "6+"} label="Years Active" className="lift-hover" />
+            <StatDisplay value={stats?.subsidiaries || "12"} label="Subsidiaries" className="lift-hover" />
+            <StatDisplay value={stats?.products ? `${stats.products}+` : "170+"} label="Products" className="lift-hover" />
+            <StatDisplay value={stats?.districtsCovered || "42"} label="Districts Covered" className="lift-hover" />
+            <StatDisplay value={stats?.yearsActive ? `${stats.yearsActive}+` : "6+"} label="Years Active" className="lift-hover" />
           </div>
         </div>
       </section>

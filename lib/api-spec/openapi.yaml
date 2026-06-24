@@ -531,13 +531,13 @@ components:
 
     CompanyStats:
       type: object
-      required: [subsidiaries, products, farmerServed, yearsActive, dealerCount, countriesExported]
+      required: [subsidiaries, products, districtsCovered, yearsActive, dealerCount, countriesExported]
       properties:
         subsidiaries:
           type: integer
         products:
           type: integer
-        farmerServed:
+        districtsCovered:
           type: integer
         yearsActive:
           type: integer

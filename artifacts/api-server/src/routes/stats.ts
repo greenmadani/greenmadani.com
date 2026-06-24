@@ -9,8 +9,8 @@ router.get("/summary", async (_req, res) => {
 
   res.json({
     subsidiaries: subCount ?? 12,
-    products: prodCount ?? 500,
-    farmerServed: 10000,
+    products: prodCount ?? 170,
+    districtsCovered: 42,
     yearsActive: 6,
     dealerCount: 2500,
     countriesExported: 8,
