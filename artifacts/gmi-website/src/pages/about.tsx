@@ -1,4 +1,4 @@
-import { Award, FlaskConical, ShieldCheck, Leaf, Users, UserCircle2, Cog, Handshake } from "lucide-react";
+import { Award, Leaf, Users, Cog, Handshake } from "lucide-react";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeader } from "@/components/section-header";
@@ -25,7 +25,7 @@ export default function About() {
             <SectionHeader badge="Our Heritage" title="A Decade of Diversified Growth" />
             <div className="space-y-6 text-muted-foreground text-lg leading-relaxed text-left">
               <p>
-                Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director A.R. Reju, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
+                Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director Md. Rejaul Karim Majumder, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
               </p>
               <p>
                 Today, GMI operates 12 fully integrated business verticals, connecting farmers, manufacturers, and consumers through a seamless farm-to-shelf supply chain. Our in-house R&D center continuously develops new, safer agricultural solutions using American formulas — while our media arm and education institutions support the entire group through internal marketing and a steady talent pipeline.
@@ -92,28 +92,40 @@ export default function About() {
       </section>
       </AnimatedSection>
 
-      {/* Leadership */}
+      {/* Founder's Message */}
       <AnimatedSection animation="fade-in">
       <section className="py-24 bg-secondary text-white border-y-4 border-accent overflow-hidden relative">
         <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <SectionHeader badge="Our Team" title="Leadership" className="[&_h2]:text-white" />
+            <SectionHeader badge="Leadership" title="Founder's Message" className="[&_h2]:text-white" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto animate-stagger">
-            {[
-              { name: "A.R. Reju", title: "Founder & Managing Director" },
-              { name: "[To be confirmed]", title: "Director of Operations" },
-              { name: "[To be confirmed]", title: "Head of Agriculture & R&D" }
-            ].map((leader, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 p-8 text-center backdrop-blur card-hover">
-                <div className="w-32 h-32 bg-primary rounded-full mx-auto mb-6 flex items-center justify-center border-4 border-accent/30 overflow-hidden">
-                  <UserCircle2 size={64} className="text-white/50" />
-                </div>
-                <h4 className="font-display mb-1 text-accent">{leader.name}</h4>
-                <p className="text-white/70 text-sm font-semibold tracking-wider uppercase">{leader.title}</p>
+          <div className="max-w-5xl mx-auto grid md:grid-cols-5 gap-12 items-center">
+            <div className="md:col-span-2 flex justify-center">
+              <div className="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-accent/30 shadow-xl">
+                <img
+                  src="/images/Founder-of-Green-Universe-Ltd.jpg"
+                  alt="Md. Rejaul Karim Majumder"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
-            ))}
+            </div>
+            <div className="md:col-span-3 space-y-6">
+              <div className="relative">
+                <span className="text-6xl text-accent/20 font-serif absolute -top-4 -left-2 leading-none">"</span>
+                <p className="text-lg text-white/80 leading-relaxed relative z-10">
+                  Green Madani International was founded with a clear purpose — to build a business that creates value for people, society, and the environment. As Bangladesh grows, challenges like unsafe food, lack of pure water, and limited access to quality services remain. Our goal is to address these challenges through responsible, sustainable, and ethical business practices.
+                </p>
+              </div>
+              <p className="text-lg text-white/80 leading-relaxed">
+                We focus on quality, safety, and long-term growth across our diverse business sectors. With integrity, innovation, and a people-first mindset, we are committed to building a greener, healthier, and more sustainable future for Bangladesh.
+              </p>
+              <div className="pt-4 border-t border-white/10">
+                <p className="font-display text-accent text-xl">Md. Rejaul Karim Majumder</p>
+                <p className="text-white/60 text-sm font-semibold tracking-wider uppercase">Founder and Managing Director</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
