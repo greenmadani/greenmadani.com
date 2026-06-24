@@ -37,19 +37,19 @@ export default function BusinessDetail() {
 
       <AnimatedSection animation="fade-up" delay={100}>
       <div className="container mx-auto px-4 py-24">
-        <div className="max-w-4xl mx-auto mb-16 shimmer-wrap img-hover rounded-lg shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden">
-          <div className="aspect-[21/9]">
-            <img
-              src={business.image}
-              alt={business.name}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              onLoad={(e) => e.currentTarget.closest('.shimmer-wrap')?.classList.add('loaded')}
-            />
-          </div>
-        </div>
         <div className="grid lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2 space-y-12">
+            <div className="shimmer-wrap img-hover rounded-lg shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden mb-8">
+              <div className="aspect-[21/9]">
+                <img
+                  src={business.image}
+                  alt={business.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onLoad={(e) => e.currentTarget.closest('.shimmer-wrap')?.classList.add('loaded')}
+                />
+              </div>
+            </div>
             <div>
               <h2 className="font-display text-foreground mb-6">Overview</h2>
               <div className="prose prose-lg prose-green max-w-none text-muted-foreground leading-relaxed">
