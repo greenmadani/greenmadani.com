@@ -15,7 +15,7 @@ export function GridCard({ icon: Icon, iconColor, title, description, className 
   return (
     <div className={`group bg-white p-8 border border-transparent card-hover rounded-2xl h-full flex flex-col ${className}`}>
       {Icon && (
-        <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 rounded-xl group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all duration-300">
+        <div className="w-14 h-14 bg-muted text-primary flex items-center justify-center mb-6 rounded-xl">
           <Icon size={28} />
         </div>
       )}

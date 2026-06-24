@@ -116,7 +116,7 @@ export default function Products() {
                   <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-3">
                     {product.category}
                   </span>
-                  <h3 className="font-display mb-3 text-foreground group-hover:text-primary transition-colors">{product.name}</h3>
+                  <h3 className="font-display mb-3 text-foreground">{product.name}</h3>
                   <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-2">{product.description}</p>
                   <Link href={`/products/${product.id}`}>
                     <Button variant="outline" className="w-full font-bold">

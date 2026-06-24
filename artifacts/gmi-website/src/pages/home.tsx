@@ -56,10 +56,10 @@ export default function Home() {
         {/* Stats */}
         <div className="container mx-auto px-4 mt-20 md:mt-24 relative z-10">
           <div className="border-t border-white/10 pt-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatDisplay value={stats?.subsidiaries || "12"} label="Subsidiaries" className="lift-hover" />
-            <StatDisplay value={stats?.products ? `${stats.products}+` : "170+"} label="Products" className="lift-hover" />
-            <StatDisplay value={stats?.districtsCovered || "42"} label="Districts Covered" className="lift-hover" />
-            <StatDisplay value={stats?.yearsActive ? `${stats.yearsActive}+` : "6+"} label="Years Active" className="lift-hover" />
+            <StatDisplay value={stats?.subsidiaries || "12"} label="Subsidiaries" className="card-hover" />
+            <StatDisplay value={stats?.products ? `${stats.products}+` : "170+"} label="Products" className="card-hover" />
+            <StatDisplay value={stats?.districtsCovered || "42"} label="Districts Covered" className="card-hover" />
+            <StatDisplay value={stats?.yearsActive ? `${stats.yearsActive}+` : "6+"} label="Years Active" className="card-hover" />
           </div>
         </div>
       </section>
@@ -83,7 +83,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 {[{title:"Quality", icon: Award, desc:"We maintain uncompromising standards across every product and service we deliver."}, {title:"Innovation", icon: Cog, desc:"We embrace modern technology and American-formula R&D to stay ahead of industry needs."}, {title:"Integrity", icon: Handshake, desc:"We operate with transparency and honesty in every business relationship."}, {title:"Sustainability", icon: Leaf, desc:"We are committed to 100% safe soil, healthy crops, and zero harmful chemicals."}].map((val) => (
-                  <div key={val.title} className="flex flex-col gap-1 bg-muted p-4 font-semibold text-primary lift-hover">
+                  <div key={val.title} className="flex flex-col gap-1 bg-muted p-4 font-semibold text-primary card-hover">
                     <div className="flex items-center gap-3">
                       <val.icon size={20} className="text-accent shrink-0" />
                       {val.title}
@@ -103,8 +103,8 @@ export default function Home() {
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
-                  <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity duration-500" />
+                  <div className="absolute bottom-3 left-3 right-3">
                     <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
                       Innovation & Growth
                     </span>
@@ -117,8 +117,8 @@ export default function Home() {
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
-                  <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 transition-opacity duration-500" />
+                  <div className="absolute bottom-3 left-3 right-3">
                     <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
                       Global Reach
                     </span>
@@ -144,21 +144,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
-                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-accent/40 transition-colors duration-300 ease-in-out overflow-hidden rounded-sm">
+                  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden rounded-sm">
                     <div className="relative h-48 overflow-hidden img-hover" style={{ transform: 'translateZ(0)' }}>
                       <img src={sub.image} alt={sub.name} className="w-full h-full object-cover" style={{ willChange: 'transform' }} loading="lazy" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300 ease-in-out" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
                       <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
-                      <div className="absolute bottom-3 left-3 right-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
+                      <div className="absolute bottom-3 left-3 right-3">
                         <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full inline-block">
                           Explore {sub.name}
                         </span>
                       </div>
                     </div>
                     <div className="p-6 flex flex-col items-center text-center flex-1">
-                      <h3 className="font-display text-white mb-2 leading-snug group-hover:text-accent transition-colors duration-300 ease-in-out">{sub.name}</h3>
-                      <p className="text-white/60 text-sm leading-relaxed flex-1 group-hover:text-white/80 transition-colors duration-300 ease-in-out">{sub.desc}</p>
-                      <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70 group-hover:text-accent group-hover:translate-x-1 transition-all duration-300 ease-in-out">
+                      <h3 className="font-display text-white mb-2 leading-snug">{sub.name}</h3>
+                      <p className="text-white/60 text-sm leading-relaxed flex-1">{sub.desc}</p>
+                      <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70">
                         Learn More →
                       </span>
                     </div>
@@ -213,7 +213,7 @@ export default function Home() {
                 ))
               ) : (
                 (productsData?.items ?? []).map((product) => (
-                  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full group overflow-hidden bg-card">
+                  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover">
                     <div className="w-full h-64 bg-muted img-hover relative">
                       {product.imageUrl ? (
                         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
@@ -261,8 +261,8 @@ export default function Home() {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <div key={i} className="glass-card card-hover group text-center p-8">
-                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div key={i} className="glass-card card-hover text-center p-8">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
                     <Icon size={32} className="text-accent-foreground" />
                   </div>
                   <h3 className="font-display mb-3">{feature.title}</h3>
@@ -337,10 +337,10 @@ export default function Home() {
                 </div>
               ))
             ) : (newsData?.items ?? []).map((article) => (
-              <Link key={article.id} href={`/news/${article.slug}`} className="group border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
+              <Link key={article.id} href={`/news/${article.slug}`} className="border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
                 <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
                   {article.imageUrl ? (
-                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
                   ) : (
                     <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
                   )}
@@ -350,13 +350,13 @@ export default function Home() {
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2">
+                  <h3 className="font-display mb-3 text-foreground line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-1">
                     {article.excerpt || "Read more about our latest developments and news."}
                   </p>
-                  <span className="text-accent font-bold flex items-center group-hover:gap-3 transition-all">
+                  <span className="text-accent font-bold flex items-center">
                     Read More <ArrowRight size={16} className="ml-1" />
                   </span>
                 </div>

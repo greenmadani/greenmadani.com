@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -125,19 +125,28 @@ function AdminInquiriesPage() {
   );
 }
 
+function ScrollToTop() {
+  const [location] = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [location]);
+  return null;
+}
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/admin">
-        <AdminRoutes />
-      </Route>
-      <Route path="/admin/:rest*">
-        <AdminRoutes />
-      </Route>
-      <Route>
-        <PublicRoutes />
-      </Route>
-    </Switch>
+    <>
+      <ScrollToTop />
+      <Switch>
+        <Route path="/admin">
+          <AdminRoutes />
+        </Route>
+        <Route path="/admin/:rest*">
+          <AdminRoutes />
+        </Route>
+        <Route>
+          <PublicRoutes />
+        </Route>
+      </Switch>
+    </>
   );
 }
 

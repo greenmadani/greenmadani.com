@@ -330,8 +330,8 @@
   cursor: pointer;
 }
 .lift-hover:hover {
-  translate: 0 -2px;
-  box-shadow: 0 8px 30px oklch(0 0 0 / 0.08);
+  translate: 0 -4px;
+  box-shadow: 0 12px 40px oklch(0 0 0 / 0.1);
 }
 
 @utility link-underline {

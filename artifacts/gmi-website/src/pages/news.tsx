@@ -60,10 +60,10 @@ export default function News() {
             </div>
           ) : (
             newsData?.items.map((article) => (
-              <Link key={article.id} href={`/news/${article.slug}`} className="group border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
+              <Link key={article.id} href={`/news/${article.slug}`} className="border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
                 <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
                   {article.imageUrl ? (
-                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
                   ) : (
                     <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
                   )}
@@ -73,13 +73,13 @@ export default function News() {
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display mb-3 text-foreground group-hover:text-accent transition-colors line-clamp-2 leading-tight">
+                  <h3 className="font-display mb-3 text-foreground line-clamp-2 leading-tight">
                     {article.title}
                   </h3>
                   <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-3">
                     {article.excerpt || "Read more about our latest developments and news."}
                   </p>
-                  <span className="text-accent font-bold flex items-center group-hover:gap-3 transition-all mt-auto">
+                  <span className="text-accent font-bold flex items-center mt-auto">
                     Read Article <ArrowRight size={16} className="ml-1" />
                   </span>
                 </div>
