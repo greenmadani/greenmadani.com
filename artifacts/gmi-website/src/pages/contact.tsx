@@ -123,6 +123,7 @@ export default function Contact() {
                 <div>
                   <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
                   <p className="text-white/80">info@greenmadani.com</p>
+                  <p className="text-white/80">greenmadaniinternational2026@gmail.com</p>
                 </div>
               </div>
 
