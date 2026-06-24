@@ -43,15 +43,15 @@ export default function About() {
       <AnimatedSection animation="fade-up">
       <section className="py-20 bg-muted">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="bg-white p-10 border-t-4 border-primary shadow-sm">
-              <h3 className="font-display text-primary mb-3 uppercase tracking-wide">Our Vision</h3>
+          <div className="grid md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+            <div className="bg-white p-8 border-t-4 border-primary shadow-sm">
+              <h3 className="font-display text-primary mb-2 uppercase tracking-wide">Our Vision</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
                 "To become Bangladesh's most diversified industrial group by 2030, while establishing a strong presence in international markets through innovation, sustainability, and integrated business excellence."
               </p>
             </div>
-            <div className="bg-white p-10 border-t-4 border-accent shadow-sm">
-              <h3 className="font-display text-accent mb-3 uppercase tracking-wide">Our Mission</h3>
+            <div className="bg-white p-8 border-t-4 border-accent shadow-sm">
+              <h3 className="font-display text-accent mb-2 uppercase tracking-wide">Our Mission</h3>
               <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
                 "To deliver quality, innovation, and large-scale employment across all 12 of our business verticals — building a better Bangladesh through ethical, sustainable, and technology-driven growth."
               </p>
@@ -68,7 +68,7 @@ export default function About() {
           <div className="text-center mb-16">
             <SectionHeader title="Our Core Values" />
           </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 animate-stagger">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 animate-stagger">
             {[
               { icon: Award, title: "Quality", desc: "We never compromise on the standards of our products and services." },
               { icon: Cog, title: "Innovation", desc: "We invest in R&D and modern technology to lead, not follow, our industries." },
@@ -78,11 +78,11 @@ export default function About() {
             ].map((value, i) => {
               const Icon = value.icon;
               return (
-                <div key={i} className="bg-background p-6 text-center border border-border card-hover">
-                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                    <Icon size={24} className="text-primary" />
+                <div key={i} className="bg-background p-4 text-center border border-border card-hover">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                    <Icon size={20} className="text-primary" />
                   </div>
-                  <h4 className="font-display mb-2 text-foreground">{value.title}</h4>
+                  <h4 className="font-display mb-1 text-foreground">{value.title}</h4>
                   <p className="text-muted-foreground text-sm">{value.desc}</p>
                 </div>
               );

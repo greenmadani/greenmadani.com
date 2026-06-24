@@ -55,7 +55,7 @@ export default function Home() {
 
         {/* Stats */}
         <div className="container mx-auto px-4 mt-20 md:mt-24 relative z-10">
-          <div className="border-t border-white/10 pt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="border-t border-white/10 pt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatDisplay value={stats?.subsidiaries || "12"} label="Subsidiaries" className="card-hover" />
             <StatDisplay value={stats?.products ? `${stats.products}+` : "170+"} label="Products" className="card-hover" />
             <StatDisplay value={stats?.districtsCovered || "42"} label="Districts Covered" className="card-hover" />
@@ -81,9 +81,9 @@ export default function Home() {
                   With operations across 42 districts and a growing network of distribution points, GMI connects farmers, manufacturers, and consumers through a fully integrated farm-to-shelf model. Our mission extends beyond profit — we aim to build a better Bangladesh through quality, innovation, and large-scale employment opportunities.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 {[{title:"Quality", icon: Award, desc:"We maintain uncompromising standards across every product and service we deliver."}, {title:"Innovation", icon: Cog, desc:"We embrace modern technology and American-formula R&D to stay ahead of industry needs."}, {title:"Integrity", icon: Handshake, desc:"We operate with transparency and honesty in every business relationship."}, {title:"Sustainability", icon: Leaf, desc:"We are committed to 100% safe soil, healthy crops, and zero harmful chemicals."}].map((val) => (
-                  <div key={val.title} className="flex flex-col gap-1 bg-muted p-3 font-semibold text-primary card-hover">
+                  <div key={val.title} className="flex flex-col gap-1 bg-muted p-2 font-semibold text-primary card-hover">
                     <div className="flex items-center gap-3">
                       <val.icon size={20} className="text-accent shrink-0" />
                       {val.title}
@@ -141,7 +141,7 @@ export default function Home() {
               align="center"
               className="[&_h2]:text-white [&_span]:text-accent"
             />
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-12">
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden rounded-sm">
@@ -155,8 +155,8 @@ export default function Home() {
                         </span>
                       </div>
                     </div>
-                    <div className="p-4 flex flex-col items-center text-center flex-1">
-                      <h3 className="font-display text-white mb-2 leading-snug">{sub.name}</h3>
+                    <div className="p-3 flex flex-col items-center text-center flex-1">
+                      <h3 className="font-display text-white mb-1 leading-snug">{sub.name}</h3>
                       <p className="text-white/60 text-sm leading-relaxed flex-1">{sub.desc}</p>
                       <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70">
                         Learn More →
@@ -199,13 +199,13 @@ export default function Home() {
               <Button variant="outline">Beverage</Button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-stagger">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
               {loadingProducts ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
                     <Skeleton className="w-full h-64" />
-                    <div className="p-6">
-                      <Skeleton className="w-20 h-6 mb-4" />
+                    <div className="p-4">
+                      <Skeleton className="w-20 h-6 mb-3" />
                       <Skeleton className="w-full h-8 mb-2" />
                       <Skeleton className="w-2/3 h-4" />
                     </div>
@@ -221,12 +221,12 @@ export default function Home() {
                         <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted"><ShoppingBag size={48} className="opacity-20" /></div>
                       )}
                     </div>
-                    <div className="p-4 flex-1 flex flex-col">
-                      <span className="inline-block bg-accent/10 text-accent font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-3 self-start">
+                    <div className="p-3 flex-1 flex flex-col">
+                      <span className="inline-block bg-accent/10 text-accent font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-2 self-start">
                         {product.category}
                       </span>
-                      <h3 className="font-display mb-2 text-foreground">{product.name}</h3>
-                      <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-3">{product.description}</p>
+                      <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
+                      <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-3">{product.description}</p>
                       <Link href={`/products/${product.id}`}>
                         <Button variant="outline" size="lg" className="w-full">
                           View Details
@@ -252,7 +252,7 @@ export default function Home() {
             align="center"
             className="[&_h2]:text-white [&_p]:text-white/70"
           />
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
             {[
               { icon: Award, title: "Vertical Integration", desc: "Our farm-to-shelf model eliminates middlemen, ensuring better margins and consistent quality at every step." },
               { icon: Building2, title: "Diversified Strength", desc: "Operating across 12 sectors means stability — we're never dependent on a single market or industry." },
@@ -261,11 +261,11 @@ export default function Home() {
             ].map((feature, i) => {
               const Icon = feature.icon;
               return (
-                <div key={i} className="glass-card card-hover text-center p-6">
-                  <div className="w-14 h-14 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon size={28} className="text-accent-foreground" />
+                <div key={i} className="glass-card card-hover text-center p-4">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Icon size={24} className="text-accent-foreground" />
                   </div>
-                  <h3 className="font-display mb-2">{feature.title}</h3>
+                  <h3 className="font-display mb-1">{feature.title}</h3>
                   <p className="text-white/70 text-sm">{feature.desc}</p>
                 </div>
               );
@@ -286,17 +286,17 @@ export default function Home() {
           <h2 className="font-display italic mb-12 max-w-4xl min-w-[280px] mx-auto text-white">
             "Growing with Nature,<br />Building for Generations"
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto animate-stagger">
             <div className="glass-dark p-4 card-hover">
-              <div className="text-4xl font-bold text-white mb-2">100%</div>
+              <div className="text-4xl font-bold text-white mb-1">100%</div>
               <div className="text-sm uppercase tracking-widest font-semibold text-accent">Safe Soil Initiative</div>
             </div>
             <div className="glass-dark p-4 card-hover">
-              <div className="text-4xl font-bold text-white mb-2">42</div>
+              <div className="text-4xl font-bold text-white mb-1">42</div>
               <div className="text-sm uppercase tracking-widest font-semibold text-accent">Districts Covered</div>
             </div>
             <div className="glass-dark p-4 card-hover">
-              <div className="text-4xl font-bold text-white mb-2">70+</div>
+              <div className="text-4xl font-bold text-white mb-1">70+</div>
               <div className="text-sm uppercase tracking-widest font-semibold text-accent">High-Yield Seeds</div>
             </div>
           </div>
@@ -323,15 +323,15 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-stagger">
             {loadingNews ? (
                Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
                   <Skeleton className="w-full h-48" />
-                  <div className="p-4">
-                    <Skeleton className="w-24 h-4 mb-2" />
+                  <div className="p-3">
+                    <Skeleton className="w-24 h-4 mb-1" />
+                    <Skeleton className="w-full h-6 mb-1" />
                     <Skeleton className="w-full h-6 mb-2" />
-                    <Skeleton className="w-full h-6 mb-3" />
                     <Skeleton className="w-2/3 h-4" />
                   </div>
                 </div>
@@ -345,15 +345,15 @@ export default function Home() {
                     <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
                   )}
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-2">
+                <div className="p-3 flex flex-col flex-1">
+                  <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1">
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display mb-2 text-foreground line-clamp-2">
+                  <h3 className="font-display mb-1 text-foreground line-clamp-2">
                     {article.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-3 flex-1">
+                  <p className="text-muted-foreground text-sm mb-2 line-clamp-3 flex-1">
                     {article.excerpt || "Read more about our latest developments and news."}
                   </p>
                   <span className="text-accent font-bold flex items-center">

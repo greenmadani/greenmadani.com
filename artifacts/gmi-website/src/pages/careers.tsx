@@ -98,7 +98,7 @@ export default function Careers() {
       <AnimatedSection animation="fade-up">
       <section className="py-16 -mt-10 relative z-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 animate-stagger">
             {[
               { icon: Heart, title: "Attractive Compensation", desc: "Competitive salary plus allowance, with performance-based annual increments." },
               { icon: Cog, title: "Festival Bonuses", desc: "Half-salary bonus twice a year during Eid celebrations." },
@@ -107,9 +107,9 @@ export default function Careers() {
             ].map((b, i) => {
               const Icon = b.icon;
               return (
-                <div key={i} className="bg-white p-6 border border-border shadow-sm text-center">
-                  <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
-                    <Icon size={20} className="text-primary" />
+                <div key={i} className="bg-white p-4 border border-border shadow-sm text-center">
+                  <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Icon size={18} className="text-primary" />
                   </div>
                   <h3 className="font-display text-foreground mb-1">{b.title}</h3>
                   <p className="text-muted-foreground text-sm">{b.desc}</p>
@@ -166,7 +166,7 @@ export default function Careers() {
       <section className="py-16 bg-muted border-y border-border">
         <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="font-display text-foreground text-center mb-8">How to Apply</h2>
-          <div className="bg-white p-6 md:p-10 shadow-sm border border-border">
+          <div className="bg-white p-4 md:p-8 shadow-sm border border-border">
             <p className="text-muted-foreground mb-6">
               Bring 2 copies of your photo, NID copy, Chairman certificate, and updated CV for direct interview.
             </p>

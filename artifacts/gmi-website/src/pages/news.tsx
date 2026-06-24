@@ -40,15 +40,15 @@ export default function News() {
         />
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-stagger">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
                 <Skeleton className="w-full h-48" />
-                <div className="p-6">
-                  <Skeleton className="w-24 h-4 mb-3" />
-                  <Skeleton className="w-full h-6 mb-2" />
-                  <Skeleton className="w-full h-6 mb-4" />
+<div className="p-4">
+                    <Skeleton className="w-24 h-4 mb-2" />
+                    <Skeleton className="w-full h-6 mb-1" />
+                    <Skeleton className="w-full h-6 mb-3" />
                   <Skeleton className="w-2/3 h-4" />
                 </div>
               </div>
@@ -68,15 +68,15 @@ export default function News() {
                     <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
                   )}
                 </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <div className="flex items-center justify-between text-xs font-bold text-muted-foreground tracking-widest uppercase mb-2">
+                <div className="p-3 flex flex-col flex-1">
+                  <div className="flex items-center justify-between text-xs font-bold text-muted-foreground tracking-widest uppercase mb-1">
                     <span className="text-accent">{article.category}</span>
                     <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
                   </div>
-                  <h3 className="font-display mb-2 text-foreground line-clamp-2 leading-tight">
+                  <h3 className="font-display mb-1 text-foreground line-clamp-2 leading-tight">
                     {article.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-3">
+                  <p className="text-muted-foreground text-sm mb-2 flex-1 line-clamp-3">
                     {article.excerpt || "Read more about our latest developments and news."}
                   </p>
                   <span className="text-accent font-bold flex items-center mt-auto">

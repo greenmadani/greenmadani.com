@@ -81,13 +81,13 @@ export default function Products() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-stagger">
           {loadingProducts ? (
             Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="border border-border shadow-sm flex flex-col h-full">
                 <Skeleton className="w-full h-56" />
-                <div className="p-6">
-                  <Skeleton className="w-20 h-6 mb-4" />
+<div className="p-4">
+                      <Skeleton className="w-20 h-6 mb-3" />
                   <Skeleton className="w-full h-6 mb-2" />
                   <Skeleton className="w-2/3 h-4 mb-6" />
                   <Skeleton className="w-full h-10" />
@@ -112,12 +112,12 @@ export default function Products() {
                     </div>
                   )}
                 </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-2">
+                <div className="p-3 flex-1 flex flex-col">
+                  <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-1">
                     {product.category}
                   </span>
-                  <h3 className="font-display mb-2 text-foreground">{product.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-2">{product.description}</p>
+                  <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
+                  <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-2">{product.description}</p>
                   <Link href={`/products/${product.id}`}>
                     <Button variant="outline" className="w-full font-bold">
                       View Details
