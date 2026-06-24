@@ -21,16 +21,16 @@ export default function Sustainability() {
       <AnimatedSection animation="scale-in">
       <section className="relative -mt-16 z-20">
         <div className="container mx-auto px-4">
-          <div className="bg-white shadow-xl border-t-4 border-accent p-8 md:p-12 grid grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-8 card-hover">
+          <div className="bg-white shadow-xl border-t-4 border-accent p-6 md:p-10 grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-6 md:pb-0 md:pr-6 card-hover">
               <div className="text-5xl font-bold text-primary mb-2">42</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Districts Covered</div>
             </div>
-            <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-8 md:pl-4 card-hover">
+            <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-6 md:pb-0 md:pr-6 md:pl-3 card-hover">
               <div className="text-5xl font-bold text-primary mb-2">70+</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Seed Varieties</div>
             </div>
-            <div className="text-center md:text-left md:pl-4 card-hover">
+            <div className="text-center md:text-left md:pl-3 card-hover">
               <div className="text-5xl font-bold text-primary mb-2">100%</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Safe Soil Commitment</div>
             </div>
@@ -49,26 +49,26 @@ export default function Sustainability() {
           />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-stagger">
-            <div className="bg-muted p-10 border border-border card-hover">
-              <Leaf size={48} className="text-primary mb-6" />
-              <h3 className="font-display text-foreground mb-4">Sustainable Agriculture</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto animate-stagger">
+            <div className="bg-muted p-8 border border-border card-hover">
+              <Leaf size={40} className="text-primary mb-4" />
+              <h3 className="font-display text-foreground mb-3">Sustainable Agriculture</h3>
               <p className="text-muted-foreground leading-relaxed">
                 We promote organic fertilizers and American-formula natural pesticides over harmful chemicals — protecting soil health for future generations.
               </p>
             </div>
             
-            <div className="bg-muted p-10 border border-border card-hover">
-              <Tractor size={48} className="text-primary mb-6" />
-              <h3 className="font-display text-foreground mb-4">Farmer Development</h3>
+            <div className="bg-muted p-8 border border-border card-hover">
+              <Tractor size={40} className="text-primary mb-4" />
+              <h3 className="font-display text-foreground mb-3">Farmer Development</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Through training, fair pricing, and direct market access, we empower farmers as true partners in our supply chain — not just suppliers.
               </p>
             </div>
 
-            <div className="bg-muted p-10 border border-border card-hover">
-              <Droplets size={48} className="text-primary mb-6" />
-              <h3 className="font-display text-foreground mb-4">Environmental Responsibility</h3>
+            <div className="bg-muted p-8 border border-border card-hover">
+              <Droplets size={40} className="text-primary mb-4" />
+              <h3 className="font-display text-foreground mb-3">Environmental Responsibility</h3>
               <p className="text-muted-foreground leading-relaxed">
                 From water-conscious farming practices to reduced chemical runoff, every GMI product is designed with environmental impact in mind.
               </p>

@@ -97,7 +97,7 @@ export default function Contact() {
       <div className="container mx-auto px-4 -mt-16 relative z-20">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Info Column */}
-          <div className="bg-secondary text-white p-10 shadow-xl border-t-4 border-accent card-hover border border-border">
+          <div className="bg-secondary text-white p-8 shadow-xl border-t-4 border-accent card-hover border border-border">
             <h2 className="font-display mb-8">Corporate Headquarters</h2>
             
             <div className="space-y-8">
@@ -287,23 +287,23 @@ export default function Contact() {
       <section className="py-24 bg-white mt-12">
         <div className="container mx-auto px-4">
           <SectionHeader title="How can we help you grow?" align="center" />
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto animate-stagger">
             <Link href="/contact?type=partnership">
-              <div className="bg-muted p-8 text-center border border-transparent card-hover">
+              <div className="bg-muted p-6 text-center border border-transparent card-hover">
                 <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Business Partnership</span>
                 <h3 className="font-display mb-2 text-foreground">Partner With Us</h3>
                 <p className="text-muted-foreground text-sm">Interested in becoming a distributor or dealer? Let's discuss partnership opportunities.</p>
               </div>
             </Link>
             <Link href="/contact?type=distributor">
-              <div className="bg-muted p-8 text-center border border-transparent card-hover">
+              <div className="bg-muted p-6 text-center border border-transparent card-hover">
                 <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Product Inquiry</span>
                 <h3 className="font-display mb-2 text-foreground">Ask About Our Products</h3>
                 <p className="text-muted-foreground text-sm">Questions about Green Power Agro products or any of our 12 business verticals? Reach out.</p>
               </div>
             </Link>
             <Link href="/contact?type=investor">
-              <div className="bg-muted p-8 text-center border border-transparent card-hover">
+              <div className="bg-muted p-6 text-center border border-transparent card-hover">
                 <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Investment</span>
                 <h3 className="font-display mb-2 text-foreground">Investment Opportunities</h3>
                 <p className="text-muted-foreground text-sm">Explore how you can invest in Bangladesh's most diversified industrial group.</p>

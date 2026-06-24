@@ -81,7 +81,7 @@ export default function Products() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-stagger">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
           {loadingProducts ? (
             Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="border border-border shadow-sm flex flex-col h-full">
@@ -112,12 +112,12 @@ export default function Products() {
                     </div>
                   )}
                 </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-3">
+                <div className="p-4 flex-1 flex flex-col">
+                  <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-2">
                     {product.category}
                   </span>
-                  <h3 className="font-display mb-3 text-foreground">{product.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-2">{product.description}</p>
+                  <h3 className="font-display mb-2 text-foreground">{product.name}</h3>
+                  <p className="text-muted-foreground text-sm mb-4 flex-1 line-clamp-2">{product.description}</p>
                   <Link href={`/products/${product.id}`}>
                     <Button variant="outline" className="w-full font-bold">
                       View Details
