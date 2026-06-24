@@ -21,7 +21,7 @@ export default function Sustainability() {
       <AnimatedSection animation="scale-in">
       <section className="relative -mt-16 z-20">
         <div className="container mx-auto px-4">
-          <div className="bg-white shadow-xl border-t-4 border-accent p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white shadow-xl border-t-4 border-accent p-8 md:p-12 grid grid-cols-2 md:grid-cols-3 gap-8">
             <div className="text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-8 card-hover">
               <div className="text-5xl font-bold text-primary mb-2">42</div>
               <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Districts Covered</div>
@@ -49,7 +49,7 @@ export default function Sustainability() {
           />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-stagger">
             <div className="bg-muted p-10 border border-border card-hover">
               <Leaf size={48} className="text-primary mb-6" />
               <h3 className="font-display text-foreground mb-4">Sustainable Agriculture</h3>

@@ -287,7 +287,7 @@ export default function Contact() {
       <section className="py-24 bg-white mt-12">
         <div className="container mx-auto px-4">
           <SectionHeader title="How can we help you grow?" align="center" />
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-stagger">
             <Link href="/contact?type=partnership">
               <div className="bg-muted p-8 text-center border border-transparent card-hover">
                 <span className="text-accent font-bold tracking-widest uppercase text-xs mb-2 block">Business Partnership</span>

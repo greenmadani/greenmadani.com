@@ -98,7 +98,7 @@ export default function Careers() {
       <AnimatedSection animation="fade-up">
       <section className="py-16 -mt-10 relative z-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
             {[
               { icon: Heart, title: "Attractive Compensation", desc: "Competitive salary plus allowance, with performance-based annual increments." },
               { icon: Cog, title: "Festival Bonuses", desc: "Half-salary bonus twice a year during Eid celebrations." },

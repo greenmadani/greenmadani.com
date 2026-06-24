@@ -19,7 +19,7 @@ export default function Businesses() {
       <AnimatedSection animation="fade-up">
       <section className="py-24">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-stagger">
             {subsidiaries.map((sub, i) => (
               <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                 <div className="h-full flex flex-col bg-white border border-border shadow-sm card-hover overflow-hidden">

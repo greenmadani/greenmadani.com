@@ -68,7 +68,7 @@ export default function About() {
           <div className="text-center mb-16">
             <SectionHeader title="Our Core Values" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-stagger">
             {[
               { icon: Award, title: "Quality", desc: "We never compromise on the standards of our products and services." },
               { icon: Cog, title: "Innovation", desc: "We invest in R&D and modern technology to lead, not follow, our industries." },

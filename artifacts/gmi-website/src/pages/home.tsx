@@ -141,7 +141,7 @@ export default function Home() {
               align="center"
               className="[&_h2]:text-white [&_span]:text-accent"
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
               {subsidiaries.map((sub, i) => (
                 <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
                   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden rounded-sm">
@@ -199,7 +199,7 @@ export default function Home() {
               <Button variant="outline">Beverage</Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-stagger">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-stagger">
               {loadingProducts ? (
                 Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
@@ -252,7 +252,7 @@ export default function Home() {
             align="center"
             className="[&_h2]:text-white [&_p]:text-white/70"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-stagger">
             {[
               { icon: Award, title: "Vertical Integration", desc: "Our farm-to-shelf model eliminates middlemen, ensuring better margins and consistent quality at every step." },
               { icon: Building2, title: "Diversified Strength", desc: "Operating across 12 sectors means stability — we're never dependent on a single market or industry." },
@@ -286,7 +286,7 @@ export default function Home() {
           <h2 className="font-display italic mb-12 max-w-4xl min-w-[280px] mx-auto text-white">
             "Growing with Nature,<br />Building for Generations"
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12 max-w-4xl mx-auto animate-stagger">
             <div className="glass-dark p-6 card-hover">
               <div className="text-4xl font-bold text-white mb-2">100%</div>
               <div className="text-sm uppercase tracking-widest font-semibold text-accent">Safe Soil Initiative</div>
@@ -323,7 +323,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-stagger">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 animate-stagger">
             {loadingNews ? (
                Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
