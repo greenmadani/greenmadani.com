@@ -214,17 +214,15 @@ export default function Home() {
  ) :(
  (productsData?.items ?? []).map((product) => (
  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover">
- <div className="w-full h-64 bg-muted img-hover relative">
- {product.imageUrl ? (
- <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
- ) :(
- <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted"><ShoppingBag size={48} className="opacity-20" /></div>
- )}
- </div>
- <div className="p-3 flex-1 flex flex-col">
- <span className="inline-block bg-accent/10 text-accent font-semibold text-xs tracking-wider uppercase px-3 py-1 mb-2 self-start">
- {product.category}
- </span>
+      <div className="w-full h-64 bg-muted img-hover relative">
+      {product.imageUrl ? (
+        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted"><ShoppingBag size={48} className="opacity-20" /></div>
+      )}
+      <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{product.category}</span>
+      </div>
+      <div className="p-3 flex-1 flex flex-col">
  <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
  <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-3">{product.description}</p>
  <Link href={`/products/${product.id}`}>
@@ -336,20 +334,18 @@ export default function Home() {
  </div>
  </div>
  ))
- ) :(newsData?.items ?? []).map((article) => (
- <Link key={article.id} href={`/news/${article.slug}`} className="border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
- <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
- {article.imageUrl ? (
- <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
- ) :(
- <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
- )}
- </div>
- <div className="p-3 flex flex-col flex-1">
-  <div className="flex items-center justify-between text-[11px] md:text-xs font-semibold tracking-wider uppercase mb-1">
-  <span className="text-accent">{article.category}</span>
-  <span className="hidden md:inline text-foreground/60">{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
+  ) :(newsData?.items ?? []).map((article) => (
+  <Link key={article.id} href={`/news/${article.slug}`} className="border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
+  <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
+  {article.imageUrl ? (
+  <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover" loading="lazy" />
+  ) :(
+  <div className="w-full h-full bg-secondary flex items-center justify-center"><Tv className="text-white/20" size={48} /></div>
+  )}
+  <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{article.category}</span>
   </div>
+  <div className="p-3 flex flex-col flex-1">
+   <span className="hidden md:block text-[11px] md:text-xs font-semibold tracking-wider uppercase text-foreground/60 mb-1">{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
   <h3 className="font-display mb-1 text-foreground line-clamp-2">
  {article.title}
  </h3>

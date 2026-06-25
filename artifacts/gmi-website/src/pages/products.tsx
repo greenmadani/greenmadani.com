@@ -103,19 +103,17 @@ export default function Products() {
  ) :(
  filteredProducts?.map((product) => (
  <div key={product.id} className="border border-border card-hover flex flex-col h-full group">
- <div className="w-full h-56 bg-muted img-hover relative">
- {product.imageUrl ? (
- <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
- ) :(
- <div className="w-full h-full flex items-center justify-center text-muted-foreground">
- <ShoppingBasket size={48} className="opacity-20" />
- </div>
- )}
- </div>
- <div className="p-3 flex-1 flex flex-col">
- <span className="inline-block text-accent font-semibold text-xs tracking-wider uppercase mb-1">
- {product.category}
- </span>
+  <div className="w-full h-56 bg-muted img-hover relative">
+  {product.imageUrl ? (
+  <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+  ) :(
+  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+  <ShoppingBasket size={48} className="opacity-20" />
+  </div>
+  )}
+  <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{product.category}</span>
+  </div>
+  <div className="p-3 flex-1 flex flex-col">
  <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
  <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-2">{product.description}</p>
  <Link href={`/products/${product.id}`}>
