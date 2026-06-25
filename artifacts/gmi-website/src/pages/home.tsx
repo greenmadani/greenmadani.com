@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ShoppingBag, Building2, Cog, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,9 +16,22 @@ import { subsidiaries } from "@/data/subsidiaries";
 export default function Home() {
  const { data:stats } = useGetCompanyStats();
  
- const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:3 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:3 }) } });
- 
- const { data:newsData, isLoading:loadingNews } = useListNews({ limit:3 }, { query:{ queryKey:getListNewsQueryKey({ limit:3 }) } });
+  function shuffle<T>(array: T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+  }
+
+  const displaySubsidiaries = useMemo(() => shuffle(subsidiaries).slice(0, 4), []);
+
+  const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:8 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:8 }) } });
+  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 4) : [], [productsData]);
+  
+  const { data:newsData, isLoading:loadingNews } = useListNews({ limit:8 }, { query:{ queryKey:getListNewsQueryKey({ limit:8 }) } });
+  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 4) : [], [newsData]);
 
  return (
  <div className="w-full">
@@ -142,7 +156,7 @@ export default function Home() {
  className="[&_h2]:text-white [&_span]:text-accent"
  />
  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-6 md:mb-12">
- {subsidiaries.map((sub, i) => (
+  {displaySubsidiaries.map((sub, i) => (
  <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
  <div className="relative h-48 overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
@@ -199,9 +213,9 @@ export default function Home() {
  <Button variant="outline">Beverage</Button>
  </div>
 
- <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
- {loadingProducts ? (
- Array.from({ length:3 }).map((_, i) => (
+  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
+  {loadingProducts ? (
+  Array.from({ length:4 }).map((_, i) => (
  <div key={i} className="border border-border shadow-sm flex flex-col h-full">
  <Skeleton className="w-full h-64" />
  <div className="p-4">
@@ -211,8 +225,8 @@ export default function Home() {
  </div>
  </div>
  ))
- ) :(
- (productsData?.items ?? []).map((product) => (
+  ) :(
+  displayProducts.map((product) => (
  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover">
       <div className="w-full h-64 bg-muted img-hover relative">
       {product.imageUrl ? (
@@ -233,13 +247,21 @@ export default function Home() {
  </div>
  </div>
  ))
- )}
- </div>
- </div>
- </section>
- </AnimatedSection>
+  )}
+  </div>
 
- {/* Why Choose GMI */}
+  <div className="mt-8 text-center md:hidden">
+  <Link href="/products">
+  <Button variant="outline" size="lg" className="w-full">
+  View All Products <ArrowRight className="ml-2" />
+  </Button>
+  </Link>
+  </div>
+  </div>
+  </section>
+  </AnimatedSection>
+
+  {/* Why Choose GMI */}
  <AnimatedSection animation="fade-in">
  <section className="py-16 md:py-24 bg-primary text-white relative border-y-4 border-accent overflow-hidden">
  <AnimatedBackground />
@@ -321,9 +343,9 @@ export default function Home() {
  </Link>
  </div>
 
- <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-stagger">
- {loadingNews ? (
- Array.from({ length:3 }).map((_, i) => (
+  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-stagger">
+  {loadingNews ? (
+  Array.from({ length:4 }).map((_, i) => (
  <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
  <Skeleton className="w-full h-48" />
  <div className="p-3">
@@ -334,7 +356,7 @@ export default function Home() {
  </div>
  </div>
  ))
-  ) :(newsData?.items ?? []).map((article) => (
+   ) :displayNews.map((article) => (
   <Link key={article.id} href={`/news/${article.slug}`} className="border-t-4 border-accent bg-white shadow-sm card-hover flex flex-col h-full">
   <div className="w-full h-48 bg-muted img-hover relative overflow-hidden">
   {article.imageUrl ? (
