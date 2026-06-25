@@ -532,7 +532,7 @@ export function Layout({ children }:{ children:ReactNode }) {
  </li>
  <li className="flex items-center gap-3">
  <Mail size={18} className="shrink-0 text-accent" />
- <span>{s?.email || "info@greenmadani.com"}</span>
+ <span>{s?.email || "greenmadaniinternational2026@gmail.com"}</span>
  </li>
  </ul>
  </div>
