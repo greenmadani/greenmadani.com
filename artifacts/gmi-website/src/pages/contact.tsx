@@ -142,8 +142,8 @@ export default function Contact() {
  <div className="lg:col-span-2 bg-background p-6 md:p-10 border border-gray-100 shadow-sm">
  <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
  <TabsList className="grid w-full grid-cols-2 mb-4 md:mb-8 bg-gray-200 h-12 p-1">
- <TabsTrigger value="general" className="font-bold data-[state=active]:bg-white data-[state=active]:text-primary">General Inquiry</TabsTrigger>
- <TabsTrigger value="business" className="font-bold data-[state=active]:bg-primary data-[state=active]:text-white">Business / Partnership</TabsTrigger>
+  <TabsTrigger value="general" className="font-bold data-[state=active]:bg-white data-[state=active]:text-primary text-xs md:text-sm whitespace-normal">General Inquiry</TabsTrigger>
+  <TabsTrigger value="business" className="font-bold data-[state=active]:bg-primary data-[state=active]:text-white text-xs md:text-sm whitespace-normal">Business / Partnership</TabsTrigger>
  </TabsList>
  
  <TabsContent value="general">
