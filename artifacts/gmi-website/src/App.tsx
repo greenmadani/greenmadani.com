@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -46,20 +47,19 @@ function SuspenseWrapper({ component:Component }:{ component:React.LazyExoticCom
 }
 
 function AnimatedPage({ component:Component }:{ component:React.LazyExoticComponent<any> }) {
- const [location] = useLocation();
- return (
- <AnimatePresence mode="wait">
- <motion.div
- key={location}
- initial={{ opacity:0, y:12 }}
- animate={{ opacity:1, y:0 }}
- exit={{ opacity:0, y:-12 }}
- transition={{ duration:0.25, ease:"easeInOut" }}
- >
- <SuspenseWrapper component={Component} />
- </motion.div>
- </AnimatePresence>
- );
+  const [location] = useLocation();
+  return (
+  <motion.div
+  key={location}
+  initial={{ opacity:0, y:12 }}
+  animate={{ opacity:1, y:0 }}
+  transition={{ duration:0.25, ease:"easeInOut" }}
+  >
+  <ErrorBoundary>
+  <SuspenseWrapper component={Component} />
+  </ErrorBoundary>
+  </motion.div>
+  );
 }
 
 const queryClient = new QueryClient();
@@ -126,9 +126,11 @@ function AdminInquiriesPage() {
 }
 
 function ScrollToTop() {
- const [location] = useLocation();
- useEffect(() => { window.scrollTo(0, 0); }, [location]);
- return null;
+  const [location] = useLocation();
+  useEffect(() => {
+  requestAnimationFrame(() => window.scrollTo(0, 0));
+  }, [location]);
+  return null;
 }
 
 function Router() {
@@ -151,16 +153,18 @@ function Router() {
 }
 
 function App() {
- return (
- <QueryClientProvider client={queryClient}>
- <TooltipProvider>
- <WouterRouter base={import.meta.env.BASE_URL?.replace(/\/$/, "") || ""}>
- <Router />
- </WouterRouter>
- <Toaster />
- </TooltipProvider>
- </QueryClientProvider>
- );
+  return (
+  <ErrorBoundary>
+  <QueryClientProvider client={queryClient}>
+  <TooltipProvider>
+  <WouterRouter base={import.meta.env.BASE_URL?.replace(/\/$/, "") || ""}>
+  <Router />
+  </WouterRouter>
+  <Toaster />
+  </TooltipProvider>
+  </QueryClientProvider>
+  </ErrorBoundary>
+  );
 }
 
 export default App;
