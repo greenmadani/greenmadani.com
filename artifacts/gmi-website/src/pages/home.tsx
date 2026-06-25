@@ -25,13 +25,13 @@ export default function Home() {
   return result;
   }
 
-  const displaySubsidiaries = useMemo(() => shuffle(subsidiaries).slice(0, 4), []);
+  const displaySubsidiaries = useMemo(() => shuffle(subsidiaries).slice(0, 6), []);
 
   const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:8 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:8 }) } });
-  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 4) : [], [productsData]);
+  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 6) : [], [productsData]);
   
   const { data:newsData, isLoading:loadingNews } = useListNews({ limit:8 }, { query:{ queryKey:getListNewsQueryKey({ limit:8 }) } });
-  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 4) : [], [newsData]);
+  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 6) : [], [newsData]);
 
  return (
  <div className="w-full">
@@ -155,7 +155,7 @@ export default function Home() {
  align="center"
  className="[&_h2]:text-white [&_span]:text-accent"
  />
- <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-6 md:mb-12">
+  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6 md:mb-12">
   {displaySubsidiaries.map((sub, i) => (
  <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
@@ -215,9 +215,9 @@ export default function Home() {
 
   <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
   {loadingProducts ? (
-  Array.from({ length:4 }).map((_, i) => (
- <div key={i} className="border border-border shadow-sm flex flex-col h-full">
- <Skeleton className="w-full h-64" />
+  Array.from({ length:6 }).map((_, i) => (
+  <div key={i} className="border border-border shadow-sm flex flex-col h-full">
+  <Skeleton className="w-full h-64" />
  <div className="p-4">
  <Skeleton className="w-20 h-6 mb-3" />
  <Skeleton className="w-full h-8 mb-2" />
@@ -345,8 +345,8 @@ export default function Home() {
 
   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-stagger">
   {loadingNews ? (
-  Array.from({ length:4 }).map((_, i) => (
- <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
+  Array.from({ length:6 }).map((_, i) => (
+  <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
  <Skeleton className="w-full h-48" />
  <div className="p-3">
  <Skeleton className="w-24 h-4 mb-1" />
