@@ -346,10 +346,10 @@ export default function Home() {
  )}
  </div>
  <div className="p-3 flex flex-col flex-1">
- <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1">
- <span className="text-accent">{article.category}</span>
- <span>{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
- </div>
+  <div className="flex items-center justify-between text-[11px] md:text-xs font-semibold tracking-wider uppercase mb-1">
+  <span className="text-accent">{article.category}</span>
+  <span className="text-foreground/60">{format(new Date(article.publishedAt), 'MMM dd, yyyy')}</span>
+  </div>
  <h3 className="font-display mb-1 text-foreground line-clamp-2">
  {article.title}
  </h3>
