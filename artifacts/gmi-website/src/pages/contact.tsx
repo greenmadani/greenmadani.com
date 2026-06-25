@@ -97,7 +97,7 @@ export default function Contact() {
  <div className="container mx-auto px-4 -mt-16 relative z-20">
  <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
  {/* Info Column */}
- <div className="bg-secondary text-white p-6 shadow-xl border-t-4 border-accent card-hover border border-border">
+  <div className="bg-secondary text-white p-4 md:p-6 shadow-xl border-t-4 border-accent">
  <h2 className="font-display mb-6">Corporate Headquarters</h2>
  
  <div className="space-y-4 md:space-y-8">
