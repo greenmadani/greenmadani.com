@@ -27,11 +27,11 @@ export default function Home() {
 
   const displaySubsidiaries = useMemo(() => shuffle(subsidiaries).slice(0, 6), []);
 
-  const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:8 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:8 }) } });
-  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 6) : [], [productsData]);
+  const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:12 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:12 }) } });
+  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
   
-  const { data:newsData, isLoading:loadingNews } = useListNews({ limit:8 }, { query:{ queryKey:getListNewsQueryKey({ limit:8 }) } });
-  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 6) : [], [newsData]);
+  const { data:newsData, isLoading:loadingNews } = useListNews({ limit:12 }, { query:{ queryKey:getListNewsQueryKey({ limit:12 }) } });
+  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 8) : [], [newsData]);
 
  return (
  <div className="w-full">
@@ -213,9 +213,9 @@ export default function Home() {
  <Button variant="outline">Beverage</Button>
  </div>
 
-  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
   {loadingProducts ? (
-  Array.from({ length:6 }).map((_, i) => (
+  Array.from({ length:8 }).map((_, i) => (
   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
   <Skeleton className="w-full h-64" />
  <div className="p-4">
@@ -343,9 +343,9 @@ export default function Home() {
  </Link>
  </div>
 
-  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-stagger">
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
   {loadingNews ? (
-  Array.from({ length:6 }).map((_, i) => (
+  Array.from({ length:8 }).map((_, i) => (
   <div key={i} className="flex flex-col h-full border-t-4 border-accent bg-white shadow-sm">
  <Skeleton className="w-full h-48" />
  <div className="p-3">
