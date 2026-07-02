@@ -11,10 +11,11 @@ import { SectionHeader } from "@/components/section-header";
 import { StatDisplay } from "@/components/stat-display";
 import { AnimatedSection } from "@/components/animated-section";
 import { CTASection } from "@/components/cta-section";
-import { subsidiaries } from "@/data/subsidiaries";
+import { useBusinessesList } from "@/lib/businesses";
 
 export default function Home() {
  const { data:stats } = useGetCompanyStats();
+ const { data: businessData, isLoading: loadingBusinesses } = useBusinessesList();
  
   function shuffle<T>(array: T[]): T[] {
   const result = [...array];
@@ -25,7 +26,7 @@ export default function Home() {
   return result;
   }
 
-  const displaySubsidiaries = useMemo(() => shuffle(subsidiaries).slice(0, 6), []);
+  const displaySubsidiaries = useMemo(() => businessData ? shuffle(businessData).slice(0, 6) : [], [businessData]);
 
   const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:12 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:12 }) } });
   const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
@@ -156,30 +157,42 @@ export default function Home() {
  className="[&_h2]:text-white [&_span]:text-accent"
  />
   <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6 md:mb-12">
-  {displaySubsidiaries.map((sub, i) => (
- <Link key={i} href={`/businesses/${sub.slug}`} className="group block">
- <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
- <div className="relative h-48 overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
- <img src={sub.image} alt={sub.name} className="w-full h-full object-cover" style={{ willChange:'transform' }} loading="lazy" />
- <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
- <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
- <div className="absolute bottom-3 left-3 right-3">
- <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 inline-block">
- Explore {sub.name}
- </span>
- </div>
- </div>
- <div className="p-3 flex flex-col items-center text-center flex-1">
- <h3 className="font-display text-white mb-1 leading-snug">{sub.name}</h3>
- <p className="text-white/60 text-sm leading-relaxed flex-1">{sub.desc}</p>
- <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70">
- Learn More →
- </span>
- </div>
- </div>
- </Link>
- ))}
- </div>
+  {loadingBusinesses ? (
+  Array.from({ length: 6 }).map((_, i) => (
+  <div key={i} className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden">
+  <Skeleton className="h-48 w-full bg-white/10" />
+  <div className="p-3 space-y-2">
+  <Skeleton className="h-5 w-3/4 bg-white/10" />
+  <Skeleton className="h-4 w-full bg-white/10" />
+  </div>
+  </div>
+  ))
+  ) : displaySubsidiaries.length === 0 ? null : (
+  displaySubsidiaries.map((sub, i) => (
+  <Link key={sub.slug} href={`/businesses/${sub.slug}`} className="group block">
+  <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
+  <div className="relative h-48 overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
+  <img src={sub.imageUrl ?? "/images/businesses/placeholder.svg"} alt={sub.name} className="w-full h-full object-cover" style={{ willChange:'transform' }} loading="lazy" />
+  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+  <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
+  <div className="absolute bottom-3 left-3 right-3">
+  <span className="text-white/90 text-xs font-medium tracking-wide bg-black/40 backdrop-blur-sm px-3 py-1.5 inline-block">
+  Explore {sub.name}
+  </span>
+  </div>
+  </div>
+  <div className="p-3 flex flex-col items-center text-center flex-1">
+  <h3 className="font-display text-white mb-1 leading-snug">{sub.name}</h3>
+  <p className="text-white/60 text-sm leading-relaxed flex-1">{sub.description}</p>
+  <span className="mt-5 text-xs font-semibold tracking-widest uppercase text-accent/70">
+  Learn More →
+  </span>
+  </div>
+  </div>
+  </Link>
+  ))
+  )}
+  </div>
  <div className="text-center">
  <Link href="/businesses">
  <Button variant="secondary" size="lg">

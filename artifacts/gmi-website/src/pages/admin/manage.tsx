@@ -22,7 +22,7 @@ interface Entity {
  [key:string]:any;
 }
 
-type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image"; options?:{ value:string; label:string }[] };
+type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image" | "array"; options?:{ value:string; label:string }[] };
 
 const PAGE_SIZE = 15;
 
@@ -36,6 +36,7 @@ const businessFields:FormField[] = [
  { key:"colorAccent", label:"Color Accent", type:"text" },
  { key:"featured", label:"Featured", type:"switch" },
  { key:"order", label:"Order", type:"number" },
+ { key:"services", label:"Services (one per line)", type:"array" },
  { key:"targetAudience", label:"Target Audience", type:"text" },
  { key:"website", label:"Website", type:"text" },
  { key:"status", label:"Status", type:"select", options:[{ value:"active", label:"Active" }, { value:"inactive", label:"Inactive" }] },
@@ -116,11 +117,12 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
  setOpen(true);
  }
 
- async function save() {
- const body = { ...edit };
- for (const f of fields) {
- if (f.type === "number") body[f.key] = Number(body[f.key]) || 0;
- }
+  async function save() {
+  const body = { ...edit };
+  for (const f of fields) {
+  if (f.type === "number") body[f.key] = Number(body[f.key]) || 0;
+  if (f.type === "array") body[f.key] = typeof body[f.key] === "string" ? body[f.key].split("\n").filter(Boolean) : (body[f.key] ?? []);
+  }
  try {
  const result = editingId
  ? await adminApi.put(`${endpoint}/${editingId}`, body)
@@ -254,79 +256,87 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
  <DialogTitle>{editingId ? `Edit ${title.slice(0, -1)}` :`New ${title.slice(0, -1)}`}</DialogTitle>
  </DialogHeader>
  <div className="space-y-4 py-4">
- {fields.map((f) => (
- <div key={f.key}>
- <Label>{f.label}</Label>
- {f.type === "textarea" ? (
- <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
- ) :f.type === "switch" ? (
- <div className="mt-1">
- <Switch checked={edit[f.key] ?? false} onCheckedChange={(v) => setEdit({ ...edit, [f.key]:v })} />
- </div>
- ) :f.type === "select" ? (
- <select
- className="flex h-10 w-full border border-input bg-background px-3 py-2 text-sm mt-1"
- value={edit[f.key] ?? ""}
- onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
- >
- <option value="">Select...</option>
- {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
- </select>
- ) :f.type === "image" ? (
- <div className="mt-1 space-y-3">
- {edit[f.key] && (
- <div className="flex items-center gap-3 p-3 bg-muted border">
- <img src={edit[f.key]} alt="Preview" className="h-16 w-16 object-cover border" />
- <div className="flex-1 min-w-0">
- <p className="text-xs text-muted-foreground truncate">{edit[f.key]}</p>
- <button
- className="text-xs text-destructive hover:underline mt-1"
- onClick={() => setEdit({ ...edit, [f.key]:"" })}
- >
- Remove
- </button>
- </div>
- </div>
- )}
- <div className="flex gap-2">
- <div className="flex-1">
- <FileUpload onUpload={(url) => setEdit({ ...edit, [f.key]:url })} accept="image/*" />
- </div>
- <Button
- variant="outline"
- size="sm"
- className="h-10 shrink-0"
- onClick={() => setBrowseField(f.key)}
- >
- <ImageIcon className="h-4 w-4 mr-1" />
- Browse
- </Button>
- </div>
- <div className="relative">
- <span className="text-xs text-muted-foreground absolute -top-2 left-3 bg-background px-1">or paste URL</span>
- <Input
- value={edit[f.key] ?? ""}
- onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
- placeholder="https://..."
- className="h-8 text-xs pt-3"
- />
- </div>
- <MediaBrowser
- open={browseField === f.key}
- onOpenChange={(open) => { if (!open) setBrowseField(null); }}
- onSelect={(url) => { setEdit({ ...edit, [f.key]:url }); setBrowseField(null); }}
- />
- </div>
- ) :(
- <Input
- type={f.type === "number" ? "number" :"text"}
- value={edit[f.key] ?? ""}
- onChange={(e) => setEdit({ ...edit, [f.key]:f.type === "number" ? Number(e.target.value) :e.target.value })}
- className="mt-1"
- />
- )}
- </div>
- ))}
+  {fields.map((f) => (
+  <div key={f.key}>
+  <Label>{f.label}</Label>
+  {f.type === "textarea" ? (
+  <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
+  ) :f.type === "array" ? (
+  <Textarea
+  value={Array.isArray(edit[f.key]) ? (edit[f.key] as string[]).join("\n") : (edit[f.key] ?? "")}
+  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
+  className="mt-1 font-mono text-xs"
+  rows={6}
+  placeholder="Enter one item per line..."
+  />
+  ) :f.type === "switch" ? (
+  <div className="mt-1">
+  <Switch checked={edit[f.key] ?? false} onCheckedChange={(v) => setEdit({ ...edit, [f.key]:v })} />
+  </div>
+  ) :f.type === "select" ? (
+  <select
+  className="flex h-10 w-full border border-input bg-background px-3 py-2 text-sm mt-1"
+  value={edit[f.key] ?? ""}
+  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
+  >
+  <option value="">Select...</option>
+  {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+  </select>
+  ) :f.type === "image" ? (
+  <div className="mt-1 space-y-3">
+  {edit[f.key] && (
+  <div className="flex items-center gap-3 p-3 bg-muted border">
+  <img src={edit[f.key]} alt="Preview" className="h-16 w-16 object-cover border" />
+  <div className="flex-1 min-w-0">
+  <p className="text-xs text-muted-foreground truncate">{edit[f.key]}</p>
+  <button
+  className="text-xs text-destructive hover:underline mt-1"
+  onClick={() => setEdit({ ...edit, [f.key]:"" })}
+  >
+  Remove
+  </button>
+  </div>
+  </div>
+  )}
+  <div className="flex gap-2">
+  <div className="flex-1">
+  <FileUpload onUpload={(url) => setEdit({ ...edit, [f.key]:url })} accept="image/*" />
+  </div>
+  <Button
+  variant="outline"
+  size="sm"
+  className="h-10 shrink-0"
+  onClick={() => setBrowseField(f.key)}
+  >
+  <ImageIcon className="h-4 w-4 mr-1" />
+  Browse
+  </Button>
+  </div>
+  <div className="relative">
+  <span className="text-xs text-muted-foreground absolute -top-2 left-3 bg-background px-1">or paste URL</span>
+  <Input
+  value={edit[f.key] ?? ""}
+  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
+  placeholder="https://..."
+  className="h-8 text-xs pt-3"
+  />
+  </div>
+  <MediaBrowser
+  open={browseField === f.key}
+  onOpenChange={(open) => { if (!open) setBrowseField(null); }}
+  onSelect={(url) => { setEdit({ ...edit, [f.key]:url }); setBrowseField(null); }}
+  />
+  </div>
+  ) :(
+  <Input
+  type={f.type === "number" ? "number" :"text"}
+  value={edit[f.key] ?? ""}
+  onChange={(e) => setEdit({ ...edit, [f.key]:f.type === "number" ? Number(e.target.value) :e.target.value })}
+  className="mt-1"
+  />
+  )}
+  </div>
+  ))}
  </div>
  <div className="flex justify-end gap-2">
  <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>

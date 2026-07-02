@@ -1,9 +1,11 @@
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp, ChevronDown, Sprout, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, FlaskConical, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { useBusinessesList } from "@/lib/businesses";
+import type { LucideIcon } from "lucide-react";
 
 interface NavLinkItem {
  label:string;
@@ -56,8 +58,10 @@ interface SiteSettings {
 function useSettings() {
  return useQuery<SiteSettings>({
  queryKey:["site-settings"],
- queryFn:() => fetch("/api/settings").then((r) => r.json()),
- staleTime:30 * 1000,
+ queryFn:() => fetch("/api/settings", { cache:"no-cache" }).then((r) => r.json()),
+ staleTime:10 * 1000,
+ refetchInterval:30 * 1000,
+ refetchOnWindowFocus:true,
  });
 }
 
@@ -83,27 +87,34 @@ const bottomNavTabs = [
  { href:"/contact", label:"Contact", icon:Phone },
 ];
 
-const businessSubs = [
- { name:"GMI Power Agro", slug:"gmi-power-agro", icon:Sprout },
- { name:"GMI Essential Food & Consumer", slug:"gmi-essential-food-consumer", icon:ShoppingBasket },
- { name:"GMI Beverage", slug:"gmi-beverage", icon:Coffee },
- { name:"GMI Hospital", slug:"gmi-hospital", icon:Heart },
- { name:"GMI Hotel & Resort", slug:"gmi-hotel-resort", icon:Hotel },
- { name:"GMI Supermarket", slug:"gmi-supermarket", icon:Store },
- { name:"GMI Tour & Travels", slug:"gmi-tour-travels", icon:Plane },
- { name:"GMI Education", slug:"gmi-education", icon:GraduationCap },
- { name:"GMI Skin Care", slug:"gmi-skin-care", icon:Sparkles },
- { name:"GMI Fashion House", slug:"gmi-fashion-house", icon:Shirt },
- { name:"GMI News & Media", slug:"gmi-news-media", icon:Tv },
- { name:"GMI R&D Center", slug:"gmi-rd-center", icon:FlaskConical },
-];
+const businessIconMap: Record<string, LucideIcon> = {
+ "gmi-power-agro": Sprout,
+ "gmi-essential-food-consumer": ShoppingBasket,
+ "gmi-beverage": Coffee,
+ "gmi-hospital": Heart,
+ "gmi-hotel-resort": Hotel,
+ "gmi-supermarket": Store,
+ "gmi-tour-travels": Plane,
+ "gmi-education": GraduationCap,
+ "gmi-skin-care": Sparkles,
+ "gmi-fashion-house": Shirt,
+ "gmi-news-media": Tv,
+ "gmi-rd-center": FlaskConical,
+};
 
 export function Layout({ children }:{ children:ReactNode }) {
  const [location] = useLocation();
  const { data:s } = useSettings();
+ const { data: businesses } = useBusinessesList();
  const [announcementVisible, setAnnouncementVisible] = useState(true);
  const [showBackToTop, setShowBackToTop] = useState(false);
  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+
+ const businessSubs = useMemo(() => (businesses ?? []).map((b) => ({
+ name: b.name,
+ slug: b.slug,
+ icon: businessIconMap[b.slug] ?? Building2,
+ })), [businesses]);
 
  useEffect(() => {
  const dismissed = localStorage.getItem("announcementDismissed");
