@@ -67,7 +67,10 @@ export const adminApi = {
       body: formData,
       cache: "no-cache",
     });
-    if (!res.ok) throw new Error("Upload failed");
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(body ? `Upload failed: ${body}` : "Upload failed");
+    }
     const data = await res.json();
     return data.url;
   },

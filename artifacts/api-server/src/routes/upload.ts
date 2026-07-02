@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "node:path";
 import crypto from "node:crypto";
 import { supabase, mapRows, snakeToCamel } from "@workspace/db";
-import { supabaseAdmin } from "../lib/supabase.js";
+import { getSupabaseClient } from "../lib/supabase.js";
 import { requireAdmin } from "../middlewares/auth.js";
 
 const router = Router();
@@ -36,11 +36,12 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     const uniqueName = `${crypto.randomUUID()}${ext}`;
     const objectPath = `uploads/${uniqueName}`;
 
-    if (!supabaseAdmin) {
-      return res.status(500).json({ error: "Storage not configured" });
+    const storageClient = getSupabaseClient();
+    if (!storageClient) {
+      return res.status(500).json({ error: "Storage not configured. Set SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY." });
     }
 
-    const { error: uploadError } = await supabaseAdmin.storage
+    const { error: uploadError } = await storageClient.storage
       .from(BUCKET)
       .upload(objectPath, file.buffer, {
         contentType: file.mimetype,
@@ -51,7 +52,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       return res.status(500).json({ error: uploadError.message });
     }
 
-    const { data: urlData } = supabaseAdmin.storage
+    const { data: urlData } = storageClient.storage
       .from(BUCKET)
       .getPublicUrl(objectPath);
 
@@ -90,8 +91,9 @@ router.delete("/media/:id", async (req, res) => {
   const { data: record, error: fetchError } = await supabase!.from("media").select("*").eq("id", id).single();
   if (fetchError) return res.status(404).json({ error: "Media not found" });
 
-  if (supabaseAdmin && record) {
-    const { error: storageError } = await supabaseAdmin.storage
+  const storageClient = getSupabaseClient();
+  if (storageClient && record) {
+    const { error: storageError } = await storageClient.storage
       .from(record.bucket)
       .remove([record.path]);
     if (storageError) {
