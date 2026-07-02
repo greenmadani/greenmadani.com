@@ -52,7 +52,6 @@ async function buildAll() {
       "pg-native",
       "oracledb",
       "mongodb-client-encryption",
-      "multer",
       "nodemailer",
       "handlebars",
       "knex",
@@ -104,7 +103,6 @@ async function buildAll() {
       "puppeteer",
       "puppeteer-core",
       "electron",
-      "@supabase/supabase-js",
     ],
     sourcemap: "linked",
     plugins: [
