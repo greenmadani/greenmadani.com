@@ -303,69 +303,69 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
  </div>
  )}
 
- <Dialog open={open} onOpenChange={setOpen}>
- <DialogContent className="max-h-[85vh] overflow-y-auto max-w-2xl">
- <DialogHeader>
- <DialogTitle>{editingId ? `Edit ${title.slice(0, -1)}` :`New ${title.slice(0, -1)}`}</DialogTitle>
- </DialogHeader>
- <div className="space-y-4 py-4">
-  {fields.map((f) => (
-  <div key={f.key}>
-  <Label>{f.label}</Label>
-  {f.type === "textarea" ? (
-  <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
-  ) :f.type === "array" ? (
-  <Textarea
-  value={Array.isArray(edit[f.key]) ? (edit[f.key] as string[]).join("\n") : (edit[f.key] ?? "")}
-  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
-  className="mt-1 font-mono text-xs"
-  rows={6}
-  placeholder="Enter one item per line..."
-  />
-  ) :f.type === "switch" ? (
-  <div className="mt-1">
-  <Switch checked={edit[f.key] ?? false} onCheckedChange={(v) => setEdit({ ...edit, [f.key]:v })} />
-  </div>
-  ) :f.type === "select" ? (
-  <select
-  className="flex h-10 w-full border border-input bg-background px-3 py-2 text-sm mt-1"
-  value={edit[f.key] ?? ""}
-  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
-  >
-  <option value="">Select...</option>
-  {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-  </select>
-  ) :f.type === "image" ? (
-   <ImageUploadField
-   value={edit[f.key] ?? ""}
-   onChange={(url) => setEdit({ ...edit, [f.key]:url })}
-   onBrowse={() => setBrowseField(f.key)}
+  <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setEditingId(null); setBrowseField(null); } }}>
+  <DialogContent className="!gap-0 !p-0 max-w-2xl">
+  <DialogHeader className="p-6 pb-0">
+  <DialogTitle>{editingId ? `Edit ${title.slice(0, -1)}` :`New ${title.slice(0, -1)}`}</DialogTitle>
+  </DialogHeader>
+  <div className="overflow-y-auto p-6 max-h-[55vh] space-y-4">
+   {fields.map((f) => (
+   <div key={f.key}>
+   <Label>{f.label}</Label>
+   {f.type === "textarea" ? (
+   <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
+   ) :f.type === "array" ? (
+   <Textarea
+   value={Array.isArray(edit[f.key]) ? (edit[f.key] as string[]).join("\n") : (edit[f.key] ?? "")}
+   onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
+   className="mt-1 font-mono text-xs"
+   rows={6}
+   placeholder="Enter one item per line..."
    />
-   ) :(
-  <Input
-  type={f.type === "number" ? "number" :"text"}
-  value={edit[f.key] ?? ""}
-  onChange={(e) => setEdit({ ...edit, [f.key]:f.type === "number" ? Number(e.target.value) :e.target.value })}
-  className="mt-1"
-  />
-  )}
-  </div>
-  ))}
-  </div>
-  <MediaBrowser
-  open={browseField !== null}
-  onOpenChange={(open) => { if (!open) setBrowseField(null); }}
-  onSelect={(url) => {
-   if (browseField) setEdit({ ...edit, [browseField]: url });
-   setBrowseField(null);
-  }}
-  />
-  <div className="flex justify-end gap-2">
-  <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-  <Button onClick={save}>{editingId ? "Update" :"Create"}</Button>
-  </div>
-  </DialogContent>
-  </Dialog>
+   ) :f.type === "switch" ? (
+   <div className="mt-1">
+   <Switch checked={edit[f.key] ?? false} onCheckedChange={(v) => setEdit({ ...edit, [f.key]:v })} />
+   </div>
+   ) :f.type === "select" ? (
+   <select
+   className="flex h-10 w-full border border-input bg-background px-3 py-2 text-sm mt-1"
+   value={edit[f.key] ?? ""}
+   onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
+   >
+   <option value="">Select...</option>
+   {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+   </select>
+   ) :f.type === "image" ? (
+    <ImageUploadField
+    value={edit[f.key] ?? ""}
+    onChange={(url) => setEdit({ ...edit, [f.key]:url })}
+    onBrowse={() => setBrowseField(f.key)}
+    />
+    ) :(
+   <Input
+   type={f.type === "number" ? "number" :"text"}
+   value={edit[f.key] ?? ""}
+   onChange={(e) => setEdit({ ...edit, [f.key]:f.type === "number" ? Number(e.target.value) :e.target.value })}
+   className="mt-1"
+   />
+   )}
+   </div>
+   ))}
+   </div>
+   <MediaBrowser
+   open={browseField !== null}
+   onOpenChange={(open) => { if (!open) setBrowseField(null); }}
+   onSelect={(url) => {
+    if (browseField) setEdit({ ...edit, [browseField]: url });
+    setBrowseField(null);
+   }}
+   />
+   <div className="flex justify-end gap-2 p-6 border-t">
+   <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+   <Button onClick={save}>{editingId ? "Update" :"Create"}</Button>
+   </div>
+   </DialogContent>
+   </Dialog>
  </div>
  );
 }
