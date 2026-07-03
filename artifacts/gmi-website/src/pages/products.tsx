@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Search, ShoppingBasket, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useListProducts, useListProductCategories, getListProductsQueryKey, getListProductCategoriesQueryKey } from "@workspace/api-client-react";
@@ -11,24 +11,23 @@ import { AnimatedSection } from "@/components/animated-section";
 export default function Products() {
  const [location, navigate] = useLocation();
  const [searchQuery, setSearchQuery] = useState("");
- const [activeSlug, setActiveSlug] = useState<string>("all");
  const [sidebarOpen, setSidebarOpen] = useState(false);
 
  const { data:categoriesData, isLoading:loadingCategories } = useListProductCategories({
  query:{ queryKey:getListProductCategoriesQueryKey() }
  });
 
- const categories = categoriesData ? [{ name:"All", slug:"all", count:0 }, ...categoriesData] :[{ name:"All", slug:"all", count:0 }];
+ const allCategories = useMemo(() => {
+  const base = categoriesData ?? [];
+  return [{ name:"All", slug:"all", count:0 }, ...base];
+ }, [categoriesData]);
 
- useEffect(() => {
+ const activeSlug = useMemo(() => {
   const params = new URLSearchParams(location.split("?")[1] ?? "");
   const cat = params.get("category");
-  if (cat && categories.some((c) => c.slug === cat)) {
-   setActiveSlug(cat);
-  } else if (activeSlug !== "all") {
-   setActiveSlug("all");
-  }
- }, [location, categories]);
+  if (cat && allCategories.some((c) => c.slug === cat)) return cat;
+  return "all";
+ }, [location, allCategories]);
 
  const { data:productsData, isLoading:loadingProducts } = useListProducts({
  category:activeSlug !== "all" ? activeSlug :undefined
@@ -44,7 +43,6 @@ export default function Products() {
  );
 
  function handleCategoryClick(slug: string) {
-  setActiveSlug(slug);
   setSidebarOpen(false);
   if (slug === "all") {
    navigate("/products", { replace: true });
@@ -74,7 +72,7 @@ export default function Products() {
      {loadingCategories ? (
       Array.from({ length:5 }).map((_, i) => <Skeleton key={i} className="h-9 w-full mb-1" />)
      ) :(
-      categories.map((cat) => (
+      allCategories.map((cat) => (
        <button
         key={cat.slug}
         onClick={() => handleCategoryClick(cat.slug)}
@@ -105,7 +103,7 @@ export default function Products() {
     </button>
     {sidebarOpen && (
      <div className="border-x border-b border-border bg-background p-2 space-y-1">
-      {categories.map((cat) => (
+      {allCategories.map((cat) => (
        <button
         key={cat.slug}
         onClick={() => handleCategoryClick(cat.slug)}
