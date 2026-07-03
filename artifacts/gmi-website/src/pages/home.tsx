@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ShoppingBag, Building2, Cog, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,12 @@ import { AnimatedSection } from "@/components/animated-section";
 import { CTASection } from "@/components/cta-section";
 import { useBusinessesList } from "@/lib/businesses";
 
+const CATEGORIES = ["All", "Agriculture", "Food", "Skincare", "Beverage"] as const;
+
 export default function Home() {
  const { data:stats } = useGetCompanyStats();
  const { data: businessData, isLoading: loadingBusinesses } = useBusinessesList();
+ const [activeCategory, setActiveCategory] = useState<string>("All");
  
   function shuffle<T>(array: T[]): T[] {
   const result = [...array];
@@ -28,7 +31,11 @@ export default function Home() {
 
   const displaySubsidiaries = useMemo(() => businessData ? shuffle(businessData).slice(0, 6) : [], [businessData]);
 
-  const { data:productsData, isLoading:loadingProducts } = useListProducts({ featured:true, limit:12 }, { query:{ queryKey:getListProductsQueryKey({ featured:true, limit:12 }) } });
+  const isAll = activeCategory === "All";
+  const { data:productsData, isLoading:loadingProducts } = useListProducts(
+    isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 },
+    { query:{ queryKey:getListProductsQueryKey(isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 }) } }
+  );
   const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
   
   const { data:newsData, isLoading:loadingNews } = useListNews({ limit:12 }, { query:{ queryKey:getListNewsQueryKey({ limit:12 }) } });
@@ -218,13 +225,21 @@ export default function Home() {
  </Link>
  </div>
 
- <div className="flex gap-4 mb-10 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
- <Button variant="primary">All</Button>
- <Button variant="outline">Agriculture</Button>
- <Button variant="outline">Food</Button>
- <Button variant="outline">Skincare</Button>
- <Button variant="outline">Beverage</Button>
- </div>
+  <div className="flex gap-4 mb-10 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
+  {CATEGORIES.map((cat) => (
+    <button
+      key={cat}
+      onClick={() => setActiveCategory(cat)}
+      className={`px-4 py-2 text-sm font-semibold transition-colors whitespace-nowrap snap-start ${
+        activeCategory === cat
+          ? "bg-primary text-white"
+          : "bg-white text-foreground border border-border hover:bg-muted"
+      }`}
+    >
+      {cat}
+    </button>
+  ))}
+  </div>
 
   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
   {loadingProducts ? (
