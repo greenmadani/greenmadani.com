@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Building2, Handshake, Box } from "lucide-react";
+import { MapPin, Phone, Mail, Building2, Handshake, Box } from "lucide-react";
 import { Link, useSearch } from "wouter";
 import { useSubmitContact, useSubmitBusinessInquiry } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -119,36 +119,25 @@ export default function Contact() {
   <MapPin className="text-accent mt-1 shrink-0" size={24} />
   <div>
   <h4 className="uppercase tracking-wider text-accent mb-1">Address</h4>
-  <p className="text-white/80 leading-relaxed">{s?.address || "924/C, Taltola Moor<br/>Khilgaon-1219<br/>Dhaka, Bangladesh"}</p>
+  <p className="text-white/80 leading-relaxed">{s?.address}</p>
   </div>
   </div>
-  
+
   <div className="flex items-start gap-4">
   <Phone className="text-accent mt-1 shrink-0" size={24} />
   <div>
   <h4 className="uppercase tracking-wider text-accent mb-1">Phone</h4>
-  <p className="text-white/80">{s?.phone || "01340-862454"}</p>
-  <p className="text-white/80">022 222 01623</p>
+  <p className="text-white/80">{s?.phone}</p>
   </div>
   </div>
-  
+
   <div className="flex items-start gap-4">
   <Mail className="text-accent mt-1 shrink-0" size={24} />
   <div>
   <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
-  <p className="text-white/80">{s?.email || "info@greenmadani.com"}</p>
-  <p className="text-white/80">greenmadaniinternational2026@gmail.com</p>
+  <p className="text-white/80">{s?.email}</p>
   </div>
   </div>
-
- <div className="flex items-start gap-4">
- <Clock className="text-accent mt-1 shrink-0" size={24} />
- <div>
- <h4 className="uppercase tracking-wider text-accent mb-1">Business Hours</h4>
- <p className="text-white/80">Sunday – Thursday:9:00 AM – 6:00 PM</p>
- <p className="text-white/80">Friday & Saturday (Recruitment Interviews):9:00 AM – 5:00 PM</p>
- </div>
- </div>
  </div>
  </div>
 
