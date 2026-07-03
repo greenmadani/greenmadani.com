@@ -98,7 +98,7 @@ export default function MediaManager() {
  className="group relative aspect-square border bg-white overflow-hidden cursor-pointer"
  onClick={() => setViewItem(item)}
  >
- {item.type.startsWith("image/") ? (
+  {item.type?.startsWith("image/") ? (
  <img src={item.url} alt={item.filename} className="w-full h-full object-cover" />
  ) :(
  <div className="w-full h-full flex items-center justify-center bg-gray-50">
