@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Building2, Handshake, Box } from "lucide-react";
 import { Link, useSearch } from "wouter";
@@ -37,7 +38,20 @@ const businessInquirySchema = z.object({
 type ContactValues = z.infer<typeof contactSchema>;
 type BusinessInquiryValues = z.infer<typeof businessInquirySchema>;
 
+interface SiteSettings {
+  address:string;
+  phone:string;
+  email:string;
+}
+
 export default function Contact() {
+  const { data:s } = useQuery<SiteSettings>({
+    queryKey:["site-settings"],
+    queryFn:() => fetch("/api/settings", { cache:"no-cache" }).then((r) => r.json()),
+    staleTime:10 * 1000,
+    refetchInterval:30 * 1000,
+    refetchOnWindowFocus:true,
+  });
  const { toast } = useToast();
  const searchString = useSearch();
  const searchParams = new URLSearchParams(searchString);
@@ -101,31 +115,31 @@ export default function Contact() {
  <h2 className="font-display mb-6">Corporate Headquarters</h2>
  
  <div className="space-y-4 md:space-y-8">
- <div className="flex items-start gap-4">
- <MapPin className="text-accent mt-1 shrink-0" size={24} />
- <div>
- <h4 className="uppercase tracking-wider text-accent mb-1">Address</h4>
- <p className="text-white/80 leading-relaxed">924/C, Taltola Moor<br/>Khilgaon-1219<br/>Dhaka, Bangladesh</p>
- </div>
- </div>
- 
- <div className="flex items-start gap-4">
- <Phone className="text-accent mt-1 shrink-0" size={24} />
- <div>
- <h4 className="uppercase tracking-wider text-accent mb-1">Phone</h4>
- <p className="text-white/80">01340-862454</p>
- <p className="text-white/80">022 222 01623</p>
- </div>
- </div>
- 
- <div className="flex items-start gap-4">
- <Mail className="text-accent mt-1 shrink-0" size={24} />
- <div>
- <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
- <p className="text-white/80">info@greenmadani.com</p>
- <p className="text-white/80">greenmadaniinternational2026@gmail.com</p>
- </div>
- </div>
+              <div className="flex items-start gap-4">
+  <MapPin className="text-accent mt-1 shrink-0" size={24} />
+  <div>
+  <h4 className="uppercase tracking-wider text-accent mb-1">Address</h4>
+  <p className="text-white/80 leading-relaxed">{s?.address || "924/C, Taltola Moor<br/>Khilgaon-1219<br/>Dhaka, Bangladesh"}</p>
+  </div>
+  </div>
+  
+  <div className="flex items-start gap-4">
+  <Phone className="text-accent mt-1 shrink-0" size={24} />
+  <div>
+  <h4 className="uppercase tracking-wider text-accent mb-1">Phone</h4>
+  <p className="text-white/80">{s?.phone || "01340-862454"}</p>
+  <p className="text-white/80">022 222 01623</p>
+  </div>
+  </div>
+  
+  <div className="flex items-start gap-4">
+  <Mail className="text-accent mt-1 shrink-0" size={24} />
+  <div>
+  <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
+  <p className="text-white/80">{s?.email || "info@greenmadani.com"}</p>
+  <p className="text-white/80">greenmadaniinternational2026@gmail.com</p>
+  </div>
+  </div>
 
  <div className="flex items-start gap-4">
  <Clock className="text-accent mt-1 shrink-0" size={24} />
