@@ -174,9 +174,19 @@ export function Layout({ children }:{ children:ReactNode }) {
  { href:"/contact", label:"Contact" },
  ]);
 
- const footerCols:FooterColumn[] = useMemo(() => {
-   const saved = s?.footerColumns;
-   if (saved?.length) return saved;
+  const footerCols:FooterColumn[] = useMemo(() => {
+    const saved = s?.footerColumns;
+    const quickLinks: FooterColumn = {
+      title: "Quick Links",
+      links: [
+        { label: "About Us", href: "/about" },
+        { label: "Products", href: "/products" },
+        { label: "Sustainability", href: "/sustainability" },
+        { label: "Careers", href: "/careers" },
+        { label: "FAQ", href: "/faq" },
+        { label: "News & Updates", href: "/news" },
+      ],
+    };
 
     const bizColumn: FooterColumn = {
       title: "Our Businesses",
@@ -189,21 +199,14 @@ export function Layout({ children }:{ children:ReactNode }) {
       ],
     };
 
-   return [
-     {
-       title: "Quick Links",
-       links: [
-         { label: "About Us", href: "/about" },
-         { label: "Products", href: "/products" },
-         { label: "Sustainability", href: "/sustainability" },
-         { label: "Careers", href: "/careers" },
-         { label: "FAQ", href: "/faq" },
-         { label: "News & Updates", href: "/news" },
-       ],
-     },
-     bizColumn,
-   ];
- }, [s?.footerColumns, businesses]);
+    if (saved?.length) {
+      return saved.map((col) =>
+        col.title === "Our Businesses" ? bizColumn : col
+      );
+    }
+
+    return [quickLinks, bizColumn];
+  }, [s?.footerColumns, businesses]);
 
  const rightLinks = navLinks.filter(l => l.href === "/careers" || l.href === "/contact");
  const mainNavLinks = navLinks.filter(l => l.href !== "/careers" && l.href !== "/contact");
