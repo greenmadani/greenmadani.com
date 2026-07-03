@@ -178,16 +178,16 @@ export function Layout({ children }:{ children:ReactNode }) {
    const saved = s?.footerColumns;
    if (saved?.length) return saved;
 
-   const bizColumn: FooterColumn = {
-     title: "Our Businesses",
-     links: [
-       ...(businesses ?? []).map((b) => ({
-         label: b.name.replace(/^GMI /, "Green Madani "),
-         href: `/businesses/${b.slug}`,
-       })),
-       { label: "View All Subsidiaries", href: "/businesses" },
-     ],
-   };
+    const bizColumn: FooterColumn = {
+      title: "Our Businesses",
+      links: [
+        ...(businesses ?? []).slice(0, 5).map((b) => ({
+          label: b.name.replace(/^GMI /, "Green Madani "),
+          href: `/businesses/${b.slug}`,
+        })),
+        { label: "View All Subsidiaries", href: "/businesses" },
+      ],
+    };
 
    return [
      {
