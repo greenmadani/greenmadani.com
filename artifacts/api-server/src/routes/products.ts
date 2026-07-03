@@ -4,15 +4,24 @@ import { supabase, snakeToCamel, mapRows } from "@workspace/db";
 const router = Router();
 
 router.get("/categories", async (_req, res) => {
-  const { data, error } = await supabase!.from("products").select("*").eq("status", "active");
-  if (error) return res.status(500).json({ error: error.message });
-  const groups = new Map<string, { slug: string; name: string; count: number }>();
-  for (const p of data ?? []) {
-    const key = p.category_slug;
-    if (!groups.has(key)) groups.set(key, { slug: key, name: p.category, count: 0 });
-    groups.get(key)!.count++;
+  const { data: catData, error: catError } = await supabase!.from("categories").select("*").eq("type", "product").order("order");
+  if (catError) return res.status(500).json({ error: catError.message });
+
+  const { data: prodData, error: prodError } = await supabase!.from("products").select("category_slug").eq("status", "active");
+  if (prodError) return res.status(500).json({ error: prodError.message });
+
+  const productCounts = new Map<string, number>();
+  for (const p of prodData ?? []) {
+    productCounts.set(p.category_slug, (productCounts.get(p.category_slug) ?? 0) + 1);
   }
-  res.json(Array.from(groups.values()));
+
+  const result = (catData ?? []).map((c) => ({
+    slug: c.slug,
+    name: c.name,
+    count: productCounts.get(c.slug) ?? 0,
+  }));
+
+  res.json(result);
 });
 
 router.get("/", async (req, res) => {

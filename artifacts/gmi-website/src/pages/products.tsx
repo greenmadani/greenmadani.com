@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Filter, ShoppingBasket } from "lucide-react";
+import { Search, ShoppingBasket, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useListProducts, useListProductCategories, getListProductsQueryKey, getListProductCategoriesQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ export default function Products() {
  const [, navigate] = useLocation();
  const [searchQuery, setSearchQuery] = useState("");
  const [activeSlug, setActiveSlug] = useState<string>("all");
+ const [sidebarOpen, setSidebarOpen] = useState(false);
 
  const { data:categoriesData, isLoading:loadingCategories } = useListProductCategories({
  query:{ queryKey:getListProductCategoriesQueryKey() }
@@ -42,6 +43,7 @@ export default function Products() {
 
  function handleCategoryClick(slug: string) {
   setActiveSlug(slug);
+  setSidebarOpen(false);
   if (slug === "all") {
    navigate("/products", { replace: true });
   } else {
@@ -62,88 +64,127 @@ export default function Products() {
 
  <AnimatedSection animation="fade-up" delay={100}>
  <div className="container mx-auto px-4 py-16">
- {/* Controls */}
- <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-6 md:mb-12 bg-background p-6 border border-border">
- <div className="relative w-full md:max-w-md">
- <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
- <Input
- type="search"
- placeholder="Search products..."
- className="pl-12 bg-white border-border h-12 focus-visible:ring-primary"
- value={searchQuery}
- onChange={(e) => setSearchQuery(e.target.value)}
- />
- </div>
+  <div className="flex gap-8">
+   {/* Sidebar */}
+   <aside className="hidden md:block w-56 shrink-0">
+    <div className="sticky top-28 space-y-1">
+     <h3 className="text-xs font-bold tracking-widest uppercase text-muted-foreground mb-3 px-3">Categories</h3>
+     {loadingCategories ? (
+      Array.from({ length:5 }).map((_, i) => <Skeleton key={i} className="h-9 w-full mb-1" />)
+     ) :(
+      categories.map((cat) => (
+       <button
+        key={cat.slug}
+        onClick={() => handleCategoryClick(cat.slug)}
+        className={`w-full text-left px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+         activeSlug === cat.slug
+         ? "bg-primary text-white"
+         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        }`}
+       >
+        <span className="flex items-center justify-between">
+         <span>{cat.name}</span>
+         {cat.slug !== "all" && <span className="text-xs opacity-60">({cat.count})</span>}
+        </span>
+       </button>
+      ))
+     )}
+    </div>
+   </aside>
 
- <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
- <Filter className="text-primary mr-2 shrink-0" size={20} />
- {loadingCategories ? (
- Array.from({ length:4 }).map((_, i) => <Skeleton key={i} className="w-24 h-10 shrink-0" />)
- ) :(
- categories.map(cat => (
- <Button
- key={cat.slug}
- variant={activeSlug === cat.slug ? "primary" :"outline"}
- onClick={() => handleCategoryClick(cat.slug)}
- className={`shrink-0 font-semibold ${
- activeSlug === cat.slug
- ? "bg-primary text-white hover:bg-secondary"
- :"border-border text-muted-foreground hover:text-primary hover:border-primary"
- }`}
- >
- {cat.name}
- </Button>
- ))
- )}
- </div>
- </div>
+   {/* Mobile sidebar toggle */}
+   <div className="md:hidden w-full mb-4">
+    <button
+     onClick={() => setSidebarOpen(!sidebarOpen)}
+     className="flex items-center gap-2 w-full px-4 py-3 border border-border bg-background text-sm font-semibold text-muted-foreground"
+    >
+     <span>Categories</span>
+     <ChevronDown size={16} className={`ml-auto transition-transform ${sidebarOpen ? "rotate-180" : ""}`} />
+    </button>
+    {sidebarOpen && (
+     <div className="border-x border-b border-border bg-background p-2 space-y-1">
+      {categories.map((cat) => (
+       <button
+        key={cat.slug}
+        onClick={() => handleCategoryClick(cat.slug)}
+        className={`w-full text-left px-3 py-2 text-sm font-medium transition-colors ${
+         activeSlug === cat.slug
+         ? "bg-primary text-white"
+         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        }`}
+       >
+        <span className="flex items-center justify-between">
+         <span>{cat.name}</span>
+         {cat.slug !== "all" && <span className="text-xs opacity-60">({cat.count})</span>}
+        </span>
+       </button>
+      ))}
+     </div>
+    )}
+   </div>
 
- {/* Grid */}
- <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-stagger">
- {loadingProducts ? (
- Array.from({ length:8 }).map((_, i) => (
- <div key={i} className="border border-border shadow-sm flex flex-col h-full">
- <Skeleton className="w-full h-56" />
- <div className="p-4">
- <Skeleton className="w-20 h-6 mb-3" />
- <Skeleton className="w-full h-6 mb-2" />
- <Skeleton className="w-2/3 h-4 mb-6" />
- <Skeleton className="w-full h-10" />
- </div>
- </div>
- ))
- ) :filteredProducts?.length === 0 ? (
- <div className="col-span-full py-20 text-center bg-background border border-dashed border-border">
- <ShoppingBasket size={48} className="mx-auto text-muted-foreground mb-4" />
- <h3 className="font-display text-muted-foreground">No products found</h3>
- <p className="text-muted-foreground mt-2">Try adjusting your search or filters.</p>
- </div>
- ) :(
- filteredProducts?.map((product) => (
- <div key={product.id} className="border border-border card-hover flex flex-col h-full group">
-  <div className="w-full h-56 bg-muted img-hover relative">
-  {product.imageUrl ? (
-  <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
-  ) :(
-  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-  <ShoppingBasket size={48} className="opacity-20" />
+   {/* Main content */}
+   <div className="flex-1 min-w-0">
+    {/* Search */}
+    <div className="relative max-w-md mb-8">
+     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+     <Input
+      type="search"
+      placeholder="Search products..."
+      className="pl-12 bg-white border-border h-12 focus-visible:ring-primary"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+     />
+    </div>
+
+    {/* Grid */}
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
+     {loadingProducts ? (
+      Array.from({ length:6 }).map((_, i) => (
+       <div key={i} className="border border-border shadow-sm flex flex-col h-full">
+        <Skeleton className="w-full h-56" />
+        <div className="p-4">
+         <Skeleton className="w-20 h-6 mb-3" />
+         <Skeleton className="w-full h-6 mb-2" />
+         <Skeleton className="w-2/3 h-4 mb-6" />
+         <Skeleton className="w-full h-10" />
+        </div>
+       </div>
+      ))
+     ) :filteredProducts?.length === 0 ? (
+      <div className="col-span-full py-20 text-center bg-background border border-dashed border-border">
+       <ShoppingBasket size={48} className="mx-auto text-muted-foreground mb-4" />
+       <h3 className="font-display text-muted-foreground">No products found</h3>
+       <p className="text-muted-foreground mt-2">Try adjusting your search or filters.</p>
+      </div>
+     ) :(
+      filteredProducts?.map((product) => (
+       <div key={product.id} className="border border-border card-hover flex flex-col h-full group">
+        <div className="w-full h-56 bg-muted img-hover relative">
+         {product.imageUrl ? (
+          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
+         ) :(
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+           <ShoppingBasket size={48} className="opacity-20" />
+          </div>
+         )}
+         <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{product.category}</span>
+        </div>
+        <div className="p-3 flex-1 flex flex-col">
+         <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
+         <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-2">{product.description}</p>
+         <Link href={`/products/${product.id}`}>
+          <Button variant="outline" className="w-full font-bold">
+           View Details
+          </Button>
+         </Link>
+        </div>
+       </div>
+      ))
+     )}
+    </div>
+   </div>
   </div>
-  )}
-  <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{product.category}</span>
-  </div>
-  <div className="p-3 flex-1 flex flex-col">
- <h3 className="font-display mb-1 text-foreground">{product.name}</h3>
- <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-2">{product.description}</p>
- <Link href={`/products/${product.id}`}>
- <Button variant="outline" className="w-full font-bold">
- View Details
- </Button>
- </Link>
- </div>
- </div>
- ))
- )}
- </div>
  </div>
  </AnimatedSection>
  </div>
