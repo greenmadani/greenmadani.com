@@ -174,29 +174,36 @@ export function Layout({ children }:{ children:ReactNode }) {
  { href:"/contact", label:"Contact" },
  ]);
 
- const footerCols:FooterColumn[] = (s?.footerColumns?.length ? s.footerColumns :[
- {
- title:"Quick Links",
- links:[
- { label:"About Us", href:"/about" },
- { label:"Products", href:"/products" },
- { label:"Sustainability", href:"/sustainability" },
- { label:"Careers", href:"/careers" },
- { label:"FAQ", href:"/faq" },
- { label:"News & Updates", href:"/news" },
- ],
- },
- {
- title:"Our Businesses",
- links:[
-  { label:"GMI Power Agro", href:"/businesses" },
-  { label:"GMI Essential Food & Consumer", href:"/businesses" },
-  { label:"GMI Beverage", href:"/businesses" },
- { label:"GMI Skin Care", href:"/businesses" },
- { label:"View All Subsidiaries", href:"/businesses" },
- ],
- },
- ]);
+ const footerCols:FooterColumn[] = useMemo(() => {
+   const saved = s?.footerColumns;
+   if (saved?.length) return saved;
+
+   const bizColumn: FooterColumn = {
+     title: "Our Businesses",
+     links: [
+       ...(businesses ?? []).map((b) => ({
+         label: b.name.replace(/^GMI /, "Green Madani "),
+         href: `/businesses/${b.slug}`,
+       })),
+       { label: "View All Subsidiaries", href: "/businesses" },
+     ],
+   };
+
+   return [
+     {
+       title: "Quick Links",
+       links: [
+         { label: "About Us", href: "/about" },
+         { label: "Products", href: "/products" },
+         { label: "Sustainability", href: "/sustainability" },
+         { label: "Careers", href: "/careers" },
+         { label: "FAQ", href: "/faq" },
+         { label: "News & Updates", href: "/news" },
+       ],
+     },
+     bizColumn,
+   ];
+ }, [s?.footerColumns, businesses]);
 
  const rightLinks = navLinks.filter(l => l.href === "/careers" || l.href === "/contact");
  const mainNavLinks = navLinks.filter(l => l.href !== "/careers" && l.href !== "/contact");
