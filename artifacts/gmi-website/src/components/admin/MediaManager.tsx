@@ -15,12 +15,12 @@ import FileUpload from "./FileUpload";
 import { toast } from "@/hooks/use-toast";
 
 interface MediaItem {
- id:number;
- url:string;
- filename:string;
- type:string;
- size:number;
- createdAt:string;
+  id:number;
+  url:string;
+  filename:string;
+  mimeType:string;
+  size:number;
+  createdAt:string;
 }
 
 function formatSize(bytes:number):string {
@@ -98,16 +98,16 @@ export default function MediaManager() {
  className="group relative aspect-square border bg-white overflow-hidden cursor-pointer"
  onClick={() => setViewItem(item)}
  >
-  {item.type?.startsWith("image/") ? (
- <img src={item.url} alt={item.filename} className="w-full h-full object-cover" />
- ) :(
- <div className="w-full h-full flex items-center justify-center bg-gray-50">
- <FileIcon className="h-10 w-10 text-gray-300" />
- </div>
- )}
- <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 pt-6 opacity-0 group-hover:opacity-100 transition-opacity">
- <p className="text-xs text-white truncate">{item.filename}</p>
- </div>
+  {item.mimeType?.startsWith("image/") ? (
+  <img src={item.url} alt={item.filename} title={item.filename} className="w-full h-full object-cover" />
+  ) :(
+  <div className="w-full h-full flex items-center justify-center bg-gray-50">
+  <FileIcon className="h-10 w-10 text-gray-300" />
+  </div>
+  )}
+  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 pt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+  <p className="text-xs text-white truncate">{item.filename}</p>
+  </div>
  <Button
  variant="ghost"
  size="sm"
@@ -146,8 +146,8 @@ export default function MediaManager() {
  </DialogHeader>
  {viewItem && (
  <div className="space-y-4">
- {viewItem.type.startsWith("image/") ? (
- <img src={viewItem.url} alt={viewItem.filename} className="w-full max-h-64 object-contain bg-gray-50" />
+  {viewItem.mimeType?.startsWith("image/") ? (
+  <img src={viewItem.url} alt={viewItem.filename} title={viewItem.filename} className="w-full max-h-64 object-contain bg-gray-50" />
  ) :(
  <div className="w-full h-32 bg-gray-50 flex items-center justify-center">
  <FileIcon className="h-12 w-12 text-gray-300" />
@@ -160,7 +160,7 @@ export default function MediaManager() {
  </div>
  <div className="flex justify-between">
  <span className="text-gray-500">Type</span>
- <Badge variant="secondary">{viewItem.type}</Badge>
+  <Badge variant="secondary">{viewItem.mimeType}</Badge>
  </div>
  <div className="flex justify-between">
  <span className="text-gray-500">Size</span>

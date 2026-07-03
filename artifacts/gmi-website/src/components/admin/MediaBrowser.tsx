@@ -8,12 +8,12 @@ import { adminApi } from "@/lib/admin-api";
 import FileUpload from "./FileUpload";
 
 interface MediaItem {
- id:number;
- url:string;
- filename:string;
- type:string;
- size:number;
- createdAt:string;
+  id:number;
+  url:string;
+  filename:string;
+  mimeType:string;
+  size:number;
+  createdAt:string;
 }
 
 interface MediaBrowserProps {
@@ -76,8 +76,8 @@ export default function MediaBrowser({ open, onOpenChange, onSelect }:MediaBrows
  selectedId === item.id ? "border-[#1A5C38]" :"border-transparent hover:border-gray-300"
  }`}
  >
-  {item.type?.startsWith("image/") ? (
- <img src={item.url} alt={item.filename} className="w-full h-full object-cover" />
+  {item.mimeType?.startsWith("image/") ? (
+  <img src={item.url} alt={item.filename} title={item.filename} className="w-full h-full object-cover" />
  ) :(
  <div className="w-full h-full flex items-center justify-center bg-gray-100">
  <ImageIcon className="h-8 w-8 text-gray-400" />
