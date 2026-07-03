@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp, ChevronDown, Sprout, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, FlaskConical, Store } from "lucide-react";
+import { Menu, MapPin, Phone, Mail, Linkedin, Facebook, Twitter, Youtube, X, Home, Building2, ShoppingBasket, Tv, ArrowUp, ChevronDown, Sprout, Coffee, Sparkles, Shirt, Hotel, Plane, GraduationCap, Heart, FlaskConical, Store, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useBusinessesList } from "@/lib/businesses";
@@ -110,11 +110,22 @@ export function Layout({ children }:{ children:ReactNode }) {
  const [showBackToTop, setShowBackToTop] = useState(false);
  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
 
+ const { data: productCategories } = useQuery<{slug:string;name:string;count:number}[]>({
+  queryKey:["product-categories-nav"],
+  queryFn:() => fetch("/api/products/categories").then((r) => r.json()),
+  staleTime:60 * 1000,
+ });
+
  const businessSubs = useMemo(() => (businesses ?? []).map((b) => ({
- name: b.name,
- slug: b.slug,
- icon: businessIconMap[b.slug] ?? Building2,
- })), [businesses]);
+  name: b.name,
+  slug: b.slug,
+  icon: businessIconMap[b.slug] ?? Building2,
+  })), [businesses]);
+
+ const productCatList = useMemo(() => (productCategories ?? []).map((c) => ({
+  name: c.name,
+  slug: c.slug,
+  })), [productCategories]);
 
  useEffect(() => {
  const dismissed = localStorage.getItem("announcementDismissed");
@@ -266,45 +277,81 @@ export function Layout({ children }:{ children:ReactNode }) {
 
  {/* Desktop Nav */}
  <nav className="hidden lg:flex items-center gap-1" onMouseLeave={() => setOpenSubmenu(null)}>
- {mainNavLinks.map((link) => {
- if (link.href === "/businesses") {
- return (
- <div key={link.href} className="relative" onMouseEnter={() => setOpenSubmenu("businesses")}>
- <Link href={link.href}>
- <span
- className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer inline-flex items-center gap-1 ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" :"text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" :""}`}
- >
- {link.label} <ChevronDown size={14} className={`transition-transform duration-200 ${openSubmenu === "businesses" ? "rotate-180" :""}`} />
- </span>
- </Link>
- <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${openSubmenu === "businesses" ? "opacity-100 visible translate-y-0" :"opacity-0 invisible -translate-y-2"}`}>
- <div className="bg-white/90 backdrop-blur-xl shadow-xl border border-border/50 w-64">
- <div className="px-4 py-3 border-b border-border/50">
- <Link href="/businesses">
- <span className="text-xs font-bold tracking-widest uppercase text-primary hover:text-accent transition-colors cursor-pointer">
- View All →
- </span>
- </Link>
- </div>
- <div className="max-h-[70vh] overflow-y-auto scrollbar-none" style={{ maskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)' }}>
- {businessSubs.map((sub, i) => {
- const Icon = sub.icon;
- return (
- <Link key={sub.slug} href={`/businesses/${sub.slug}`}>
- <span className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:text-accent transition-colors duration-200 cursor-pointer border-b border-border/40 last:border-b-0">
- <Icon size={16} className="text-accent shrink-0" />
- <span className="flex-1">{sub.name}</span>
- </span>
- </Link>
- );
- })}
- </div>
- </div>
- </div>
- </div>
- );
- }
- return link.isExternal ? (
+  {mainNavLinks.map((link) => {
+  if (link.href === "/businesses") {
+  return (
+  <div key={link.href} className="relative" onMouseEnter={() => setOpenSubmenu("businesses")}>
+  <Link href={link.href}>
+  <span
+  className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer inline-flex items-center gap-1 ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" :"text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" :""}`}
+  >
+  {link.label} <ChevronDown size={14} className={`transition-transform duration-200 ${openSubmenu === "businesses" ? "rotate-180" :""}`} />
+  </span>
+  </Link>
+  <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${openSubmenu === "businesses" ? "opacity-100 visible translate-y-0" :"opacity-0 invisible -translate-y-2"}`}>
+  <div className="bg-white/90 backdrop-blur-xl shadow-xl border border-border/50 w-64">
+  <div className="px-4 py-3 border-b border-border/50">
+  <Link href="/businesses">
+  <span className="text-xs font-bold tracking-widest uppercase text-primary hover:text-accent transition-colors cursor-pointer">
+  View All →
+  </span>
+  </Link>
+  </div>
+  <div className="max-h-[70vh] overflow-y-auto scrollbar-none" style={{ maskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)' }}>
+  {businessSubs.map((sub, i) => {
+  const Icon = sub.icon;
+  return (
+  <Link key={sub.slug} href={`/businesses/${sub.slug}`}>
+  <span className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:text-accent transition-colors duration-200 cursor-pointer border-b border-border/40 last:border-b-0">
+  <Icon size={16} className="text-accent shrink-0" />
+  <span className="flex-1">{sub.name}</span>
+  </span>
+  </Link>
+  );
+  })}
+  </div>
+  </div>
+  </div>
+  </div>
+  );
+  }
+  if (link.href === "/products") {
+  return (
+  <div key={link.href} className="relative" onMouseEnter={() => setOpenSubmenu("products")}>
+  <Link href={link.href}>
+  <span
+  className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer inline-flex items-center gap-1 ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" :"text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" :""}`}
+  >
+  {link.label} <ChevronDown size={14} className={`transition-transform duration-200 ${openSubmenu === "products" ? "rotate-180" :""}`} />
+  </span>
+  </Link>
+  <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 transition-all duration-200 ${openSubmenu === "products" ? "opacity-100 visible translate-y-0" :"opacity-0 invisible -translate-y-2"}`}>
+  <div className="bg-white/90 backdrop-blur-xl shadow-xl border border-border/50 w-64">
+  <div className="px-4 py-3 border-b border-border/50">
+  <Link href="/products">
+  <span className="text-xs font-bold tracking-widest uppercase text-primary hover:text-accent transition-colors cursor-pointer">
+  View All Products →
+  </span>
+  </Link>
+  </div>
+  <div className="max-h-[70vh] overflow-y-auto scrollbar-none" style={{ maskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)', WebkitMaskImage:'linear-gradient(to bottom, black 0%, black 85%, transparent 100%)' }}>
+  {productCatList.length > 0 ? productCatList.map((cat) => (
+  <Link key={cat.slug} href={`/products?category=${cat.slug}`}>
+  <span className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/10 hover:text-accent transition-colors duration-200 cursor-pointer border-b border-border/40 last:border-b-0">
+  <Tag size={16} className="text-accent shrink-0" />
+  <span className="flex-1">{cat.name}</span>
+  </span>
+  </Link>
+  )) : (
+  <div className="px-4 py-6 text-sm text-muted-foreground text-center">No categories yet</div>
+  )}
+  </div>
+  </div>
+  </div>
+  </div>
+  );
+  }
+  return link.isExternal ? (
  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
  className={`nav-link px-4 py-2 text-sm font-semibold transition-all duration-200 cursor-pointer ${!scrolled ? "text-white/80 hover:text-white hover:bg-white/10" :"text-muted-foreground hover:text-foreground hover:bg-muted/50"} ${isActive(link.href) ? "active text-accent" :""}`}
  >
@@ -355,65 +402,89 @@ export function Layout({ children }:{ children:ReactNode }) {
  </Link>
  </div>
  <nav className="flex-1 flex flex-col px-0 py-2 overflow-y-auto divide-y divide-black/5">
- {mainNavLinks.map((link, i) => {
- const isBiz = link.href === "/businesses";
- return (
- <div key={link.href} style={{ animationDelay:`${i * 50}ms` }} className="animate-fade-in">
- {link.isExternal ? (
- <SheetClose asChild>
- <a href={link.href} target="_blank" rel="noopener noreferrer"
- className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" :"text-foreground hover:text-primary"}`}
- >
- {link.label}
- </a>
- </SheetClose>
- ) :(
- <div>
- <div className="flex items-center justify-between">
- <SheetClose asChild>
- <Link href={link.href}>
- <span
- className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 cursor-pointer border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" :"text-foreground hover:text-primary"}`}
- >
- {link.label}
- </span>
- </Link>
- </SheetClose>
- {isBiz && (
- <button onClick={() => setOpenSubmenu(openSubmenu === "businesses-mobile" ? null :"businesses-mobile")} className="p-3 hover:bg-black/5 transition-colors">
- <ChevronDown size={18} className={`transition-transform duration-200 ${openSubmenu === "businesses-mobile" ? "rotate-180" :""}`} />
- </button>
- )}
- </div>
- {isBiz && openSubmenu === "businesses-mobile" && (
- <div className="ml-6 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
- <SheetClose asChild>
- <Link href="/businesses">
- <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
- View All Businesses →
- </span>
- </Link>
- </SheetClose>
- {businessSubs.map((sub) => {
- const Icon = sub.icon;
- return (
- <SheetClose asChild key={sub.slug}>
- <Link href={`/businesses/${sub.slug}`}>
- <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors cursor-pointer">
- <Icon size={15} className="text-accent shrink-0" />
- {sub.name}
- </span>
- </Link>
- </SheetClose>
- );
- })}
- </div>
- )}
- </div>
- )}
- </div>
- );
- })}
+  {mainNavLinks.map((link, i) => {
+  const isBiz = link.href === "/businesses";
+  const isProd = link.href === "/products";
+  const subKey = isBiz ? "businesses" : isProd ? "products" : null;
+  const isOpen = subKey ? openSubmenu === `${subKey}-mobile` : false;
+  return (
+  <div key={link.href} style={{ animationDelay:`${i * 50}ms` }} className="animate-fade-in">
+  {link.isExternal ? (
+  <SheetClose asChild>
+  <a href={link.href} target="_blank" rel="noopener noreferrer"
+  className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" :"text-foreground hover:text-primary"}`}
+  >
+  {link.label}
+  </a>
+  </SheetClose>
+  ) :(
+  <div>
+  <div className="flex items-center justify-between">
+  <SheetClose asChild>
+  <Link href={link.href}>
+  <span
+  className={`flex items-center gap-4 px-6 py-3.5 text-base font-semibold transition-all duration-200 cursor-pointer border-l-2 border-transparent hover:border-primary hover:bg-black/5 ${isActive(link.href) ? "border-l-primary bg-primary/5 text-primary" :"text-foreground hover:text-primary"}`}
+  >
+  {link.label}
+  </span>
+  </Link>
+  </SheetClose>
+  {subKey && (
+  <button onClick={() => setOpenSubmenu(isOpen ? null : `${subKey}-mobile`)} className="p-3 hover:bg-black/5 transition-colors">
+  <ChevronDown size={18} className={`transition-transform duration-200 ${isOpen ? "rotate-180" :""}`} />
+  </button>
+  )}
+  </div>
+  {isBiz && openSubmenu === "businesses-mobile" && (
+  <div className="ml-6 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
+  <SheetClose asChild>
+  <Link href="/businesses">
+  <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
+  View All Businesses →
+  </span>
+  </Link>
+  </SheetClose>
+  {businessSubs.map((sub) => {
+  const Icon = sub.icon;
+  return (
+  <SheetClose asChild key={sub.slug}>
+  <Link href={`/businesses/${sub.slug}`}>
+  <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors cursor-pointer">
+  <Icon size={15} className="text-accent shrink-0" />
+  {sub.name}
+  </span>
+  </Link>
+  </SheetClose>
+  );
+  })}
+  </div>
+  )}
+  {isProd && openSubmenu === "products-mobile" && (
+  <div className="ml-6 mt-1 mb-2 space-y-0.5 border-l-2 border-accent/30 pl-3">
+  <SheetClose asChild>
+  <Link href="/products">
+  <span className="flex items-center px-4 py-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer">
+  View All Products →
+  </span>
+  </Link>
+  </SheetClose>
+  {productCatList.map((cat) => (
+  <SheetClose asChild key={cat.slug}>
+  <Link href={`/products?category=${cat.slug}`}>
+  <span className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors cursor-pointer">
+  <Tag size={15} className="text-accent shrink-0" />
+  {cat.name}
+  </span>
+  </Link>
+  </SheetClose>
+  ))}
+  </div>
+  )}
+  </div>
+  )}
+  </div>
+  );
+  })}
  </nav>
  <div className="border-t border-border/50 px-4 py-6 flex flex-col gap-3">
  {rightLinks.map((link) => (
