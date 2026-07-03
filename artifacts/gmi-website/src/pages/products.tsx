@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter, ShoppingBasket } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useListProducts, useListProductCategories, getListProductsQueryKey, getListProductCategoriesQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,27 +9,45 @@ import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 
 export default function Products() {
- const [activeCategory, setActiveCategory] = useState<string>("All");
+ const [, navigate] = useLocation();
  const [searchQuery, setSearchQuery] = useState("");
- 
+ const [activeSlug, setActiveSlug] = useState<string>("all");
+
  const { data:categoriesData, isLoading:loadingCategories } = useListProductCategories({
  query:{ queryKey:getListProductCategoriesQueryKey() }
  });
- 
+
  const categories = categoriesData ? [{ name:"All", slug:"all", count:0 }, ...categoriesData] :[{ name:"All", slug:"all", count:0 }];
 
- const { data:productsData, isLoading:loadingProducts } = useListProducts({ 
- category:activeCategory !== "All" ? activeCategory :undefined
+ useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("category");
+  if (cat && categories.some((c) => c.slug === cat)) {
+   setActiveSlug(cat);
+  }
+ }, [categories]);
+
+ const { data:productsData, isLoading:loadingProducts } = useListProducts({
+ category:activeSlug !== "all" ? activeSlug :undefined
  }, {
- query:{ 
- queryKey:getListProductsQueryKey({ category:activeCategory !== "All" ? activeCategory :undefined }),
+ query:{
+ queryKey:getListProductsQueryKey({ category:activeSlug !== "all" ? activeSlug :undefined }),
  }
  });
 
- const filteredProducts = productsData?.items.filter(p => 
- p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+ const filteredProducts = productsData?.items.filter(p =>
+ p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
  p.description.toLowerCase().includes(searchQuery.toLowerCase())
  );
+
+ function handleCategoryClick(slug: string) {
+  setActiveSlug(slug);
+  if (slug === "all") {
+   navigate("/products", { replace: true });
+  } else {
+   navigate(`/products?category=${slug}`, { replace: true });
+  }
+ }
 
  return (
  <div className="w-full pb-24 bg-white">
@@ -48,15 +66,15 @@ export default function Products() {
  <div className="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-6 md:mb-12 bg-background p-6 border border-border">
  <div className="relative w-full md:max-w-md">
  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
- <Input 
- type="search" 
- placeholder="Search products..." 
+ <Input
+ type="search"
+ placeholder="Search products..."
  className="pl-12 bg-white border-border h-12 focus-visible:ring-primary"
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  />
  </div>
- 
+
  <div className="flex items-center gap-3 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
  <Filter className="text-primary mr-2 shrink-0" size={20} />
  {loadingCategories ? (
@@ -65,11 +83,11 @@ export default function Products() {
  categories.map(cat => (
  <Button
  key={cat.slug}
- variant={activeCategory === cat.name ? "primary" :"outline"}
- onClick={() => setActiveCategory(cat.name)}
+ variant={activeSlug === cat.slug ? "primary" :"outline"}
+ onClick={() => handleCategoryClick(cat.slug)}
  className={`shrink-0 font-semibold ${
- activeCategory === cat.name 
- ? "bg-primary text-white hover:bg-secondary" 
+ activeSlug === cat.slug
+ ? "bg-primary text-white hover:bg-secondary"
  :"border-border text-muted-foreground hover:text-primary hover:border-primary"
  }`}
  >
@@ -86,7 +104,7 @@ export default function Products() {
  Array.from({ length:8 }).map((_, i) => (
  <div key={i} className="border border-border shadow-sm flex flex-col h-full">
  <Skeleton className="w-full h-56" />
-<div className="p-4">
+ <div className="p-4">
  <Skeleton className="w-20 h-6 mb-3" />
  <Skeleton className="w-full h-6 mb-2" />
  <Skeleton className="w-2/3 h-4 mb-6" />
