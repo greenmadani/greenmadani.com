@@ -1,6 +1,5 @@
 export interface Subsidiary {
   name: string;
-  image: string;
   slug: string;
   industry: string;
   desc: string;
@@ -13,7 +12,6 @@ export interface Subsidiary {
 export const subsidiaries: Subsidiary[] = [
   {
     name: "GMI Power Agro",
-    image: "/images/businesses/gmi-power-agro.webp",
     slug: "gmi-power-agro",
     industry: "Agriculture",
     desc: "Hybrid seeds, organic fertilizers, and export-quality rice — powering Bangladesh's agricultural transformation with American-formula solutions.",
@@ -24,7 +22,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Essential Food & Consumer",
-    image: "/images/businesses/gmi-essential-food-consumer.webp",
     slug: "gmi-essential-food-consumer",
     industry: "Food & FMCG",
     desc: "Rice, oil, flour, and packaged food essentials delivered through a fully integrated farm-to-shelf supply chain.",
@@ -35,7 +32,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Beverage",
-    image: "/images/businesses/gmi-beverage.webp",
     slug: "gmi-beverage",
     industry: "Beverages",
     desc: "Pure drinking water, natural fruit juices, and healthy soft drinks crafted for everyday wellness.",
@@ -46,7 +42,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Hospital",
-    image: "/images/businesses/gmi-hospital.webp",
     slug: "gmi-hospital",
     industry: "Healthcare",
     desc: "Multi-specialized and digital healthcare services bringing modern medical care closer to communities.",
@@ -56,7 +51,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Hotel & Resort",
-    image: "/images/businesses/gmi-hotel-resort.webp",
     slug: "gmi-hotel-resort",
     industry: "Hospitality",
     desc: "Luxury city hotels and eco-friendly resorts offering premium hospitality experiences nationwide.",
@@ -66,7 +60,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Supermarket",
-    image: "/images/businesses/gmi-supermarket.webp",
     slug: "gmi-supermarket",
     industry: "Retail",
     desc: "City-based chain supermarkets with online delivery, bringing GMI's farm-fresh products directly to customers.",
@@ -76,7 +69,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Tour & Travels",
-    image: "/images/businesses/gmi-tour-travels.webp",
     slug: "gmi-tour-travels",
     industry: "Travel & Tourism",
     desc: "Hajj, Umrah, and domestic and international tour packages designed for comfort and trust.",
@@ -86,7 +78,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Education",
-    image: "/images/businesses/gmi-education.webp",
     slug: "gmi-education",
     industry: "Education",
     desc: "Schools, vocational training centers, and online learning platforms building the workforce of tomorrow.",
@@ -96,7 +87,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Skin Care",
-    image: "/images/businesses/gmi-skin-care.webp",
     slug: "gmi-skin-care",
     industry: "Beauty & Personal Care",
     desc: "Herbal, organic, and medical-grade skincare products formulated for natural beauty and wellness.",
@@ -106,7 +96,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI Fashion House",
-    image: "/images/businesses/gmi-fashion-house.webp",
     slug: "gmi-fashion-house",
     industry: "Apparel & Fashion",
     desc: "Export-quality garments for men, women, and children — combining comfort, style, and sustainability.",
@@ -116,7 +105,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI News & Media",
-    image: "/images/businesses/gmi-news-media.webp",
     slug: "gmi-news-media",
     industry: "Media & Communications",
     desc: "Digital news portal and in-house brand promotion center powering zero-cost marketing across the group.",
@@ -126,7 +114,6 @@ export const subsidiaries: Subsidiary[] = [
   },
   {
     name: "GMI R&D Center",
-    image: "/images/businesses/gmi-rd-center.webp",
     slug: "gmi-rd-center",
     industry: "Research & Development",
     desc: "The innovation engine behind GMI — developing new products and ensuring quality control across every vertical.",

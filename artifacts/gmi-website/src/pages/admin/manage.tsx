@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { adminApi } from "@/lib/admin-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ChevronLeft, ChevronRight, Search, Image as ImageIcon } from "lucide-react";
-import FileUpload from "@/components/admin/FileUpload";
+import { ChevronLeft, ChevronRight, Search, Upload, Image as ImageIcon } from "lucide-react";
 import MediaBrowser from "@/components/admin/MediaBrowser";
 import { toast } from "@/hooks/use-toast";
 
@@ -74,6 +73,60 @@ const jobFields:FormField[] = [
  { key:"description", label:"Description", type:"textarea" },
  { key:"status", label:"Status", type:"select", options:[{ value:"open", label:"Open" }, { value:"closed", label:"Closed" }] },
 ];
+
+function ImageUploadField({ value, onChange, onBrowse }:{ value:string; onChange:(url:string) => void; onBrowse:() => void }) {
+ const [uploading, setUploading] = useState(false);
+ const [error, setError] = useState<string | null>(null);
+ const inputRef = useRef<HTMLInputElement>(null);
+
+ async function handleFile(file: File) {
+  if (!file.type.startsWith("image/")) {
+   setError("Only image files are allowed");
+   return;
+  }
+  if (file.size > 10 * 1024 * 1024) {
+   setError("File too large. Maximum size is 10MB.");
+   return;
+  }
+  setError(null);
+  setUploading(true);
+  try {
+   const url = await adminApi.upload(file);
+   onChange(url);
+  } catch (err) {
+   setError(err instanceof Error ? err.message : "Upload failed");
+  } finally {
+   setUploading(false);
+  }
+ }
+
+ return (
+  <div className="mt-1 space-y-2">
+   {value && (
+    <div className="flex items-center gap-3 p-2 bg-muted border">
+     <img src={value} alt="Preview" className="h-14 w-14 object-cover border shrink-0" />
+     <div className="flex-1 min-w-0">
+      <p className="text-xs text-muted-foreground truncate">{value}</p>
+      <button className="text-xs text-destructive hover:underline mt-0.5" onClick={() => onChange("")}>Remove</button>
+     </div>
+    </div>
+   )}
+   <div className="flex gap-2">
+    <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) { handleFile(f); e.target.value = ""; } }} />
+    <Button type="button" variant="outline" size="sm" disabled={uploading} onClick={() => inputRef.current?.click()} className="h-9">
+     <Upload className="h-3.5 w-3.5 mr-1.5" />
+     {uploading ? "Uploading..." : "Upload Image"}
+    </Button>
+    <Button type="button" variant="outline" size="sm" onClick={onBrowse} className="h-9">
+     <ImageIcon className="h-3.5 w-3.5 mr-1.5" />
+     Browse
+    </Button>
+   </div>
+   {error && <p className="text-xs text-destructive">{error}</p>}
+   <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="Or paste image URL..." className="h-8 text-xs" />
+  </div>
+ );
+}
 
 function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint:string; fields:FormField[]; columns:string[] }) {
  const [data, setData] = useState<Entity[]>([]);
@@ -283,51 +336,12 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
   {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
   </select>
   ) :f.type === "image" ? (
-  <div className="mt-1 space-y-3">
-  {edit[f.key] && (
-  <div className="flex items-center gap-3 p-3 bg-muted border">
-  <img src={edit[f.key]} alt="Preview" className="h-16 w-16 object-cover border" />
-  <div className="flex-1 min-w-0">
-  <p className="text-xs text-muted-foreground truncate">{edit[f.key]}</p>
-  <button
-  className="text-xs text-destructive hover:underline mt-1"
-  onClick={() => setEdit({ ...edit, [f.key]:"" })}
-  >
-  Remove
-  </button>
-  </div>
-  </div>
-  )}
-  <div className="flex gap-2">
-  <div className="flex-1">
-  <FileUpload onUpload={(url) => setEdit({ ...edit, [f.key]:url })} accept="image/*" />
-  </div>
-  <Button
-  variant="outline"
-  size="sm"
-  className="h-10 shrink-0"
-  onClick={() => setBrowseField(f.key)}
-  >
-  <ImageIcon className="h-4 w-4 mr-1" />
-  Browse
-  </Button>
-  </div>
-  <div className="relative">
-  <span className="text-xs text-muted-foreground absolute -top-2 left-3 bg-background px-1">or paste URL</span>
-  <Input
-  value={edit[f.key] ?? ""}
-  onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
-  placeholder="https://..."
-  className="h-8 text-xs pt-3"
-  />
-  </div>
-  <MediaBrowser
-  open={browseField === f.key}
-  onOpenChange={(open) => { if (!open) setBrowseField(null); }}
-  onSelect={(url) => { setEdit({ ...edit, [f.key]:url }); setBrowseField(null); }}
-  />
-  </div>
-  ) :(
+   <ImageUploadField
+   value={edit[f.key] ?? ""}
+   onChange={(url) => setEdit({ ...edit, [f.key]:url })}
+   onBrowse={() => setBrowseField(f.key)}
+   />
+   ) :(
   <Input
   type={f.type === "number" ? "number" :"text"}
   value={edit[f.key] ?? ""}
@@ -337,13 +351,21 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
   )}
   </div>
   ))}
- </div>
- <div className="flex justify-end gap-2">
- <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
- <Button onClick={save}>{editingId ? "Update" :"Create"}</Button>
- </div>
- </DialogContent>
- </Dialog>
+  </div>
+  <MediaBrowser
+  open={browseField !== null}
+  onOpenChange={(open) => { if (!open) setBrowseField(null); }}
+  onSelect={(url) => {
+   if (browseField) setEdit({ ...edit, [browseField]: url });
+   setBrowseField(null);
+  }}
+  />
+  <div className="flex justify-end gap-2">
+  <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+  <Button onClick={save}>{editingId ? "Update" :"Create"}</Button>
+  </div>
+  </DialogContent>
+  </Dialog>
  </div>
  );
 }

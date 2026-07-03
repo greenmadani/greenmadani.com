@@ -47,7 +47,7 @@ function staticToBusiness(item: typeof staticSubsidiaries[number]): Business {
     industry: item.industry,
     description: item.desc,
     longDescription: item.longDescription,
-    imageUrl: item.image,
+    imageUrl: null,
     colorAccent: null,
     featured: false,
     order: 0,
