@@ -21,7 +21,7 @@ interface Entity {
  [key:string]:any;
 }
 
-type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image" | "array"; options?:{ value:string; label:string }[] };
+type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image" | "array" | "categories"; options?:{ value:string; label:string }[] };
 
 const PAGE_SIZE = 15;
 
@@ -43,8 +43,7 @@ const businessFields:FormField[] = [
 
 const productFields:FormField[] = [
  { key:"name", label:"Name", type:"text" },
- { key:"category", label:"Category", type:"text" },
- { key:"categorySlug", label:"Category Slug", type:"text" },
+ { key:"category", label:"Category", type:"categories" },
  { key:"description", label:"Description", type:"textarea" },
  { key:"longDescription", label:"Long Description", type:"textarea" },
  { key:"imageUrl", label:"Image", type:"image" },
@@ -136,9 +135,20 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
  const [search, setSearch] = useState("");
  const [page, setPage] = useState(0);
  const [statusFilter, setStatusFilter] = useState("all");
- const [browseField, setBrowseField] = useState<string | null>(null);
+  const [browseField, setBrowseField] = useState<string | null>(null);
+  const [catOptions, setCatOptions] = useState<{value:string;label:string}[]>([]);
 
- useEffect(() => { adminApi.get(endpoint).then(setData); }, [endpoint]);
+  useEffect(() => { adminApi.get(endpoint).then(setData); }, [endpoint]);
+
+  const hasCategoryField = useMemo(() => fields.some((f) => f.type === "categories"), [fields]);
+  useEffect(() => {
+   if (hasCategoryField) {
+    adminApi.get("/categories").then((data) => {
+     const list = (data ?? []).filter((c:any) => c.type === "product").map((c:any) => ({ value: c.slug, label: c.name }));
+     setCatOptions(list);
+    });
+   }
+  }, [hasCategoryField]);
 
  const filtered = useMemo(() => {
  let items = data;
@@ -335,13 +345,26 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
    <option value="">Select...</option>
    {f.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
    </select>
-   ) :f.type === "image" ? (
-    <ImageUploadField
-    value={edit[f.key] ?? ""}
-    onChange={(url) => setEdit({ ...edit, [f.key]:url })}
-    onBrowse={() => setBrowseField(f.key)}
-    />
-    ) :(
+    ) :f.type === "categories" ? (
+    <select
+    className="flex h-10 w-full border border-input bg-background px-3 py-2 text-sm mt-1"
+    value={edit.categorySlug ?? edit.category ?? ""}
+    onChange={(e) => {
+     const slug = e.target.value;
+     const opt = catOptions.find((o) => o.value === slug);
+     setEdit({ ...edit, category: opt?.label ?? slug, categorySlug: slug });
+    }}
+    >
+    <option value="">Select category...</option>
+    {catOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+    </select>
+    ) :f.type === "image" ? (
+     <ImageUploadField
+     value={edit[f.key] ?? ""}
+     onChange={(url) => setEdit({ ...edit, [f.key]:url })}
+     onBrowse={() => setBrowseField(f.key)}
+     />
+     ) :(
    <Input
    type={f.type === "number" ? "number" :"text"}
    value={edit[f.key] ?? ""}
