@@ -189,9 +189,9 @@ export function Layout({ children }:{ children:ReactNode }) {
  {
  title:"Our Businesses",
  links:[
- { label:"GMI Power Agro Ltd.", href:"/businesses" },
- { label:"GMI Essential Food", href:"/businesses" },
- { label:"GMI Beverage Ltd.", href:"/businesses" },
+  { label:"GMI Power Agro", href:"/businesses" },
+  { label:"GMI Essential Food & Consumer", href:"/businesses" },
+  { label:"GMI Beverage", href:"/businesses" },
  { label:"GMI Skin Care", href:"/businesses" },
  { label:"View All Subsidiaries", href:"/businesses" },
  ],
