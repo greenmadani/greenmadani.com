@@ -9,7 +9,7 @@ import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 
 export default function Products() {
- const [, navigate] = useLocation();
+ const [location, navigate] = useLocation();
  const [searchQuery, setSearchQuery] = useState("");
  const [activeSlug, setActiveSlug] = useState<string>("all");
  const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,12 +21,14 @@ export default function Products() {
  const categories = categoriesData ? [{ name:"All", slug:"all", count:0 }, ...categoriesData] :[{ name:"All", slug:"all", count:0 }];
 
  useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(location.split("?")[1] ?? "");
   const cat = params.get("category");
   if (cat && categories.some((c) => c.slug === cat)) {
    setActiveSlug(cat);
+  } else if (activeSlug !== "all") {
+   setActiveSlug("all");
   }
- }, [categories]);
+ }, [location, categories]);
 
  const { data:productsData, isLoading:loadingProducts } = useListProducts({
  category:activeSlug !== "all" ? activeSlug :undefined
