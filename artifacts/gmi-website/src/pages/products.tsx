@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Search, ShoppingBasket, ChevronDown } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { Link, useSearchParams } from "wouter";
 import { useListProducts, useListProductCategories, getListProductsQueryKey, getListProductCategoriesQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 
 export default function Products() {
- const [location, navigate] = useLocation();
+ const [searchParams, setSearchParams] = useSearchParams();
  const [searchQuery, setSearchQuery] = useState("");
  const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -23,11 +23,10 @@ export default function Products() {
  }, [categoriesData]);
 
  const activeSlug = useMemo(() => {
-  const params = new URLSearchParams(location.split("?")[1] ?? "");
-  const cat = params.get("category");
+  const cat = searchParams.get("category");
   if (cat && allCategories.some((c) => c.slug === cat)) return cat;
   return "all";
- }, [location, allCategories]);
+ }, [searchParams, allCategories]);
 
  const { data:productsData, isLoading:loadingProducts } = useListProducts({
  category:activeSlug !== "all" ? activeSlug :undefined
@@ -44,11 +43,13 @@ export default function Products() {
 
  function handleCategoryClick(slug: string) {
   setSidebarOpen(false);
+  const next = new URLSearchParams(searchParams);
   if (slug === "all") {
-   navigate("/products", { replace: true });
+   next.delete("category");
   } else {
-   navigate(`/products?category=${slug}`, { replace: true });
+   next.set("category", slug);
   }
+  setSearchParams(next, { replace: true });
  }
 
  return (
