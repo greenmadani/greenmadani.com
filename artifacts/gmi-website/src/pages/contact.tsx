@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { MapPin, Phone, Mail, Building2, Handshake, Box } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Building2, Handshake, Box } from "lucide-react";
 import { Link, useSearch } from "wouter";
 import { useSubmitContact, useSubmitBusinessInquiry } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -136,6 +136,15 @@ export default function Contact() {
   <div>
   <h4 className="uppercase tracking-wider text-accent mb-1">Email</h4>
   <p className="text-white/80">{s?.email}</p>
+  </div>
+  </div>
+
+  <div className="flex items-start gap-4">
+  <Clock className="text-accent mt-1 shrink-0" size={24} />
+  <div>
+  <h4 className="uppercase tracking-wider text-accent mb-1">Business Hours</h4>
+  <p className="text-white/80">Sunday – Thursday:9:00 AM – 6:00 PM</p>
+  <p className="text-white/80">Friday & Saturday (Recruitment Interviews):9:00 AM – 5:00 PM</p>
   </div>
   </div>
  </div>
