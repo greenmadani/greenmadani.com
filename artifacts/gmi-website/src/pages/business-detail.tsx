@@ -71,9 +71,7 @@ export default function BusinessDetail() {
  </div>
  <div>
  <h2 className="font-display text-foreground mb-6">Overview</h2>
- <div className="prose prose-lg prose-green max-w-none text-muted-foreground leading-relaxed">
- <p>{display.longDescription}</p>
- </div>
+  <div className="prose prose-lg prose-green max-w-none text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: display.longDescription ?? "" }} />
  </div>
 
  <div>

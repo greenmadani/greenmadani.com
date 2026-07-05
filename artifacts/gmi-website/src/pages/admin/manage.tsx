@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ChevronLeft, ChevronRight, Search, Upload, Image as ImageIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Upload, Image as ImageIcon, Bold, Italic, List } from "lucide-react";
 import MediaBrowser from "@/components/admin/MediaBrowser";
 import { toast } from "@/hooks/use-toast";
 
@@ -21,7 +21,7 @@ interface Entity {
  [key:string]:any;
 }
 
-type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image" | "array" | "categories"; options?:{ value:string; label:string }[] };
+type FormField = { key:string; label:string; type:"text" | "textarea" | "number" | "switch" | "select" | "image" | "array" | "categories" | "richtext"; options?:{ value:string; label:string }[] };
 
 const PAGE_SIZE = 15;
 
@@ -29,10 +29,10 @@ const businessFields:FormField[] = [
  { key:"name", label:"Name", type:"text" },
  { key:"slug", label:"Slug", type:"text" },
  { key:"industry", label:"Industry", type:"text" },
- { key:"description", label:"Description", type:"textarea" },
- { key:"longDescription", label:"Long Description", type:"textarea" },
- { key:"imageUrl", label:"Image", type:"image" },
- { key:"colorAccent", label:"Color Accent", type:"text" },
+  { key:"description", label:"Description", type:"textarea" },
+  { key:"longDescription", label:"Long Description", type:"richtext" },
+  { key:"imageUrl", label:"Image", type:"image" },
+  { key:"colorAccent", label:"Color Accent", type:"text" },
  { key:"featured", label:"Featured", type:"switch" },
  { key:"order", label:"Order", type:"number" },
  { key:"services", label:"Services (one per line)", type:"array" },
@@ -322,9 +322,24 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
    {fields.map((f) => (
    <div key={f.key}>
    <Label>{f.label}</Label>
-   {f.type === "textarea" ? (
-   <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
-   ) :f.type === "array" ? (
+    {f.type === "textarea" ? (
+    <Textarea value={edit[f.key] ?? ""} onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })} className="mt-1" />
+    ) :f.type === "richtext" ? (
+    <div className="mt-1 border border-input rounded-sm overflow-hidden">
+     <div className="flex gap-0.5 p-1 bg-muted border-b border-input">
+      <button type="button" className="p-1.5 hover:bg-background rounded-sm" onClick={() => document.execCommand('bold')} title="Bold"><Bold size={14} /></button>
+      <button type="button" className="p-1.5 hover:bg-background rounded-sm" onClick={() => document.execCommand('italic')} title="Italic"><Italic size={14} /></button>
+      <button type="button" className="p-1.5 hover:bg-background rounded-sm" onClick={() => document.execCommand('insertUnorderedList')} title="List"><List size={14} /></button>
+     </div>
+     <div
+      contentEditable
+      suppressContentEditableWarning
+      className="min-h-[200px] p-3 text-sm focus:outline-none prose prose-sm max-w-none"
+      dangerouslySetInnerHTML={{ __html: edit[f.key] ?? "" }}
+      onInput={(e) => setEdit({ ...edit, [f.key]: (e.target as HTMLDivElement).innerHTML })}
+     />
+    </div>
+    ) :f.type === "array" ? (
    <Textarea
    value={Array.isArray(edit[f.key]) ? (edit[f.key] as string[]).join("\n") : (edit[f.key] ?? "")}
    onChange={(e) => setEdit({ ...edit, [f.key]:e.target.value })}
