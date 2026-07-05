@@ -44,24 +44,38 @@ export function AnimatedSection({
  const [isInView, setIsInView] = useState(false);
  const [hasAnimated, setHasAnimated] = useState(false);
 
- useEffect(() => {
- const element = ref.current;
- if (!element || hasAnimated) return;
+  useEffect(() => {
+  const element = ref.current;
+  if (!element || hasAnimated) {
+    if (!hasAnimated) setIsInView(true);
+    return;
+  }
 
- const observer = new IntersectionObserver(
- ([entry]) => {
- if (entry.isIntersecting) {
- setIsInView(true);
- setHasAnimated(true);
- observer.unobserve(element);
- }
- },
- { threshold }
- );
+  const observer = new IntersectionObserver(
+  ([entry]) => {
+  if (entry.isIntersecting) {
+  setIsInView(true);
+  setHasAnimated(true);
+  observer.unobserve(element);
+  }
+  },
+  { threshold }
+  );
 
- observer.observe(element);
- return () => observer.disconnect();
- }, [threshold, hasAnimated]);
+  observer.observe(element);
+
+  const fallbackTimer = setTimeout(() => {
+    if (!hasAnimated) {
+      setIsInView(true);
+      setHasAnimated(true);
+    }
+  }, 3000);
+
+  return () => {
+    observer.disconnect();
+    clearTimeout(fallbackTimer);
+  };
+  }, [threshold, hasAnimated]);
 
  return (
  <Component
