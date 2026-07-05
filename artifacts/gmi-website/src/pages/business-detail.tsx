@@ -59,7 +59,7 @@ export default function BusinessDetail() {
  <div className="grid lg:grid-cols-3 gap-6 md:gap-16">
  <div className="lg:col-span-2 space-y-6 md:space-y-12">
  <div className="shimmer-wrap img-hover shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden mb-4 md:mb-8">
- <div className="aspect-[21/9]">
+  <div className="aspect-[3/2]">
  <img
  src={display.imageUrl ?? "/images/businesses/placeholder.svg"}
  alt={display.name}

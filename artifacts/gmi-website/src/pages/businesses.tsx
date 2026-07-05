@@ -26,7 +26,7 @@ export default function Businesses() {
  {isLoading ? (
  Array.from({ length: 8 }).map((_, i) => (
  <div key={i} className="h-full flex flex-col bg-white border border-border shadow-sm overflow-hidden">
- <Skeleton className="h-40 w-full" />
+  <Skeleton className="aspect-[3/2] w-full" />
  <div className="p-3 space-y-2">
  <Skeleton className="h-5 w-3/4" />
  <Skeleton className="h-4 w-full" />
@@ -42,7 +42,7 @@ export default function Businesses() {
  businesses?.map((sub) => (
  <Link key={sub.slug} href={`/businesses/${sub.slug}`} className="group block">
  <div className="h-full flex flex-col bg-white border border-border shadow-sm card-hover overflow-hidden">
- <div className="relative h-40 overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
+  <div className="relative aspect-[3/2] overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
  <img
  src={sub.imageUrl ?? "/images/businesses/placeholder.svg"}
  alt={sub.name}

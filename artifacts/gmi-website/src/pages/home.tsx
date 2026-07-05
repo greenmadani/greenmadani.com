@@ -167,7 +167,7 @@ export default function Home() {
   {loadingBusinesses ? (
   Array.from({ length: 6 }).map((_, i) => (
   <div key={i} className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden">
-  <Skeleton className="h-48 w-full bg-white/10" />
+  <Skeleton className="aspect-[3/2] w-full bg-white/10" />
   <div className="p-3 space-y-2">
   <Skeleton className="h-5 w-3/4 bg-white/10" />
   <Skeleton className="h-4 w-full bg-white/10" />
@@ -178,7 +178,7 @@ export default function Home() {
   displaySubsidiaries.map((sub, i) => (
   <Link key={sub.slug} href={`/businesses/${sub.slug}`} className="group block">
   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
-  <div className="relative h-48 overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
+  <div className="relative aspect-[3/2] overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
   <img src={sub.imageUrl ?? "/images/businesses/placeholder.svg"} alt={sub.name} className="w-full h-full object-cover" style={{ willChange:'transform' }} loading="lazy" />
   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
   <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
