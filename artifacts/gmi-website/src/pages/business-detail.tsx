@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBusiness, getBusinessStaticFallback } from "@/lib/businesses";
+import { useBusiness, getBusinessStaticFallback, safeBusinessImage } from "@/lib/businesses";
 
 export default function BusinessDetail() {
  const params = useParams();
@@ -61,7 +61,7 @@ export default function BusinessDetail() {
  <div className="shimmer-wrap img-hover shadow-xl border border-border border-b-4 border-b-accent/30 overflow-hidden mb-4 md:mb-8">
   <div className="aspect-[3/2]">
  <img
- src={display.imageUrl ?? "/images/businesses/placeholder.svg"}
+  src={safeBusinessImage(display.imageUrl)}
  alt={display.name}
  className="w-full h-full object-cover"
  loading="lazy"

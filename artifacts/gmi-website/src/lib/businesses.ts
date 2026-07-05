@@ -95,6 +95,14 @@ export function useBusiness(slug: string) {
   });
 }
 
+const PLACEHOLDER = "/images/businesses/placeholder.svg";
+
+export function safeBusinessImage(imageUrl: string | null | undefined): string {
+  if (!imageUrl) return PLACEHOLDER;
+  if (imageUrl.startsWith("/") && !imageUrl.startsWith("//") && imageUrl !== PLACEHOLDER) return PLACEHOLDER;
+  return imageUrl;
+}
+
 export function getBusinessStaticFallback(slug?: string): Business[] {
   if (slug) {
     const found = staticSubsidiaries.find((s) => s.slug === slug);

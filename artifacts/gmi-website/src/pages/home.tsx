@@ -11,7 +11,7 @@ import { SectionHeader } from "@/components/section-header";
 import { StatDisplay } from "@/components/stat-display";
 import { AnimatedSection } from "@/components/animated-section";
 import { CTASection } from "@/components/cta-section";
-import { useBusinessesList } from "@/lib/businesses";
+import { useBusinessesList, safeBusinessImage } from "@/lib/businesses";
 
 const CATEGORIES = ["All", "Agriculture", "Food", "Skincare", "Beverage"] as const;
 
@@ -179,7 +179,7 @@ export default function Home() {
   <Link key={sub.slug} href={`/businesses/${sub.slug}`} className="group block">
   <div className="h-full flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 card-hover overflow-hidden">
   <div className="relative aspect-[3/2] overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
-  <img src={sub.imageUrl ?? "/images/businesses/placeholder.svg"} alt={sub.name} className="w-full h-full object-cover" style={{ willChange:'transform' }} loading="lazy" />
+  <img src={safeBusinessImage(sub.imageUrl)} alt={sub.name} className="w-full h-full object-cover" style={{ willChange:'transform' }} loading="lazy" />
   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
   <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">{sub.industry}</span>
   <div className="absolute bottom-3 left-3 right-3">

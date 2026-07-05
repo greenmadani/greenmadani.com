@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { PageHero } from "@/components/page-hero";
 import { AnimatedSection } from "@/components/animated-section";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBusinessesList } from "@/lib/businesses";
+import { useBusinessesList, safeBusinessImage } from "@/lib/businesses";
 
 export default function Businesses() {
  const { data: businesses, isLoading } = useBusinessesList();
@@ -44,7 +44,7 @@ export default function Businesses() {
  <div className="h-full flex flex-col bg-white border border-border shadow-sm card-hover overflow-hidden">
   <div className="relative aspect-[3/2] overflow-hidden img-hover" style={{ transform:'translateZ(0)' }}>
  <img
- src={sub.imageUrl ?? "/images/businesses/placeholder.svg"}
+  src={safeBusinessImage(sub.imageUrl)}
  alt={sub.name}
  className="w-full h-full object-cover"
  style={{ willChange:'transform' }}
