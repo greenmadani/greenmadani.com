@@ -69,7 +69,7 @@ export function AnimatedSection({
       setIsInView(true);
       setHasAnimated(true);
     }
-  }, 3000);
+  }, 200);
 
   return () => {
     observer.disconnect();
