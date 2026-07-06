@@ -177,14 +177,25 @@ export default function MediaManager() {
                   <TableCell className="text-sm text-muted-foreground">{formatSize(item.size)}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">{new Date(item.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 text-red-600 hover:bg-red-50"
-                      onClick={(e) => { e.stopPropagation(); setDeleteId(item.id); }}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex justify-end gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={(e) => { e.stopPropagation(); copyUrl(item.url); }}
+                        title="Copy URL"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-red-600 hover:bg-red-50"
+                        onClick={(e) => { e.stopPropagation(); setDeleteId(item.id); }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
