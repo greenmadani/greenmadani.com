@@ -74,4 +74,23 @@ export const adminApi = {
     const data = await res.json();
     return data.url;
   },
+  async uploadMultiple(files: File[]): Promise<string[]> {
+    const token = await getAdminToken();
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append("files", file);
+    }
+    const res = await fetch(`${API}/upload-multiple`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+      cache: "no-cache",
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(body ? `Upload failed: ${body}` : "Upload failed");
+    }
+    const data = await res.json();
+    return (data.items || []).map((item: any) => item.url);
+  },
 };

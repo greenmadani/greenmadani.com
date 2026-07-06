@@ -25,54 +25,82 @@ const upload = multer({
 
 const BUCKET = "site-media";
 
+async function processFile(file: Express.Multer.File) {
+  const ext = path.extname(file.originalname);
+  const uniqueName = `${crypto.randomUUID()}${ext}`;
+  const objectPath = `uploads/${uniqueName}`;
+
+  const storageClient = getSupabaseClient();
+  if (!storageClient) {
+    throw new Error("Storage not configured");
+  }
+
+  const { error: uploadError } = await storageClient.storage
+    .from(BUCKET)
+    .upload(objectPath, file.buffer, {
+      contentType: file.mimetype,
+      upsert: false,
+    });
+
+  if (uploadError) {
+    throw new Error(uploadError.message);
+  }
+
+  const { data: urlData } = storageClient.storage
+    .from(BUCKET)
+    .getPublicUrl(objectPath);
+
+  const publicUrl = urlData?.publicUrl;
+
+  const { data: inserted, error: insertError } = await supabase!.from("media").insert({
+    filename: uniqueName,
+    original_name: file.originalname,
+    mime_type: file.mimetype,
+    size: file.size,
+    url: publicUrl,
+    bucket: BUCKET,
+    path: objectPath,
+  }).select();
+
+  if (insertError) {
+    throw new Error(insertError.message);
+  }
+
+  return snakeToCamel(inserted![0]);
+}
+
 router.post("/upload", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
     if (!file) {
       return res.status(400).json({ error: "No file provided" });
     }
+    const result = await processFile(file);
+    res.status(201).json(result);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Upload failed";
+    res.status(500).json({ error: message });
+  }
+});
 
-    const ext = path.extname(file.originalname);
-    const uniqueName = `${crypto.randomUUID()}${ext}`;
-    const objectPath = `uploads/${uniqueName}`;
-
-    const storageClient = getSupabaseClient();
-    if (!storageClient) {
-      return res.status(500).json({ error: "Storage not configured. Set SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY." });
+router.post("/upload-multiple", upload.array("files", 50), async (req, res) => {
+  try {
+    const files = req.files as Express.Multer.File[];
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: "No files provided" });
     }
-
-    const { error: uploadError } = await storageClient.storage
-      .from(BUCKET)
-      .upload(objectPath, file.buffer, {
-        contentType: file.mimetype,
-        upsert: false,
-      });
-
-    if (uploadError) {
-      return res.status(500).json({ error: uploadError.message });
+    const results = [];
+    const errors = [];
+    for (const file of files) {
+      try {
+        const result = await processFile(file);
+        results.push(result);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Upload failed";
+        errors.push({ filename: file.originalname, error: message });
+      }
     }
-
-    const { data: urlData } = storageClient.storage
-      .from(BUCKET)
-      .getPublicUrl(objectPath);
-
-    const publicUrl = urlData?.publicUrl;
-
-    const { data: inserted, error: insertError } = await supabase!.from("media").insert({
-      filename: uniqueName,
-      original_name: file.originalname,
-      mime_type: file.mimetype,
-      size: file.size,
-      url: publicUrl,
-      bucket: BUCKET,
-      path: objectPath,
-    }).select();
-
-    if (insertError) {
-      return res.status(500).json({ error: insertError.message });
-    }
-
-    res.status(201).json(snakeToCamel(inserted![0]));
+    res.status(201).json({ items: results, errors });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Upload failed";
     res.status(500).json({ error: message });
