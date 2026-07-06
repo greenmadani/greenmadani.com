@@ -27,7 +27,8 @@ const BUCKET = "site-media";
 
 async function processFile(file: Express.Multer.File) {
   const ext = path.extname(file.originalname);
-  const uniqueName = `${crypto.randomUUID()}${ext}`;
+  const baseName = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9._()-]/g, "_").slice(0, 100);
+  const uniqueName = baseName ? `${Date.now()}-${baseName}${ext}` : `${crypto.randomUUID()}${ext}`;
   const objectPath = `uploads/${uniqueName}`;
 
   const storageClient = getSupabaseClient();
