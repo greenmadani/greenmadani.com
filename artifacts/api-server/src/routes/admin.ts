@@ -60,6 +60,184 @@ router.delete("/products/:id", async (req, res) => {
   res.status(204).end();
 });
 
+function csvEscape(val: unknown): string {
+  if (val === null || val === undefined) return "";
+  const str = String(val);
+  if (str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r")) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+}
+
+const PRODUCT_EXPORT_FIELDS = ["Name", "Category", "CategorySlug", "Description", "LongDescription", "ImageUrl", "Featured", "BusinessSlug", "Tags", "Status"];
+
+router.get("/products/export", async (_req, res) => {
+  const { data, error } = await supabase!.from("products").select("*").order("created_at", { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+
+  const headers = PRODUCT_EXPORT_FIELDS;
+  const csvRows = (data ?? []).map((row: Record<string, unknown>) => [
+    csvEscape(row.name),
+    csvEscape(row.category),
+    csvEscape(row.category_slug),
+    csvEscape(row.description),
+    csvEscape(row.long_description),
+    csvEscape(row.image_url),
+    csvEscape(row.featured ? "Yes" : "No"),
+    csvEscape(row.business_slug),
+    csvEscape(Array.isArray(row.tags) ? (row.tags as string[]).join("|") : ""),
+    csvEscape(row.status),
+  ].join(","));
+
+  const csv = [headers.join(","), ...csvRows].join("\r\n");
+
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.setHeader("Content-Disposition", 'attachment; filename="products-export.csv"');
+  res.status(200).send(csv);
+});
+
+import multer from "multer";
+
+const csvUpload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 20 * 1024 * 1024 } });
+
+router.post("/products/import", csvUpload.single("file"), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: "No CSV file provided" });
+    }
+
+    const content = file.buffer.toString("utf-8");
+    const lines = content.split(/\r?\n/).filter(Boolean);
+    if (lines.length < 2) {
+      return res.status(400).json({ error: "CSV must have a header row and at least one data row" });
+    }
+
+    const parseCSVLine = (line: string): string[] => {
+      const result: string[] = [];
+      let current = "";
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (inQuotes) {
+          if (ch === '"') {
+            if (i + 1 < line.length && line[i + 1] === '"') {
+              current += '"';
+              i++;
+            } else {
+              inQuotes = false;
+            }
+          } else {
+            current += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ",") {
+            result.push(current.trim());
+            current = "";
+          } else {
+            current += ch;
+          }
+        }
+      }
+      result.push(current.trim());
+      return result;
+    };
+
+    const headers = parseCSVLine(lines[0]).map((h) => h.trim());
+    const expectedHeaders = PRODUCT_EXPORT_FIELDS;
+
+    const headerMap: Record<string, number> = {};
+    for (const h of expectedHeaders) {
+      const idx = headers.findIndex((ch) => ch.toLowerCase() === h.toLowerCase());
+      if (idx >= 0) headerMap[h] = idx;
+    }
+
+    const { data: categories } = await supabase!.from("categories").select("*").eq("type", "product");
+    const categoryMap: Record<string, { slug: string; name: string }> = {};
+    for (const cat of (categories ?? [])) {
+      categoryMap[cat.slug.toLowerCase()] = { slug: cat.slug, name: cat.name };
+      categoryMap[cat.name.toLowerCase()] = { slug: cat.slug, name: cat.name };
+    }
+
+    const inserted: Record<string, unknown>[] = [];
+    const errors: { row: number; message: string }[] = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const rowNum = i + 1;
+      const values = parseCSVLine(lines[i]);
+
+      const getVal = (field: string): string => {
+        const idx = headerMap[field];
+        return idx !== undefined ? (values[idx] ?? "") : "";
+      };
+
+      const name = getVal("Name");
+      const categoryVal = getVal("Category");
+      const categorySlugVal = getVal("CategorySlug");
+
+      if (!name) {
+        errors.push({ row: rowNum, message: "Name is required" });
+        continue;
+      }
+      if (!categoryVal && !categorySlugVal) {
+        errors.push({ row: rowNum, message: "Either Category or CategorySlug is required" });
+        continue;
+      }
+
+      let resolvedCategory = categoryVal;
+      let resolvedSlug = categorySlugVal;
+
+      if (categorySlugVal && categoryMap[categorySlugVal.toLowerCase()]) {
+        const match = categoryMap[categorySlugVal.toLowerCase()];
+        resolvedCategory = resolvedCategory || match.name;
+        resolvedSlug = match.slug;
+      } else if (categoryVal && categoryMap[categoryVal.toLowerCase()]) {
+        const match = categoryMap[categoryVal.toLowerCase()];
+        resolvedCategory = match.name;
+        resolvedSlug = match.slug;
+      }
+
+      if (!resolvedSlug) {
+        resolvedSlug = categorySlugVal || categoryVal.toLowerCase().replace(/\s+/g, "-");
+      }
+
+      const tagsRaw = getVal("Tags");
+      const tags = tagsRaw ? tagsRaw.split("|").filter(Boolean).map((t) => t.trim()) : [];
+
+      const row: Record<string, unknown> = {
+        name,
+        category: resolvedCategory || categoryVal,
+        category_slug: resolvedSlug,
+        description: getVal("Description") || " ",
+        long_description: getVal("LongDescription") || null,
+        image_url: getVal("ImageUrl") || null,
+        featured: getVal("Featured")?.toLowerCase() === "yes" || getVal("Featured")?.toLowerCase() === "true",
+        business_slug: getVal("BusinessSlug") || null,
+        tags,
+        status: getVal("Status") || "active",
+      };
+
+      inserted.push(row);
+    }
+
+    let successCount = 0;
+    if (inserted.length > 0) {
+      const { data: result, error: insertError } = await supabase!.from("products").insert(inserted).select();
+      if (insertError) {
+        return res.status(500).json({ error: `Import failed: ${insertError.message}`, inserted: 0, errors: [{ row: 0, message: insertError.message }] });
+      }
+      successCount = result?.length ?? 0;
+    }
+
+    res.status(201).json({ inserted: successCount, errors: errors.length > 0 ? errors : undefined });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Import failed";
+    res.status(500).json({ error: message, inserted: 0 });
+  }
+});
+
 router.get("/news", async (_req, res) => {
   const { data, error } = await supabase!.from("news").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });

@@ -74,6 +74,22 @@ export const adminApi = {
     const data = await res.json();
     return data.url;
   },
+  async importCsv(endpoint: string, file: File): Promise<any> {
+    const token = await getAdminToken();
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch(`${API}${endpoint}`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+      cache: "no-cache",
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      throw new Error(text ? `Import failed: ${text}` : "Import failed");
+    }
+    try { return JSON.parse(text); } catch { return null; }
+  },
   async uploadMultiple(files: File[]): Promise<string[]> {
     const token = await getAdminToken();
     const formData = new FormData();

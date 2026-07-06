@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { adminApi } from "@/lib/admin-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,12 +7,12 @@ import {
  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
 import {
- Dialog, DialogContent, DialogHeader, DialogTitle,
+ Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ChevronLeft, ChevronRight, Search, Upload, Image as ImageIcon, Bold, Italic, List } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Upload, Download, FileUp, Image as ImageIcon, Bold, Italic, List } from "lucide-react";
 import MediaBrowser from "@/components/admin/MediaBrowser";
 import { toast } from "@/hooks/use-toast";
 
@@ -127,7 +127,7 @@ function ImageUploadField({ value, onChange, onBrowse }:{ value:string; onChange
  );
 }
 
-function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint:string; fields:FormField[]; columns:string[] }) {
+function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:string; endpoint:string; fields:FormField[]; columns:string[]; headerExtra?:React.ReactNode }) {
  const [data, setData] = useState<Entity[]>([]);
  const [edit, setEdit] = useState<Record<string, any>>({});
  const [open, setOpen] = useState(false);
@@ -226,12 +226,15 @@ function CrudTable({ title, endpoint, fields, columns }:{ title:string; endpoint
  return Array.from(s);
  }, [data]);
 
- return (
- <div>
- <div className="flex items-center justify-between mb-4">
- <h3 className="font-display">{title}</h3>
- <Button onClick={openNew}>+ New</Button>
- </div>
+  return (
+  <div>
+  <div className="flex items-center justify-between mb-4">
+  <h3 className="font-display">{title}</h3>
+  <div className="flex items-center gap-2">
+  {headerExtra}
+  <Button onClick={openNew}>+ New</Button>
+  </div>
+  </div>
 
  <div className="flex items-center gap-3 mb-4">
  <div className="relative flex-1 max-w-xs">
@@ -412,8 +415,165 @@ export function AdminBusinesses() {
  return <CrudTable title="Businesses" endpoint="/businesses" fields={businessFields} columns={["Name", "Industry", "Status", "Featured"]} />;
 }
 
+function ProductImportDialog({ open, onOpenChange, onDone }:{ open:boolean; onOpenChange:(v:boolean) => void; onDone:() => void }) {
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [result, setResult] = useState<{ inserted:number; errors?:{ row:number; message:string }[] } | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const reset = useCallback(() => {
+    setFile(null);
+    setResult(null);
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
+  }, []);
+
+  async function handleImport() {
+    if (!file) return;
+    setUploading(true);
+    setResult(null);
+    try {
+      const res = await adminApi.importCsv("/products/import", file);
+      setResult(res);
+      if (res?.errors?.length === 0) {
+        toast({ title:"Import Complete", description:`${res.inserted} products imported successfully.`, className:"bg-primary text-white" });
+      }
+    } catch (err) {
+      toast({ title:"Import Failed", description:err instanceof Error ? err.message : "Import failed", variant:"destructive" });
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function downloadTemplate() {
+    const headers = ["Name", "Category", "CategorySlug", "Description", "LongDescription", "ImageUrl", "Featured", "BusinessSlug", "Tags", "Status"];
+    const row = ["Example Product", "Agriculture", "agriculture", "Product description here", "", "", "No", "", "", "active"];
+    const csv = [headers.join(","), row.join(",")].join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "product-import-template.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={(v) => { if (!v) { onOpenChange(false); setTimeout(reset, 200); } }}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Import Products from CSV</DialogTitle>
+          <DialogDescription>
+            Upload a CSV file with product data.{" "}
+            <button onClick={downloadTemplate} className="text-[#1A5C38] underline hover:no-underline font-medium">Download template</button>
+          </DialogDescription>
+        </DialogHeader>
+
+        {!result ? (
+          <div className="space-y-4">
+            <div
+              className="border-2 border-dashed p-8 text-center cursor-pointer hover:border-gray-400 transition-colors"
+              onClick={() => inputRef.current?.click()}
+            >
+              <input
+                ref={inputRef}
+                type="file"
+                accept=".csv"
+                className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) setFile(f); }}
+              />
+              <FileUp className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+              <p className="text-sm text-gray-600 font-medium">
+                {file ? file.name : "Click to select CSV file"}
+              </p>
+              {file && (
+                <p className="text-xs text-gray-400 mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+              <Button onClick={handleImport} disabled={!file || uploading} className="bg-[#1A5C38] hover:bg-[#0D3D25]">
+                {uploading ? "Importing..." : "Import"}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="bg-green-50 border border-green-200 p-4 text-center">
+              <p className="text-lg font-bold text-green-700">{result.inserted}</p>
+              <p className="text-sm text-green-600">products imported successfully</p>
+            </div>
+            {result.errors && result.errors.length > 0 && (
+              <div className="bg-red-50 border border-red-200 p-3 max-h-40 overflow-y-auto">
+                <p className="text-sm font-medium text-red-700 mb-1">{result.errors.length} row(s) skipped:</p>
+                {result.errors.map((e, i) => (
+                  <p key={i} className="text-xs text-red-600">Row {e.row}: {e.message}</p>
+                ))}
+              </div>
+            )}
+            <div className="flex justify-end">
+              <Button onClick={() => { reset(); onDone(); onOpenChange(false); }}>Done</Button>
+            </div>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export function AdminProducts() {
- return <CrudTable title="Products" endpoint="/products" fields={productFields} columns={["Name", "Category", "Status", "Featured"]} />;
+  const [showImport, setShowImport] = useState(false);
+  const [importKey, setImportKey] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  async function handleExport() {
+    const { getAdminToken } = await import("@/lib/supabase");
+    const token = await getAdminToken();
+    const headers: Record<string, string> = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    fetch("/api/admin/products/export", { headers })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "products-export.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(() => toast({ title:"Export Failed", description:"Could not export products", variant:"destructive" }));
+  }
+
+  const headerExtra = (
+    <>
+      <Button variant="outline" size="sm" onClick={handleExport}>
+        <Download className="h-3.5 w-3.5 mr-1" />
+        Export
+      </Button>
+      <Button variant="outline" size="sm" onClick={() => setShowImport(true)}>
+        <FileUp className="h-3.5 w-3.5 mr-1" />
+        Import
+      </Button>
+      <ProductImportDialog
+        key={importKey}
+        open={showImport}
+        onOpenChange={(v) => { setShowImport(v); if (!v) { setImportKey((k) => k + 1); setRefreshKey((k) => k + 1); } }}
+        onDone={() => setRefreshKey((k) => k + 1)}
+      />
+    </>
+  );
+
+  return (
+    <CrudTable
+      key={refreshKey}
+      title="Products"
+      endpoint="/products"
+      fields={productFields}
+      columns={["Name", "Category", "Status", "Featured"]}
+      headerExtra={headerExtra}
+    />
+  );
 }
 
 export function AdminNews() {
