@@ -40,6 +40,7 @@ export default function MediaManager() {
   const [viewItem, setViewItem] = useState<MediaItem | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedMd, setCopiedMd] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
@@ -71,6 +72,12 @@ export default function MediaManager() {
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function copyMarkdown(item:MediaItem) {
+    await navigator.clipboard.writeText(`![${item.filename}](${item.url})`);
+    setCopiedMd(true);
+    setTimeout(() => setCopiedMd(false), 2000);
   }
 
   const filtered = media.filter((m) =>
@@ -190,6 +197,15 @@ export default function MediaManager() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={(e) => { e.stopPropagation(); copyMarkdown(item); }}
+                        title="Copy Markdown"
+                      >
+                        <ImageIcon className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="h-8 w-8 p-0 text-red-600 hover:bg-red-50"
                         onClick={(e) => { e.stopPropagation(); setDeleteId(item.id); }}
                       >
@@ -264,6 +280,10 @@ export default function MediaManager() {
                 <Button className="flex-1" onClick={() => copyUrl(viewItem.url)}>
                   {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
                   {copied ? "Copied!" : "Copy URL"}
+                </Button>
+                <Button className="flex-1" variant="secondary" onClick={() => copyMarkdown(viewItem)}>
+                  {copiedMd ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
+                  {copiedMd ? "Copied!" : "Copy Markdown"}
                 </Button>
                 <Button variant="destructive" onClick={() => { setDeleteId(viewItem.id); setViewItem(null); }}>
                   <Trash2 className="h-4 w-4 mr-2" />
