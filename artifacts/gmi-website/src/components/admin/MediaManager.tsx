@@ -220,6 +220,9 @@ export default function MediaManager() {
               onUpload={() => {
                 load();
               }}
+              onUploadComplete={() => {
+                setShowUpload(false);
+              }}
             />
           </DialogContent>
         </Dialog>

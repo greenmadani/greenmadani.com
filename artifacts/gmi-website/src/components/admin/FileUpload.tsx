@@ -5,6 +5,7 @@ import { adminApi } from "@/lib/admin-api";
 
 interface FileUploadProps {
   onUpload:(url:string) => void;
+  onUploadComplete?:() => void;
   accept?:string;
   maxSize?:number;
   className?:string;
@@ -17,7 +18,7 @@ interface FileEntry {
   preview:string | null;
 }
 
-export default function FileUpload({ onUpload, accept = "image/*,.pdf,.doc,.docx", maxSize = 5, className = "", multiple = false }:FileUploadProps) {
+export default function FileUpload({ onUpload, onUploadComplete, accept = "image/*,.pdf,.doc,.docx", maxSize = 5, className = "", multiple = false }:FileUploadProps) {
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +91,7 @@ export default function FileUpload({ onUpload, accept = "image/*,.pdf,.doc,.docx
       }
       setFiles([]);
       if (inputRef.current) inputRef.current.value = "";
+      onUploadComplete?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
