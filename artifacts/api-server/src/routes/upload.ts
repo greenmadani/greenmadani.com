@@ -27,9 +27,8 @@ const BUCKET = "site-media";
 
 async function processFile(file: Express.Multer.File) {
   const ext = path.extname(file.originalname);
-  const baseName = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9._()-]/g, "_").slice(0, 100);
-  const uniqueName = baseName ? `${Date.now()}-${baseName}${ext}` : `${crypto.randomUUID()}${ext}`;
-  const objectPath = `uploads/${uniqueName}`;
+  const storageId = `${crypto.randomUUID()}${ext}`;
+  const objectPath = `uploads/${storageId}`;
 
   const storageClient = getSupabaseClient();
   if (!storageClient) {
@@ -54,7 +53,7 @@ async function processFile(file: Express.Multer.File) {
   const publicUrl = urlData?.publicUrl;
 
   const { data: inserted, error: insertError } = await supabase!.from("media").insert({
-    filename: uniqueName,
+    filename: file.originalname,
     original_name: file.originalname,
     mime_type: file.mimetype,
     size: file.size,
