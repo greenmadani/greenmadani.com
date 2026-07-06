@@ -37,7 +37,7 @@ secondaryLink: "/contact"
 ```
 badge: "Who We Are"
 heading: "A Legacy of Growth, A Future of Innovation"
-paragraph1: "Green Madani International Private Ltd. (formerly Green Universe Group) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Founded and led by A.R. Reju (Rafiqul Islam A.R. Chowdhury Reju), GMI was built on a single belief: that sustainable, technology-driven business can transform communities while delivering lasting value."
+paragraph1: "Green Madani International Private Ltd. (formerly Green Universe Group) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Founded and led by A.R. Chowdhury Reju, GMI was built on a single belief: that sustainable, technology-driven business can transform communities while delivering lasting value."
 paragraph2: "With operations across 42 districts and a growing network of distribution points, GMI connects farmers, manufacturers, and consumers through a fully integrated farm-to-shelf model. Our mission extends beyond profit — we aim to build a better Bangladesh through quality, innovation, and large-scale employment opportunities."
 
 Value Cards (4):
@@ -314,7 +314,7 @@ This section is supplementary guidance — not a form field — to help whoever 
 ### Company Snapshot
 - **Legal Name:** Green Madani International Private Ltd. (GMI)
 - **Former Name:** Green Universe Group (GUG) — all GUG references should be replaced with GMI throughout the site, including subsidiary names (e.g. "GUG Agro" → "GMI Power Agro")
-- **Founder & Managing Director:** A.R. Reju (Rafiqul Islam A.R. Chowdhury Reju), B.A. (Hons), M.A. — Dhaka University
+- **Founder & Managing Director:** A.R. Chowdhury Reju, B.A. (Hons), M.A. — Dhaka University
 - **Core Purpose:** Building a Better Bangladesh
 - **Slogan:** "Better Food, Better Life — Our Food, Our Life"
 

@@ -97,7 +97,7 @@ export default function Home() {
  </h2>
  <div className="space-y-4 md:space-y-6 text-muted-foreground text-lg mb-4 md:mb-10">
  <p>
- Green Madani International Private Ltd. (formerly Green Universe Group) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Founded and led by A.R. Reju (Rafiqul Islam A.R. Chowdhury Reju), GMI was built on a single belief:that sustainable, technology-driven business can transform communities while delivering lasting value.
+ Green Madani International Private Ltd. (formerly Green Universe Group) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Founded and led by A.R. Chowdhury Reju, GMI was built on a single belief:that sustainable, technology-driven business can transform communities while delivering lasting value.
  </p>
  <p>
  With operations across 42 districts and a growing network of distribution points, GMI connects farmers, manufacturers, and consumers through a fully integrated farm-to-shelf model. Our mission extends beyond profit — we aim to build a better Bangladesh through quality, innovation, and large-scale employment opportunities.

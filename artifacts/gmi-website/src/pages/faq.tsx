@@ -11,7 +11,7 @@ const faqCategories = [
  category:"General",
  items:[
  { q:"What is Green Madani International (GMI)?", a:"Green Madani International Private Ltd. (GMI) is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media. Formerly known as Green Universe Group, GMI is headquartered in Dhaka, Bangladesh, and operates across 42 districts." },
- { q:"Who founded GMI?", a:"GMI was founded by A.R. Reju (Rafiqul Islam A.R. Chowdhury Reju), who currently serves as the Founder & Managing Director." },
+ { q:"Who founded GMI?", a:"GMI was founded by A.R. Chowdhury Reju, who currently serves as the Founder & Managing Director." },
  { q:"What does GMI stand for?", a:"GMI stands for Green Madani International. 'Madani' reflects our commitment to ethical, community-focused development." },
  { q:"When was GMI established?", a:"GMI began its journey in 2018 as Green Universe Group and rebranded to Green Madani International Private Ltd. in 2026." },
  { q:"Where is GMI headquartered?", a:"Our corporate headquarters is located at 924/C, Taltola Moor, Khilgaon-1219, Dhaka, Bangladesh." },
