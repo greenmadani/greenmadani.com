@@ -34,6 +34,23 @@ router.delete("/businesses/:id", async (req, res) => {
   res.status(204).end();
 });
 
+router.post("/businesses/bulk-delete", async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
+  const { error } = await supabase!.from("businesses").delete().in("id", ids);
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(204).end();
+});
+
+router.post("/businesses/bulk-status", async (req, res) => {
+  const { ids, status } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
+  if (!status) return res.status(400).json({ error: "status is required" });
+  const { error } = await supabase!.from("businesses").update(camelToSnake({ status })).in("id", ids);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
 router.get("/products", async (_req, res) => {
   const { data, error } = await supabase!.from("products").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -58,6 +75,23 @@ router.delete("/products/:id", async (req, res) => {
   const { error } = await supabase!.from("products").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
   res.status(204).end();
+});
+
+router.post("/products/bulk-delete", async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
+  const { error } = await supabase!.from("products").delete().in("id", ids);
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(204).end();
+});
+
+router.post("/products/bulk-status", async (req, res) => {
+  const { ids, status } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
+  if (!status) return res.status(400).json({ error: "status is required" });
+  const { error } = await supabase!.from("products").update(camelToSnake({ status })).in("id", ids);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
 });
 
 function csvEscape(val: unknown): string {

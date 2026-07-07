@@ -10,9 +10,10 @@ import {
  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ChevronLeft, ChevronRight, Search, Upload, Download, FileUp, Image as ImageIcon, Bold, Italic, List } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Upload, Download, FileUp, Image as ImageIcon, Bold, Italic, List, X } from "lucide-react";
 import MediaBrowser from "@/components/admin/MediaBrowser";
 import { toast } from "@/hooks/use-toast";
 
@@ -137,6 +138,8 @@ function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:str
  const [statusFilter, setStatusFilter] = useState("all");
   const [browseField, setBrowseField] = useState<string | null>(null);
   const [catOptions, setCatOptions] = useState<{value:string;label:string}[]>([]);
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [bulkStatusValue, setBulkStatusValue] = useState("");
 
   useEffect(() => { adminApi.get(endpoint).then(setData); }, [endpoint]);
 
@@ -150,24 +153,80 @@ function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:str
    }
   }, [hasCategoryField]);
 
- const filtered = useMemo(() => {
- let items = data;
- if (search) {
- const q = search.toLowerCase();
- items = items.filter((item) =>
- columns.some((c) => String(item[c.toLowerCase()] ?? "").toLowerCase().includes(q))
- );
- }
- if (statusFilter !== "all") {
- items = items.filter((item) => item.status === statusFilter);
- }
- return items;
- }, [data, search, statusFilter, columns]);
+  function toggleSelect(id: number) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
- const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
- const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const filtered = useMemo(() => {
+  let items = data;
+  if (search) {
+  const q = search.toLowerCase();
+  items = items.filter((item) =>
+  columns.some((c) => String(item[c.toLowerCase()] ?? "").toLowerCase().includes(q))
+  );
+  }
+  if (statusFilter !== "all") {
+  items = items.filter((item) => item.status === statusFilter);
+  }
+  return items;
+  }, [data, search, statusFilter, columns]);
 
- function openNew() {
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+  function toggleSelectAll() {
+    if (selectedIds.size === paged.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(paged.map((item) => item.id)));
+    }
+  }
+
+  const getSelectAllState = () => {
+    if (paged.length === 0) return false;
+    if (selectedIds.size === paged.length) return true;
+    if (selectedIds.size > 0) return "indeterminate" as const;
+    return false;
+  };
+
+  async function bulkDelete() {
+    if (!confirm(`Delete ${selectedIds.size} item(s)?`)) return;
+    try {
+      const result = await adminApi.post(`${endpoint}/bulk-delete`, { ids: Array.from(selectedIds) });
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Bulk Delete Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      toast({ title: "Deleted", description: `${selectedIds.size} item(s) removed.`, className: "bg-primary text-white" });
+      setSelectedIds(new Set());
+      adminApi.get(endpoint).then(setData);
+    } catch (err) {
+      toast({ title: "Bulk Delete Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
+  }
+
+  async function bulkStatusUpdate(status: string) {
+    try {
+      const result = await adminApi.post(`${endpoint}/bulk-status`, { ids: Array.from(selectedIds), status });
+      if (result && typeof result === "object" && "error" in result) {
+        toast({ title: "Bulk Update Failed", description: (result as any).error, variant: "destructive" });
+        return;
+      }
+      toast({ title: "Updated", description: `${selectedIds.size} item(s) updated to ${status}.`, className: "bg-primary text-white" });
+      setSelectedIds(new Set());
+      setBulkStatusValue("");
+      adminApi.get(endpoint).then(setData);
+    } catch (err) {
+      toast({ title: "Bulk Update Failed", description: err instanceof Error ? err.message : "An unexpected error occurred", variant: "destructive" });
+    }
+  }
+
+  function openNew() {
  const empty = Object.fromEntries(fields.map((f) => [f.key, f.type === "switch" ? false :""]));
  setEdit(empty);
  setEditingId(null);
@@ -258,48 +317,76 @@ function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:str
  )}
  </div>
 
- <div className="border overflow-hidden">
- <Table>
- <TableHeader>
- <TableRow>
- {columns.map((c) => <TableHead key={c}>{c}</TableHead>)}
- <TableHead className="w-24">Actions</TableHead>
- </TableRow>
- </TableHeader>
- <TableBody>
- {paged.map((item) => (
- <TableRow key={item.id}>
- {columns.map((c) => (
- <TableCell key={c}>
- {c === "status" ? (
- <Badge variant={item[c.toLowerCase()] === "active" || item[c.toLowerCase()] === "published" || item[c.toLowerCase()] === "open" ? "default" :"secondary"}>
- {item[c.toLowerCase()]}
- </Badge>
- ) :typeof item[c.toLowerCase()] === "boolean" ? (
- item[c.toLowerCase()] ? "Yes" :"No"
- ) :typeof item[c.toLowerCase()] === "string" && item[c.toLowerCase()]?.length > 50 ? (
- item[c.toLowerCase()]?.slice(0, 50) + "..."
- ) :(
- item[c.toLowerCase()] ?? "—"
- )}
- </TableCell>
- ))}
- <TableCell>
- <div className="flex gap-1">
- <Button variant="ghost" size="sm" onClick={() => openEdit(item)}>Edit</Button>
- <Button variant="ghost" size="sm" className="text-destructive" onClick={() => remove(item.id)}>Del</Button>
- </div>
- </TableCell>
- </TableRow>
- ))}
- {paged.length === 0 && (
- <TableRow>
- <TableCell colSpan={columns.length + 1} className="text-center text-muted-foreground py-8">No results found</TableCell>
- </TableRow>
- )}
- </TableBody>
- </Table>
- </div>
+  {selectedIds.size > 0 && (
+    <div className="flex items-center gap-2 mb-3 px-3 py-2 bg-muted border">
+      <span className="text-sm font-medium">{selectedIds.size} selected</span>
+      <Button variant="destructive" size="sm" onClick={bulkDelete}>Delete Selected</Button>
+      <div className="flex items-center gap-1 ml-auto">
+        <span className="text-xs text-muted-foreground">Change status to:</span>
+        <select
+          className="h-8 border border-input bg-background px-2 text-sm"
+          value={bulkStatusValue}
+          onChange={(e) => setBulkStatusValue(e.target.value)}
+        >
+          <option value="">Select...</option>
+          {uniqueStatuses.map((s) => <option key={s} value={s}>{s}</option>)}
+        </select>
+        <Button variant="outline" size="sm" disabled={!bulkStatusValue} onClick={() => bulkStatusUpdate(bulkStatusValue)}>Apply</Button>
+      </div>
+      <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>
+        <X className="h-3.5 w-3.5" />
+      </Button>
+    </div>
+  )}
+
+  <div className="border overflow-hidden">
+  <Table>
+  <TableHeader>
+  <TableRow>
+  <TableHead className="w-10">
+  <Checkbox checked={getSelectAllState()} onCheckedChange={toggleSelectAll} />
+  </TableHead>
+  {columns.map((c) => <TableHead key={c}>{c}</TableHead>)}
+  <TableHead className="w-24">Actions</TableHead>
+  </TableRow>
+  </TableHeader>
+  <TableBody>
+  {paged.map((item) => (
+  <TableRow key={item.id} className={selectedIds.has(item.id) ? "bg-muted/50" : ""}>
+  <TableCell className="w-10">
+  <Checkbox checked={selectedIds.has(item.id)} onCheckedChange={() => toggleSelect(item.id)} />
+  </TableCell>
+  {columns.map((c) => (
+  <TableCell key={c}>
+  {c === "status" ? (
+  <Badge variant={item[c.toLowerCase()] === "active" || item[c.toLowerCase()] === "published" || item[c.toLowerCase()] === "open" ? "default" :"secondary"}>
+  {item[c.toLowerCase()]}
+  </Badge>
+  ) :typeof item[c.toLowerCase()] === "boolean" ? (
+  item[c.toLowerCase()] ? "Yes" :"No"
+  ) :typeof item[c.toLowerCase()] === "string" && item[c.toLowerCase()]?.length > 50 ? (
+  item[c.toLowerCase()]?.slice(0, 50) + "..."
+  ) :(
+  item[c.toLowerCase()] ?? "—"
+  )}
+  </TableCell>
+  ))}
+  <TableCell>
+  <div className="flex gap-1">
+  <Button variant="ghost" size="sm" onClick={() => openEdit(item)}>Edit</Button>
+  <Button variant="ghost" size="sm" className="text-destructive" onClick={() => remove(item.id)}>Del</Button>
+  </div>
+  </TableCell>
+  </TableRow>
+  ))}
+  {paged.length === 0 && (
+  <TableRow>
+  <TableCell colSpan={columns.length + 2} className="text-center text-muted-foreground py-8">No results found</TableCell>
+  </TableRow>
+  )}
+  </TableBody>
+  </Table>
+  </div>
 
  {totalPages > 1 && (
  <div className="flex items-center justify-between mt-4 text-sm text-muted-foreground">
