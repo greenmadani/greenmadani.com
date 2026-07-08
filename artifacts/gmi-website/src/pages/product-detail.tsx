@@ -24,17 +24,17 @@ export default function ProductDetail() {
 
   const categorySlug = (product as any)?.categorySlug;
   const { data: relatedData } = useListProducts(
-    { category: categorySlug, limit: 4 },
+    { category: categorySlug, limit: 8 },
     {
       query: {
         enabled: !!categorySlug,
-        queryKey: getListProductsQueryKey({ category: categorySlug, limit: 4 }),
+        queryKey: getListProductsQueryKey({ category: categorySlug, limit: 8 }),
       },
     },
   );
 
   const relatedProducts = useMemo(
-    () => (relatedData?.items ?? []).filter((p) => p.id !== product?.id).slice(0, 3),
+    () => (relatedData?.items ?? []).filter((p) => p.id !== product?.id).slice(0, 4),
     [relatedData, product],
   );
 
@@ -202,24 +202,26 @@ export default function ProductDetail() {
                   <Link
                     key={p.id}
                     href={`/products/${p.id}`}
-                    className="border border-border card-hover flex flex-col h-full group rounded-lg overflow-hidden"
+                    className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover"
                   >
                     <div className="w-full aspect-square bg-muted img-hover relative">
                       {p.imageUrl ? (
                         <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" loading="lazy" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                          <ShoppingBasket size={36} className="opacity-20" />
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted">
+                          <ShoppingBasket size={48} className="opacity-20" />
                         </div>
                       )}
-                      <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10 rounded">
+                      <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1 z-10">
                         {p.category}
                       </span>
                     </div>
-                    <div className="p-4 flex-1 flex flex-col">
-                      <h3 className="font-display mb-1.5 text-foreground text-sm">{p.name}</h3>
-                      <p className="text-muted-foreground text-xs mb-3 flex-1 line-clamp-2">{p.description}</p>
-                      <span className="text-primary text-sm font-semibold group-hover:underline">View Details</span>
+                    <div className="p-3 flex-1 flex flex-col">
+                      <h3 className="font-display mb-1 text-foreground">{p.name}</h3>
+                      <p className="text-muted-foreground text-sm mb-3 flex-1 line-clamp-3">{p.description}</p>
+                      <Link href={`/products/${p.id}`}>
+                        <Button variant="outline" size="lg" className="w-full">View Details</Button>
+                      </Link>
                     </div>
                   </Link>
                 ))}
