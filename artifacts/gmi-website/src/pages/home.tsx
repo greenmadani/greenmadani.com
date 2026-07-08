@@ -36,8 +36,8 @@ export default function Home() {
 
   const isAll = activeCategory === "all";
   const { data:productsData, isLoading:loadingProducts } = useListProducts(
-    isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 },
-    { query:{ queryKey:getListProductsQueryKey(isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 }) } }
+    isAll ? { limit:50 } : { category:activeCategory, limit:12 },
+    { query:{ queryKey:getListProductsQueryKey(isAll ? { limit:50 } : { category:activeCategory, limit:12 }) } }
   );
   const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
   
