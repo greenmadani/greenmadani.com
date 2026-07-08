@@ -73,9 +73,9 @@ export default function ProductDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
+      <div className="bg-gradient-to-r from-primary to-secondary pt-20 -mt-20">
+        <div className="bg-white rounded-b-2xl">
       <AnimatedSection animation="fade-up" delay={100}>
-        <div className="bg-gradient-to-r from-primary to-secondary pt-20 -mt-20">
-          <div className="bg-white rounded-b-2xl">
             <div className="container mx-auto px-4 pt-8 md:pt-12 pb-8 md:pb-12">
           <Link
             href="/products"
@@ -164,9 +164,9 @@ export default function ProductDetail() {
             </div>
             </div>
           </div>
-        </div>
-        </div>
       </AnimatedSection>
+        </div>
+      </div>
 
       {/* Long Description */}
       {product.longDescription && (
