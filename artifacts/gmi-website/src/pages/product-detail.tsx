@@ -73,11 +73,10 @@ export default function ProductDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
-      {/* Header background for nav visibility */}
-      <div className="bg-gradient-to-r from-primary to-secondary border-b-4 border-accent pt-20 pb-16 -mt-20 min-h-[200px]" />
-
       <AnimatedSection animation="fade-up" delay={100}>
-        <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="bg-gradient-to-r from-primary to-secondary pt-20 -mt-20">
+          <div className="bg-white rounded-b-2xl">
+            <div className="container mx-auto px-4 pt-8 md:pt-12 pb-8 md:pb-12">
           <Link
             href="/products"
             className="inline-flex items-center text-muted-foreground font-medium hover:text-primary mb-6 transition-colors text-sm"
@@ -163,7 +162,9 @@ export default function ProductDetail() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
+        </div>
         </div>
       </AnimatedSection>
 
