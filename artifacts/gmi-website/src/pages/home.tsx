@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ShoppingBag, Building2, Cog, Award, Leaf, Handshake, MapPin, Tv } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { useListProducts, useListNews, useGetCompanyStats, getListProductsQueryKey, getListNewsQueryKey } from "@workspace/api-client-react";
+import { useListProducts, useListNews, useGetCompanyStats, getListProductsQueryKey, getListNewsQueryKey, useListProductCategories, getListProductCategoriesQueryKey } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -13,12 +13,15 @@ import { AnimatedSection } from "@/components/animated-section";
 import { CTASection } from "@/components/cta-section";
 import { useBusinessesList, safeBusinessImage } from "@/lib/businesses";
 
-const CATEGORIES = ["All", "Agriculture", "Food", "Skincare", "Beverage"] as const;
-
 export default function Home() {
  const { data:stats } = useGetCompanyStats();
  const { data: businessData, isLoading: loadingBusinesses } = useBusinessesList();
- const [activeCategory, setActiveCategory] = useState<string>("All");
+ const { data: catData } = useListProductCategories({ query:{ queryKey:getListProductCategoriesQueryKey() } });
+ const categories = useMemo(() => {
+   const base = catData ?? [];
+   return [{ name:"All", slug:"all" }, ...base.map((c:any) => ({ name:c.name, slug:c.slug }))];
+ }, [catData]);
+ const [activeCategory, setActiveCategory] = useState<string>("all");
  
   function shuffle<T>(array: T[]): T[] {
   const result = [...array];
@@ -31,7 +34,7 @@ export default function Home() {
 
   const displaySubsidiaries = useMemo(() => businessData ? shuffle(businessData).slice(0, 6) : [], [businessData]);
 
-  const isAll = activeCategory === "All";
+  const isAll = activeCategory === "all";
   const { data:productsData, isLoading:loadingProducts } = useListProducts(
     isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 },
     { query:{ queryKey:getListProductsQueryKey(isAll ? { featured:true, limit:12 } : { category:activeCategory, limit:12 }) } }
@@ -225,21 +228,21 @@ export default function Home() {
  </Link>
  </div>
 
-  <div className="flex gap-4 mb-10 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
-  {CATEGORIES.map((cat) => (
-    <button
-      key={cat}
-      onClick={() => setActiveCategory(cat)}
-      className={`px-4 py-2 text-sm font-semibold transition-colors whitespace-nowrap snap-start ${
-        activeCategory === cat
-          ? "bg-primary text-white"
-          : "bg-white text-foreground border border-border hover:bg-muted"
-      }`}
-    >
-      {cat}
-    </button>
-  ))}
-  </div>
+   <div className="flex gap-4 mb-10 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory">
+   {categories.map((cat) => (
+     <button
+       key={cat.slug}
+       onClick={() => setActiveCategory(cat.slug)}
+       className={`px-4 py-2 text-sm font-semibold transition-colors whitespace-nowrap snap-start ${
+         activeCategory === cat.slug
+           ? "bg-primary text-white"
+           : "bg-white text-foreground border border-border hover:bg-muted"
+       }`}
+     >
+       {cat.name}
+     </button>
+   ))}
+   </div>
 
   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
   {loadingProducts ? (
