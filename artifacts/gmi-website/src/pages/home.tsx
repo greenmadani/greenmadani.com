@@ -245,7 +245,7 @@ export default function Home() {
   {loadingProducts ? (
   Array.from({ length:8 }).map((_, i) => (
   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
-  <Skeleton className="w-full h-64" />
+  <Skeleton className="w-full aspect-square" />
  <div className="p-4">
  <Skeleton className="w-20 h-6 mb-3" />
  <Skeleton className="w-full h-8 mb-2" />
@@ -256,7 +256,7 @@ export default function Home() {
   ) :(
   displayProducts.map((product) => (
  <div key={product.id} className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover">
-      <div className="w-full h-64 bg-muted img-hover relative">
+      <div className="w-full aspect-square bg-muted img-hover relative">
       {product.imageUrl ? (
         <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" loading="lazy" />
       ) : (

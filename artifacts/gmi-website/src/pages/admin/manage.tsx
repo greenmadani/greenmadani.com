@@ -46,10 +46,11 @@ const productFields:FormField[] = [
  { key:"name", label:"Name", type:"text" },
  { key:"category", label:"Category", type:"categories" },
  { key:"description", label:"Description", type:"textarea" },
- { key:"longDescription", label:"Long Description", type:"textarea" },
+ { key:"longDescription", label:"Long Description", type:"richtext" },
  { key:"imageUrl", label:"Image", type:"image" },
  { key:"featured", label:"Featured", type:"switch" },
  { key:"businessSlug", label:"Business Slug", type:"text" },
+ { key:"tags", label:"Tags (comma-separated)", type:"text" },
  { key:"status", label:"Status", type:"select", options:[{ value:"active", label:"Active" }, { value:"inactive", label:"Inactive" }] },
 ];
 
@@ -244,6 +245,9 @@ function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:str
   for (const f of fields) {
   if (f.type === "number") body[f.key] = Number(body[f.key]) || 0;
   if (f.type === "array") body[f.key] = typeof body[f.key] === "string" ? body[f.key].split("\n").filter(Boolean) : (body[f.key] ?? []);
+  }
+  if (body.tags != null && typeof body.tags === "string") {
+  body.tags = body.tags.split(",").map((t:string) => t.trim()).filter(Boolean);
   }
  try {
  const result = editingId
