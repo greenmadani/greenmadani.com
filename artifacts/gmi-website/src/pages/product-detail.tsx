@@ -74,14 +74,14 @@ export default function ProductDetail() {
   return (
     <div className="w-full pb-24 bg-white">
       {/* Breadcrumbs */}
-      <div className="bg-muted border-b border-border">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center text-sm font-medium text-muted-foreground">
-            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+      <div className="bg-gradient-to-r from-primary to-secondary border-b-4 border-accent pt-20 pb-4 -mt-20">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center text-sm font-medium text-white/70">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={14} className="mx-2" />
-            <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
+            <Link href="/products" className="hover:text-white transition-colors">Products</Link>
             <ChevronRight size={14} className="mx-2" />
-            <span className="text-primary font-semibold truncate">{product.name}</span>
+            <span className="text-accent font-semibold truncate">{product.name}</span>
           </div>
         </div>
       </div>
