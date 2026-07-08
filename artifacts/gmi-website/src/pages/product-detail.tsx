@@ -73,6 +73,9 @@ export default function ProductDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
+      {/* Header background for nav visibility */}
+      <div className="bg-gradient-to-r from-primary to-secondary border-b-4 border-accent pt-20 pb-6 -mt-20" />
+
       <AnimatedSection animation="fade-up" delay={100}>
         <div className="container mx-auto px-4 py-8 md:py-12">
           <Link
