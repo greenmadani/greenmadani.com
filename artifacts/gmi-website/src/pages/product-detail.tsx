@@ -1,6 +1,6 @@
 import { useParams } from "wouter";
 import { useMemo } from "react";
-import { ShoppingBasket, ArrowLeft, Tag, Building2, Star, Calendar, ChevronRight } from "lucide-react";
+import { ShoppingBasket, ArrowLeft, Tag, Building2, Star, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { useGetProduct, getGetProductQueryKey, useGetBusiness, useListProducts, getListProductsQueryKey } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
@@ -73,19 +73,6 @@ export default function ProductDetail() {
 
   return (
     <div className="w-full pb-24 bg-white">
-      {/* Breadcrumbs */}
-      <div className="bg-gradient-to-r from-primary to-secondary border-b-4 border-accent pt-20 pb-6 -mt-20">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center text-sm font-medium text-white/70 py-2">
-            <Link href="/" className="hover:text-white transition-colors py-1">Home</Link>
-            <ChevronRight size={14} className="mx-2" />
-            <Link href="/products" className="hover:text-white transition-colors py-1">Products</Link>
-            <ChevronRight size={14} className="mx-2" />
-            <span className="text-accent font-semibold truncate py-1">{product.name}</span>
-          </div>
-        </div>
-      </div>
-
       <AnimatedSection animation="fade-up" delay={100}>
         <div className="container mx-auto px-4 py-8 md:py-12">
           <Link
