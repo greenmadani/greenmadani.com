@@ -41,7 +41,7 @@ export default function ProductDetail() {
   if (isLoading) {
     return (
       <div className="w-full pb-24 bg-white">
-        <div className="container mx-auto px-4 py-12 space-y-6">
+        <div className="py-12 space-y-6">
           <Skeleton className="h-5 w-64" />
           <div className="grid md:grid-cols-2 gap-12">
             <Skeleton className="w-full aspect-square bg-muted" />
@@ -75,7 +75,7 @@ export default function ProductDetail() {
     <div className="w-full pb-24 bg-white">
       {/* Breadcrumbs */}
       <div className="bg-gradient-to-r from-primary to-secondary border-b-4 border-accent pt-20 pb-6 -mt-20">
-        <div className="container mx-auto px-4">
+        <div className="px-4">
           <div className="flex items-center text-sm font-medium text-white/70 py-2">
             <Link href="/" className="hover:text-white transition-colors py-1">Home</Link>
             <ChevronRight size={14} className="mx-2" />
@@ -87,7 +87,7 @@ export default function ProductDetail() {
       </div>
 
       <AnimatedSection animation="fade-up" delay={100}>
-        <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="py-8 md:py-12">
           <Link
             href="/products"
             className="inline-flex items-center text-muted-foreground font-medium hover:text-primary mb-6 transition-colors text-sm"
@@ -180,8 +180,8 @@ export default function ProductDetail() {
       {/* Long Description */}
       {product.longDescription && (
         <section className="bg-muted py-16 md:py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div>
+            <div className="max-w-4xl mx-auto px-4">
               <SectionHeader
                 title="Product Details"
                 badge="Details"
@@ -201,7 +201,7 @@ export default function ProductDetail() {
       {relatedProducts.length > 0 && (
         <AnimatedSection animation="fade-up">
           <section className="py-16 md:py-20">
-            <div className="container mx-auto px-4">
+          <div className="px-4">
               <SectionHeader
                 title={`More in ${product.category}`}
                 badge="Related"
