@@ -98,7 +98,7 @@ const defaults:SiteSettings = {
  seoTitle:"Green Madani International Private Ltd. — Better Food, Better Life, Our Food, Our Life",
  seoDescription:"Green Madani International Private Ltd. is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media.",
  seoOgImage:"",
- seoKeywords:"Green Madani International, GMI, Green Universe Group, Bangladesh diversified business group, agriculture Bangladesh, farm to shelf, A.R. Reju, hybrid seeds, organic fertilizers, GMI Power Agro, GMI Essential Food",
+ seoKeywords:"Green Madani International, GMI, Green Madani International Private Ltd., Bangladesh diversified business group, agriculture Bangladesh, farm to shelf, A.R. Reju, hybrid seeds, organic fertilizers, GMI Power Agro, GMI Essential Food",
 };
 
 export default function AdminSettings() {

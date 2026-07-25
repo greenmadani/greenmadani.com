@@ -25,7 +25,7 @@ export default function About() {
  <SectionHeader badge="Our Heritage" title="A Decade of Diversified Growth" />
  <div className="space-y-4 md:space-y-6 text-muted-foreground text-lg leading-relaxed text-left">
  <p>
- Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director Md. Rejaul Karim Majumder, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
+ Green Madani International Private Ltd. was founded with a vision to transform Bangladesh's agricultural and industrial landscape. Under the leadership of Founder & Managing Director Md. Rejaul Karim Mojumder, the group quickly expanded beyond agriculture into food, healthcare, hospitality, education, and media.
  </p>
  <p>
  Today, GMI operates 12 fully integrated business verticals, connecting farmers, manufacturers, and consumers through a seamless farm-to-shelf supply chain. Our in-house R&D center continuously develops new, safer agricultural solutions using American formulas — while our media arm and education institutions support the entire group through internal marketing and a steady talent pipeline.
@@ -106,7 +106,7 @@ export default function About() {
  <div className="aspect-[3/4]">
  <img
  src="/images/Founder-of-Green-Universe-Ltd.jpg"
- alt="Md. Rejaul Karim Majumder"
+ alt="Md. Rejaul Karim Mojumder"
  className="w-full h-full object-cover"
  loading="lazy"
  onLoad={(e) => e.currentTarget.closest('.shimmer-wrap')?.classList.add('loaded')}
@@ -125,7 +125,7 @@ export default function About() {
  We focus on quality, safety, and long-term growth across our diverse business sectors. With integrity, innovation, and a people-first mindset, we are committed to building a greener, healthier, and more sustainable future for Bangladesh.
  </p>
  <div className="pt-4 border-t border-white/10">
- <p className="font-display text-accent text-xl">Md. Rejaul Karim Majumder</p>
+ <p className="font-display text-accent text-xl">Md. Rejaul Karim Mojumder</p>
  <p className="text-white/60 text-sm font-semibold tracking-wider uppercase">Founder and Managing Director</p>
  </div>
  </div>
