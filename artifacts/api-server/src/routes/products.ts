@@ -21,7 +21,7 @@ router.get("/categories", async (_req, res) => {
     count: productCounts.get(c.slug) ?? 0,
   }));
 
-  res.json(result);
+  return res.json(result);
 });
 
 router.get("/", async (req, res) => {
@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 
   const { data, error, count } = await query;
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ items: mapRows(data ?? []), total: count ?? 0 });
+  return res.json({ items: mapRows(data ?? []), total: count ?? 0 });
 });
 
 router.get("/:id", async (req, res) => {
@@ -46,7 +46,7 @@ router.get("/:id", async (req, res) => {
   const { data, error } = await supabase!.from("products").select("*").eq("id", id).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   if (!data) return res.status(404).json({ error: "Product not found" });
-  res.json(snakeToCamel(data));
+  return res.json(snakeToCamel(data));
 });
 
 export default router;

@@ -17,6 +17,7 @@ const ProductDetail = lazy(() => import("@/pages/product-detail"));
 const Sustainability = lazy(() => import("@/pages/sustainability"));
 const News = lazy(() => import("@/pages/news"));
 const NewsDetail = lazy(() => import("@/pages/news-detail"));
+const AgriAdvisory = lazy(() => import("@/pages/agri-advisory"));
 const Careers = lazy(() => import("@/pages/careers"));
 const Contact = lazy(() => import("@/pages/contact"));
 const PrivacyPage = lazy(() => import("@/pages/privacy"));
@@ -37,6 +38,7 @@ const AdminBizInquiries = lazy(() => import("@/pages/admin/inquiries").then(m =>
 const AdminCategories = lazy(() => import("@/pages/admin/categories"));
 const AdminApplications = lazy(() => import("@/pages/admin/applications"));
 const AdminMediaPage = lazy(() => import("@/pages/admin/media-page"));
+const AdminAgriAdvisory = lazy(() => import("@/pages/admin/advisory"));
 
 function SuspenseWrapper({ component:Component }:{ component:React.LazyExoticComponent<any> }) {
  return (
@@ -74,7 +76,8 @@ function PublicRoutes() {
  <Route path="/businesses"><AnimatedPage component={Businesses} /></Route>
  <Route path="/products/:id"><AnimatedPage component={ProductDetail} /></Route>
  <Route path="/products"><AnimatedPage component={Products} /></Route>
- <Route path="/sustainability"><AnimatedPage component={Sustainability} /></Route>
+  <Route path="/sustainability"><AnimatedPage component={Sustainability} /></Route>
+  <Route path="/agri-advisory"><AnimatedPage component={AgriAdvisory} /></Route>
  <Route path="/news/:slug"><AnimatedPage component={NewsDetail} /></Route>
  <Route path="/news"><AnimatedPage component={News} /></Route>
  <Route path="/careers"><AnimatedPage component={Careers} /></Route>
@@ -105,7 +108,8 @@ function AdminRoutes() {
  <Route path="/admin/inquiries"><AdminInquiriesPage /></Route>
  <Route path="/admin/categories"><SuspenseWrapper component={AdminCategories} /></Route>
  <Route path="/admin/applications"><SuspenseWrapper component={AdminApplications} /></Route>
- <Route path="/admin/media"><SuspenseWrapper component={AdminMediaPage} /></Route>
+  <Route path="/admin/media"><SuspenseWrapper component={AdminMediaPage} /></Route>
+  <Route path="/admin/agri-advisory"><SuspenseWrapper component={AdminAgriAdvisory} /></Route>
  <Route path="/admin/settings"><SuspenseWrapper component={AdminSettings} /></Route>
  <Route><SuspenseWrapper component={AdminDashboard} /></Route>
  </Switch>

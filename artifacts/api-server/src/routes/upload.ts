@@ -76,10 +76,10 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       return res.status(400).json({ error: "No file provided" });
     }
     const result = await processFile(file);
-    res.status(201).json(result);
+    return res.status(201).json(result);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Upload failed";
-    res.status(500).json({ error: message });
+    return res.status(500).json({ error: message });
   }
 });
 
@@ -100,17 +100,17 @@ router.post("/upload-multiple", upload.array("files", 50), async (req, res) => {
         errors.push({ filename: file.originalname, error: message });
       }
     }
-    res.status(201).json({ items: results, errors });
+    return res.status(201).json({ items: results, errors });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Upload failed";
-    res.status(500).json({ error: message });
+    return res.status(500).json({ error: message });
   }
 });
 
 router.get("/media", async (_req, res) => {
   const { data, error } = await supabase!.from("media").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.delete("/media/:id", async (req, res) => {
@@ -132,7 +132,7 @@ router.delete("/media/:id", async (req, res) => {
   const { error: deleteError } = await supabase!.from("media").delete().eq("id", id);
   if (deleteError) return res.status(500).json({ error: deleteError.message });
 
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.get("/media/upload-url", async (_req, res) => {

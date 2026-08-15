@@ -107,11 +107,18 @@ export default function BusinessDetail() {
  </Button>
  </Link>
   {display.website && (
-  <Button variant="outline" size="lg" className="w-full" onClick={() => window.open(display.website!, '_blank')}>
-  Visit Dedicated Website
-  </Button>
-  )}
- </div>
+   <Button variant="outline" size="lg" className="w-full" onClick={() => window.open(display.website!, '_blank')}>
+   Visit Dedicated Website
+   </Button>
+   )}
+   {display.slug === "gmi-power-agro" && (
+   <Link href="/agri-advisory">
+   <Button variant="outline" size="lg" className="w-full border-accent text-accent hover:bg-accent/10">
+   কৃষি পরামর্শ সেবা — Agri Advisory
+   </Button>
+   </Link>
+   )}
+  </div>
  </div>
  </div>
  </div>

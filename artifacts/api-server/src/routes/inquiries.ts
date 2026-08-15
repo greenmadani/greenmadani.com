@@ -25,23 +25,21 @@ const businessInquirySchema = z.object({
 router.post("/contact", async (req, res) => {
   const parsed = contactSchema.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
-    return;
+    return res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
   }
   const { error } = await supabase!.from("contacts").insert(camelToSnake(parsed.data));
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json({ success: true, message: "Thank you for your message. Our team will respond within 24–48 business hours." });
+  return res.status(201).json({ success: true, message: "Thank you for your message. Our team will respond within 24–48 business hours." });
 });
 
 router.post("/business", async (req, res) => {
   const parsed = businessInquirySchema.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
-    return;
+    return res.status(400).json({ error: "Validation failed", details: parsed.error.issues });
   }
   const { error } = await supabase!.from("business_inquiries").insert(camelToSnake(parsed.data));
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json({ success: true, message: "Your inquiry has been received. Our business development team will be in touch shortly." });
+  return res.status(201).json({ success: true, message: "Your inquiry has been received. Our business development team will be in touch shortly." });
 });
 
 export default router;

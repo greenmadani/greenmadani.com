@@ -11,27 +11,27 @@ router.use(requireAdmin);
 router.get("/businesses", async (_req, res) => {
   const { data, error } = await supabase!.from("businesses").select("*").order("order");
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.post("/businesses", async (req, res) => {
   const { data, error } = await supabase!.from("businesses").insert(camelToSnake(req.body)).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(snakeToCamel(data![0]));
+  return res.status(201).json(snakeToCamel(data![0]));
 });
 
 router.put("/businesses/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("businesses").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.delete("/businesses/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { error } = await supabase!.from("businesses").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.post("/businesses/bulk-delete", async (req, res) => {
@@ -39,7 +39,7 @@ router.post("/businesses/bulk-delete", async (req, res) => {
   if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
   const { error } = await supabase!.from("businesses").delete().in("id", ids);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.post("/businesses/bulk-status", async (req, res) => {
@@ -48,33 +48,33 @@ router.post("/businesses/bulk-status", async (req, res) => {
   if (!status) return res.status(400).json({ error: "status is required" });
   const { error } = await supabase!.from("businesses").update(camelToSnake({ status })).in("id", ids);
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ success: true });
+  return res.json({ success: true });
 });
 
 router.get("/products", async (_req, res) => {
   const { data, error } = await supabase!.from("products").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.post("/products", async (req, res) => {
   const { data, error } = await supabase!.from("products").insert(camelToSnake(req.body)).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(snakeToCamel(data![0]));
+  return res.status(201).json(snakeToCamel(data![0]));
 });
 
 router.put("/products/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("products").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.delete("/products/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { error } = await supabase!.from("products").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.post("/products/bulk-delete", async (req, res) => {
@@ -82,7 +82,7 @@ router.post("/products/bulk-delete", async (req, res) => {
   if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ error: "ids array is required" });
   const { error } = await supabase!.from("products").delete().in("id", ids);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.post("/products/bulk-status", async (req, res) => {
@@ -91,7 +91,7 @@ router.post("/products/bulk-status", async (req, res) => {
   if (!status) return res.status(400).json({ error: "status is required" });
   const { error } = await supabase!.from("products").update(camelToSnake({ status })).in("id", ids);
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ success: true });
+  return res.json({ success: true });
 });
 
 function csvEscape(val: unknown): string {
@@ -127,7 +127,7 @@ router.get("/products/export", async (_req, res) => {
 
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.setHeader("Content-Disposition", 'attachment; filename="products-export.csv"');
-  res.status(200).send(csv);
+  return res.status(200).send(csv);
 });
 
 import multer from "multer";
@@ -265,89 +265,89 @@ router.post("/products/import", csvUpload.single("file"), async (req, res) => {
       successCount = result?.length ?? 0;
     }
 
-    res.status(201).json({ inserted: successCount, errors: errors.length > 0 ? errors : undefined });
+    return res.status(201).json({ inserted: successCount, errors: errors.length > 0 ? errors : undefined });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Import failed";
-    res.status(500).json({ error: message, inserted: 0 });
+    return res.status(500).json({ error: message, inserted: 0 });
   }
 });
 
 router.get("/news", async (_req, res) => {
   const { data, error } = await supabase!.from("news").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.post("/news", async (req, res) => {
   const { data, error } = await supabase!.from("news").insert(camelToSnake(req.body)).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(snakeToCamel(data![0]));
+  return res.status(201).json(snakeToCamel(data![0]));
 });
 
 router.put("/news/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("news").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.delete("/news/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { error } = await supabase!.from("news").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.get("/jobs", async (_req, res) => {
   const { data, error } = await supabase!.from("jobs").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.post("/jobs", async (req, res) => {
   const { data, error } = await supabase!.from("jobs").insert(camelToSnake(req.body)).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.status(201).json(snakeToCamel(data![0]));
+  return res.status(201).json(snakeToCamel(data![0]));
 });
 
 router.put("/jobs/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("jobs").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.delete("/jobs/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { error } = await supabase!.from("jobs").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 router.get("/contacts", async (_req, res) => {
   const { data, error } = await supabase!.from("contacts").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.put("/contacts/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("contacts").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.get("/business-inquiries", async (_req, res) => {
   const { data, error } = await supabase!.from("business_inquiries").select("*").order("created_at", { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.put("/business-inquiries/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase!.from("business_inquiries").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.get("/site-settings", async (_req, res) => {
@@ -356,31 +356,48 @@ router.get("/site-settings", async (_req, res) => {
   const { data, error } = await supabase!.from("site_settings").select("*").limit(1).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   if (data) {
-    res.json(data.settings);
+    return res.json(maskApiKeys(data.settings));
   } else {
     const { data: inserted, error: insertError } = await supabase!.from("site_settings").insert({ settings: {} }).select().single();
     if (insertError) return res.status(500).json({ error: insertError.message });
-    res.json(inserted.settings);
+    return res.json(maskApiKeys(inserted.settings));
   }
 });
+
+function maskApiKeys(settings: Record<string, unknown>): Record<string, unknown> {
+  const out = { ...settings };
+  const key = out.openWeatherApiKey;
+  if (typeof key === "string" && key.length > 8) {
+    out.openWeatherApiKey = `${key.slice(0, 4)}…${key.slice(-4)}`;
+  } else if (typeof key === "string") {
+    out.openWeatherApiKey = key ? "••••" : "";
+  }
+  return out;
+}
 
 router.put("/site-settings", async (req, res) => {
   const { data: existing, error: selectError } = await supabase!.from("site_settings").select("*").limit(1).maybeSingle();
   if (selectError) return res.status(500).json({ error: selectError.message });
+  const body = { ...req.body } as Record<string, unknown>;
+  const incoming = body.openWeatherApiKey;
+  if (typeof incoming === "string" && (incoming.includes("…") || incoming.includes("••"))) {
+    delete body.openWeatherApiKey;
+    if (existing) body.openWeatherApiKey = (existing.settings as Record<string, unknown>)?.openWeatherApiKey;
+  }
   let result;
   if (existing) {
-    const { data, error } = await supabase!.from("site_settings").update({ settings: req.body, updated_at: new Date().toISOString() }).eq("id", existing.id).select().single();
+    const { data, error } = await supabase!.from("site_settings").update({ settings: body, updated_at: new Date().toISOString() }).eq("id", existing.id).select().single();
     if (error) return res.status(500).json({ error: error.message });
     result = data;
   } else {
-    const { data, error } = await supabase!.from("site_settings").insert({ settings: req.body }).select().single();
+    const { data, error } = await supabase!.from("site_settings").insert({ settings: body }).select().single();
     if (error) return res.status(500).json({ error: error.message });
     result = data;
   }
-  await logAudit("update", "site_settings", result?.id, req.body);
+  await logAudit("update", "site_settings", result?.id, body);
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.setHeader("Pragma", "no-cache");
-  res.json(result.settings);
+  return res.json(maskApiKeys(result.settings));
 });
 
 // ---- Categories ----
@@ -388,14 +405,14 @@ router.put("/site-settings", async (req, res) => {
 router.get("/categories", async (_req, res) => {
   const { data, error } = await supabase!.from("categories").select("*").order("order");
   if (error) return res.status(500).json({ error: error.message });
-  res.json(mapRows(data ?? []));
+  return res.json(mapRows(data ?? []));
 });
 
 router.post("/categories", async (req, res) => {
   const { data, error } = await supabase!.from("categories").insert(camelToSnake(req.body)).select();
   if (error) return res.status(500).json({ error: error.message });
   await logAudit("create", "categories", data![0].id, req.body);
-  res.status(201).json(snakeToCamel(data![0]));
+  return res.status(201).json(snakeToCamel(data![0]));
 });
 
 router.put("/categories/:id", async (req, res) => {
@@ -403,7 +420,7 @@ router.put("/categories/:id", async (req, res) => {
   const { data, error } = await supabase!.from("categories").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
   await logAudit("update", "categories", id, req.body);
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 router.delete("/categories/:id", async (req, res) => {
@@ -411,7 +428,7 @@ router.delete("/categories/:id", async (req, res) => {
   const { error } = await supabase!.from("categories").delete().eq("id", id);
   if (error) return res.status(500).json({ error: error.message });
   await logAudit("delete", "categories", id);
-  res.status(204).end();
+  return res.status(204).end();
 });
 
 // ---- Applications ----
@@ -424,6 +441,7 @@ router.get("/applications", async (_req, res) => {
     return snakeToCamel({ ...rest, jobTitle: (jobs as Record<string, unknown> | null)?.title ?? null });
   });
   res.json(mapped);
+  return;
 });
 
 router.put("/applications/:id", async (req, res) => {
@@ -431,12 +449,12 @@ router.put("/applications/:id", async (req, res) => {
   const { data, error } = await supabase!.from("applications").update(camelToSnake(req.body)).eq("id", id).select();
   if (error) return res.status(500).json({ error: error.message });
   await logAudit("update", "applications", id, req.body);
-  res.json(snakeToCamel(data![0]));
+  return res.json(snakeToCamel(data![0]));
 });
 
 // ---- Export ----
 
-const EXPORT_ENTITIES = ["contacts", "business-inquiries", "applications"] as const;
+const EXPORT_ENTITIES = ["contacts", "business-inquiries", "applications", "advisory-inquiries"] as const;
 
 router.get("/:entity/export", async (req, res) => {
   const { entity } = req.params;
@@ -448,6 +466,7 @@ router.get("/:entity/export", async (req, res) => {
     "contacts": "contacts",
     "business-inquiries": "business_inquiries",
     "applications": "applications",
+    "advisory-inquiries": "advisory_inquiries",
   };
   const tableName = tableMap[entity];
 
@@ -477,7 +496,7 @@ router.get("/:entity/export", async (req, res) => {
 
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", `attachment; filename="${entity}-export.csv"`);
-  res.status(200).send(csv);
+  return res.status(200).send(csv);
 });
 
 // ---- Upload routes ----

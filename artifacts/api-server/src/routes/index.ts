@@ -8,6 +8,8 @@ import inquiriesRouter from "./inquiries.js";
 import statsRouter from "./stats.js";
 import adminRouter from "./admin.js";
 import settingsRouter from "./settings.js";
+import advisoryRouter from "./advisory.js";
+import adminAdvisoryRouter from "./admin-advisory.js";
 
 const router: IRouter = Router();
 
@@ -18,7 +20,9 @@ router.use("/news", newsRouter);
 router.use("/careers", careersRouter);
 router.use("/inquiries", inquiriesRouter);
 router.use("/stats", statsRouter);
+router.use("/advisory", advisoryRouter);
 router.use("/admin", adminRouter);
+router.use("/admin", adminAdvisoryRouter);
 router.use("/settings", settingsRouter);
 
 export default router;

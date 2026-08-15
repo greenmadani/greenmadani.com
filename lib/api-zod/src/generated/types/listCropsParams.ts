@@ -5,9 +5,11 @@
  * GMI Corporate Website API
  * OpenAPI spec version: 0.1.0
  */
-import type { NewsArticle } from './newsArticle';
 
-export interface NewsList {
-  items: NewsArticle[];
-  total: number;
-}
+export type ListCropsParams = {
+category?: string;
+season?: string;
+search?: string;
+limit?: number;
+offset?: number;
+};

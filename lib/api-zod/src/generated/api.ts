@@ -265,3 +265,134 @@ export const GetCompanyStatsResponse = zod.object({
 })
 
 
+/**
+ * @summary List agricultural crops with optional category/season filter
+ */
+export const ListCropsQueryParams = zod.object({
+  "category": zod.coerce.string().optional(),
+  "season": zod.coerce.string().optional(),
+  "search": zod.coerce.string().optional(),
+  "limit": zod.coerce.number().optional(),
+  "offset": zod.coerce.number().optional()
+})
+
+export const ListCropsResponse = zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "englishName": zod.string().nullish(),
+  "category": zod.string(),
+  "season": zod.string().nullish(),
+  "soilType": zod.string().nullish(),
+  "fertilizerNotes": zod.string().nullish(),
+  "irrigationNotes": zod.string().nullish(),
+  "seedVarietyRef": zod.string().nullish(),
+  "expectedYield": zod.string().nullish(),
+  "imageUrl": zod.string().nullish()
+})),
+  "total": zod.number()
+})
+
+
+/**
+ * @summary List disease and pest guides with optional filters
+ */
+export const ListDiseasesQueryParams = zod.object({
+  "category": zod.coerce.string().optional(),
+  "cropId": zod.coerce.number().optional(),
+  "search": zod.coerce.string().optional(),
+  "limit": zod.coerce.number().optional(),
+  "offset": zod.coerce.number().optional()
+})
+
+export const ListDiseasesResponse = zod.object({
+  "items": zod.array(zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "cropId": zod.number().nullish(),
+  "cropName": zod.string().nullish(),
+  "category": zod.string(),
+  "symptoms": zod.array(zod.string()).optional(),
+  "causeType": zod.string().nullish(),
+  "causeNotes": zod.string().nullish(),
+  "treatmentText": zod.string(),
+  "preventionSteps": zod.array(zod.string()).optional(),
+  "relatedProductIds": zod.array(zod.number()).optional(),
+  "imageUrl": zod.string().nullish()
+})),
+  "total": zod.number()
+})
+
+
+/**
+ * @summary List Bangladesh agricultural seasons (রবি / খরিফ-১ / খরিফ-২)
+ */
+export const ListSeasonsResponseItem = zod.object({
+  "id": zod.number(),
+  "name": zod.string(),
+  "englishName": zod.string().nullish(),
+  "description": zod.string().nullish(),
+  "months": zod.string().nullish(),
+  "sowingWindow": zod.string().nullish(),
+  "transplantingWindow": zod.string().nullish(),
+  "harvestWindow": zod.string().nullish(),
+  "applicableCrops": zod.array(zod.string()).optional()
+})
+export const ListSeasonsResponse = zod.array(ListSeasonsResponseItem)
+
+
+/**
+ * @summary List districts covered by the advisory weather service
+ */
+export const ListAdvisoryDistrictsResponseItem = zod.string()
+export const ListAdvisoryDistrictsResponse = zod.array(ListAdvisoryDistrictsResponseItem)
+
+
+/**
+ * @summary Get current weather and 5-day forecast for a district (cached)
+ */
+export const GetWeatherQueryParams = zod.object({
+  "district": zod.coerce.string().optional()
+})
+
+export const GetWeatherResponse = zod.object({
+  "district": zod.string(),
+  "current": zod.object({
+  "temp": zod.number().optional(),
+  "feelsLike": zod.number().optional(),
+  "humidity": zod.number().optional(),
+  "windSpeed": zod.number().optional(),
+  "description": zod.string().optional(),
+  "icon": zod.string().optional()
+}).optional(),
+  "forecast": zod.array(zod.object({
+  "dt": zod.number().optional(),
+  "temp": zod.number().optional(),
+  "description": zod.string().optional(),
+  "icon": zod.string().optional()
+})).optional(),
+  "fetchedAt": zod.coerce.date().optional(),
+  "source": zod.string().optional()
+})
+
+
+/**
+ * @summary Submit an agricultural advisory question
+ */
+export const submitAdvisoryInquiryBodyNameMin = 2;
+
+export const submitAdvisoryInquiryBodyPhoneMin = 5;
+
+export const submitAdvisoryInquiryBodyQuestionMin = 10;
+
+
+
+export const SubmitAdvisoryInquiryBody = zod.object({
+  "name": zod.string().min(submitAdvisoryInquiryBodyNameMin),
+  "phone": zod.string().min(submitAdvisoryInquiryBodyPhoneMin),
+  "district": zod.string().optional(),
+  "crop": zod.string().optional(),
+  "question": zod.string().min(submitAdvisoryInquiryBodyQuestionMin)
+})
+
+

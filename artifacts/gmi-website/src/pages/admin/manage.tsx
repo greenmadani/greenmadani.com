@@ -129,7 +129,7 @@ function ImageUploadField({ value, onChange, onBrowse }:{ value:string; onChange
  );
 }
 
-function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:string; endpoint:string; fields:FormField[]; columns:string[]; headerExtra?:React.ReactNode }) {
+export function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:string; endpoint:string; fields:FormField[]; columns:string[]; headerExtra?:React.ReactNode }) {
  const [data, setData] = useState<Entity[]>([]);
  const [edit, setEdit] = useState<Record<string, any>>({});
  const [open, setOpen] = useState(false);
@@ -248,6 +248,9 @@ function CrudTable({ title, endpoint, fields, columns, headerExtra }:{ title:str
   }
   if (body.tags != null && typeof body.tags === "string") {
   body.tags = body.tags.split(",").map((t:string) => t.trim()).filter(Boolean);
+  }
+  if (body.relatedProductIds != null && typeof body.relatedProductIds === "string") {
+  body.relatedProductIds = body.relatedProductIds.split("\n").map((t:string) => parseInt(t.trim(), 10)).filter((n:number) => !isNaN(n));
   }
  try {
  const result = editingId

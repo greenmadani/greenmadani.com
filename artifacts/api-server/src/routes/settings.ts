@@ -26,7 +26,8 @@ router.get("/", async (_req, res) => {
   const { data, error } = await supabase!.from("site_settings").select("settings").limit(1).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   const settings = data?.settings ?? {};
-  res.json({ ...defaults, ...settings });
+  const { openWeatherApiKey: _secret, ...publicSettings } = settings as Record<string, unknown> & { openWeatherApiKey?: string };
+  return res.json({ ...defaults, ...publicSettings });
 });
 
 export default router;

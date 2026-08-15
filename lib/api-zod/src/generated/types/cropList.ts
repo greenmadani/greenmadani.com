@@ -5,9 +5,9 @@
  * GMI Corporate Website API
  * OpenAPI spec version: 0.1.0
  */
-import type { NewsArticle } from './newsArticle';
+import type { Crop } from './crop';
 
-export interface NewsList {
-  items: NewsArticle[];
+export interface CropList {
+  items: Crop[];
   total: number;
 }

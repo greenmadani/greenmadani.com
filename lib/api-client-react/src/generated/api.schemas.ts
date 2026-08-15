@@ -153,6 +153,111 @@ export interface CompanyStats {
   countriesExported: number;
 }
 
+export interface Crop {
+  id: number;
+  name: string;
+  /** @nullable */
+  englishName?: string | null;
+  category: string;
+  /** @nullable */
+  season?: string | null;
+  /** @nullable */
+  soilType?: string | null;
+  /** @nullable */
+  fertilizerNotes?: string | null;
+  /** @nullable */
+  irrigationNotes?: string | null;
+  /** @nullable */
+  seedVarietyRef?: string | null;
+  /** @nullable */
+  expectedYield?: string | null;
+  /** @nullable */
+  imageUrl?: string | null;
+}
+
+export interface CropList {
+  items: Crop[];
+  total: number;
+}
+
+export interface Disease {
+  id: number;
+  name: string;
+  /** @nullable */
+  cropId?: number | null;
+  /** @nullable */
+  cropName?: string | null;
+  category: string;
+  symptoms?: string[];
+  /** @nullable */
+  causeType?: string | null;
+  /** @nullable */
+  causeNotes?: string | null;
+  treatmentText: string;
+  preventionSteps?: string[];
+  relatedProductIds?: number[];
+  /** @nullable */
+  imageUrl?: string | null;
+}
+
+export interface DiseaseList {
+  items: Disease[];
+  total: number;
+}
+
+export interface Season {
+  id: number;
+  name: string;
+  /** @nullable */
+  englishName?: string | null;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  months?: string | null;
+  /** @nullable */
+  sowingWindow?: string | null;
+  /** @nullable */
+  transplantingWindow?: string | null;
+  /** @nullable */
+  harvestWindow?: string | null;
+  applicableCrops?: string[];
+}
+
+export type WeatherResponseCurrent = {
+  temp?: number;
+  feelsLike?: number;
+  humidity?: number;
+  windSpeed?: number;
+  description?: string;
+  icon?: string;
+};
+
+export type WeatherResponseForecastItem = {
+  dt?: number;
+  temp?: number;
+  description?: string;
+  icon?: string;
+};
+
+export interface WeatherResponse {
+  district: string;
+  current?: WeatherResponseCurrent;
+  forecast?: WeatherResponseForecastItem[];
+  fetchedAt?: string;
+  source?: string;
+}
+
+export interface AdvisoryInquiryInput {
+  /** @minLength 2 */
+  name: string;
+  /** @minLength 5 */
+  phone: string;
+  district?: string;
+  crop?: string;
+  /** @minLength 10 */
+  question: string;
+}
+
 export type ListBusinessesParams = {
 featured?: boolean;
 };
@@ -172,5 +277,25 @@ offset?: number;
 
 export type ListJobsParams = {
 department?: string;
+};
+
+export type ListCropsParams = {
+category?: string;
+season?: string;
+search?: string;
+limit?: number;
+offset?: number;
+};
+
+export type ListDiseasesParams = {
+category?: string;
+cropId?: number;
+search?: string;
+limit?: number;
+offset?: number;
+};
+
+export type GetWeatherParams = {
+district?: string;
 };
 

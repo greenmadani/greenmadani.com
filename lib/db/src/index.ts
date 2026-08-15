@@ -20,8 +20,11 @@ export async function query(table: string, options?: { limit?: number; offset?: 
   if (!supabase) throw new Error("Supabase client not initialized");
   let q = supabase.from(table).select("*");
   if (options?.orderBy) q = q.order(options.orderBy.column, { ascending: options.orderBy.ascending ?? true });
-  if (options?.limit) q = q.limit(options.limit);
-  if (options?.offset) q = q.offset(options.offset);
+  if (options?.limit || options?.offset) {
+    const offset = options?.offset ?? 0;
+    const limit = options?.limit ?? 10;
+    q = q.range(offset, offset + limit - 1);
+  }
   const { data, error } = await q;
   if (error) throw new Error(error.message);
   return data ?? [];
@@ -86,6 +89,11 @@ export const tableNames = {
   media: "media",
   categories: "categories",
   auditLog: "audit_log",
+  crops: "crops",
+  diseases: "diseases",
+  seasons: "seasons",
+  advisoryInquiries: "advisory_inquiries",
+  weatherCache: "weather_cache",
 } as const;
 
 export * from "./schema/index.js";

@@ -58,10 +58,11 @@ interface SiteSettings {
  linkedinUrl:string;
  instagramUrl:string;
  copyrightText:string;
- seoTitle:string;
- seoDescription:string;
- seoOgImage:string;
- seoKeywords:string;
+  seoTitle:string;
+  seoDescription:string;
+  seoOgImage:string;
+  seoKeywords:string;
+  openWeatherApiKey:string;
 }
 
 const defaults:SiteSettings = {
@@ -97,8 +98,9 @@ const defaults:SiteSettings = {
  copyrightText:"© 2026 Green Madani International Private Ltd. All Rights Reserved.",
  seoTitle:"Green Madani International Private Ltd. — Better Food, Better Life, Our Food, Our Life",
  seoDescription:"Green Madani International Private Ltd. is a diversified business group operating across 12 integrated verticals — from agriculture and food to healthcare, education, hospitality, and media.",
- seoOgImage:"",
- seoKeywords:"Green Madani International, GMI, Green Madani International Private Ltd., Bangladesh diversified business group, agriculture Bangladesh, farm to shelf, A.R. Reju, hybrid seeds, organic fertilizers, GMI Power Agro, GMI Essential Food",
+  seoOgImage:"",
+  seoKeywords:"Green Madani International, GMI, Green Madani International Private Ltd., Bangladesh diversified business group, agriculture Bangladesh, farm to shelf, A.R. Reju, hybrid seeds, organic fertilizers, GMI Power Agro, GMI Essential Food",
+  openWeatherApiKey:"",
 };
 
 export default function AdminSettings() {
@@ -475,7 +477,28 @@ export default function AdminSettings() {
  </CardContent>
  </Card>
 
- {/* Social Media Links */}
+  {/* Integrations / API Keys */}
+  <Card>
+  <CardHeader><CardTitle>API Keys / Integrations</CardTitle></CardHeader>
+  <CardContent className="space-y-4">
+  <div>
+  <Label>OpenWeatherMap API Key</Label>
+  <Input
+  type="password"
+  value={form.openWeatherApiKey}
+  onChange={(e) => set("openWeatherApiKey", e.target.value)}
+  className="mt-1 font-mono"
+  placeholder="Paste your OpenWeatherMap API key"
+  autoComplete="off"
+  />
+  <p className="text-xs text-muted-foreground mt-2">
+  Used by the Agri Advisory weather section. Keys are masked after saving — leave the masked value as-is to keep the current key, paste a new one to replace it, or clear the field to remove it. Get a free key at <a className="underline" href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">openweathermap.org/api</a>.
+  </p>
+  </div>
+  </CardContent>
+  </Card>
+
+  {/* Social Media Links */}
  <Card>
  <CardHeader><CardTitle>Social Media Links</CardTitle></CardHeader>
  <CardContent className="space-y-4">

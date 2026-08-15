@@ -7,3 +7,4 @@ export * from "./site_settings.js";
 export * from "./media.js";
 export * from "./categories.js";
 export * from "./audit_log.js";
+export * from "./advisory.js";

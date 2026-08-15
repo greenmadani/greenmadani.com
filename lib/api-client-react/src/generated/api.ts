@@ -20,14 +20,20 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AdvisoryInquiryInput,
   ApplicationInput,
   Business,
   BusinessInquiryInput,
   CompanyStats,
   ContactInput,
+  CropList,
+  DiseaseList,
+  GetWeatherParams,
   HealthStatus,
   Job,
   ListBusinessesParams,
+  ListCropsParams,
+  ListDiseasesParams,
   ListJobsParams,
   ListNewsParams,
   ListProductsParams,
@@ -36,7 +42,9 @@ import type {
   Product,
   ProductCategory,
   ProductList,
-  SubmitResponse
+  Season,
+  SubmitResponse,
+  WeatherResponse
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -1062,4 +1070,481 @@ export function useGetCompanyStats<TData = Awaited<ReturnType<typeof getCompanyS
 
 
 
+
+export const getListCropsUrl = (params?: ListCropsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/advisory/crops?${stringifiedParams}` : `/api/advisory/crops`
+}
+
+/**
+ * @summary List agricultural crops with optional category/season filter
+ */
+export const listCrops = async (params?: ListCropsParams, options?: RequestInit): Promise<CropList> => {
+
+  return customFetch<CropList>(getListCropsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListCropsQueryKey = (params?: ListCropsParams,) => {
+    return [
+    `/api/advisory/crops`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListCropsQueryOptions = <TData = Awaited<ReturnType<typeof listCrops>>, TError = ErrorType<unknown>>(params?: ListCropsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listCrops>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListCropsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listCrops>>> = ({ signal }) => listCrops(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listCrops>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListCropsQueryResult = NonNullable<Awaited<ReturnType<typeof listCrops>>>
+export type ListCropsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List agricultural crops with optional category/season filter
+ */
+
+export function useListCrops<TData = Awaited<ReturnType<typeof listCrops>>, TError = ErrorType<unknown>>(
+ params?: ListCropsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listCrops>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListCropsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getListDiseasesUrl = (params?: ListDiseasesParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/advisory/diseases?${stringifiedParams}` : `/api/advisory/diseases`
+}
+
+/**
+ * @summary List disease and pest guides with optional filters
+ */
+export const listDiseases = async (params?: ListDiseasesParams, options?: RequestInit): Promise<DiseaseList> => {
+
+  return customFetch<DiseaseList>(getListDiseasesUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListDiseasesQueryKey = (params?: ListDiseasesParams,) => {
+    return [
+    `/api/advisory/diseases`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListDiseasesQueryOptions = <TData = Awaited<ReturnType<typeof listDiseases>>, TError = ErrorType<unknown>>(params?: ListDiseasesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listDiseases>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListDiseasesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listDiseases>>> = ({ signal }) => listDiseases(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listDiseases>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListDiseasesQueryResult = NonNullable<Awaited<ReturnType<typeof listDiseases>>>
+export type ListDiseasesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List disease and pest guides with optional filters
+ */
+
+export function useListDiseases<TData = Awaited<ReturnType<typeof listDiseases>>, TError = ErrorType<unknown>>(
+ params?: ListDiseasesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listDiseases>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListDiseasesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getListSeasonsUrl = () => {
+
+
+
+
+  return `/api/advisory/seasons`
+}
+
+/**
+ * @summary List Bangladesh agricultural seasons (রবি / খরিফ-১ / খরিফ-২)
+ */
+export const listSeasons = async ( options?: RequestInit): Promise<Season[]> => {
+
+  return customFetch<Season[]>(getListSeasonsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListSeasonsQueryKey = () => {
+    return [
+    `/api/advisory/seasons`
+    ] as const;
+    }
+
+
+export const getListSeasonsQueryOptions = <TData = Awaited<ReturnType<typeof listSeasons>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listSeasons>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListSeasonsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listSeasons>>> = ({ signal }) => listSeasons({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listSeasons>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListSeasonsQueryResult = NonNullable<Awaited<ReturnType<typeof listSeasons>>>
+export type ListSeasonsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List Bangladesh agricultural seasons (রবি / খরিফ-১ / খরিফ-২)
+ */
+
+export function useListSeasons<TData = Awaited<ReturnType<typeof listSeasons>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listSeasons>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListSeasonsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getListAdvisoryDistrictsUrl = () => {
+
+
+
+
+  return `/api/advisory/districts`
+}
+
+/**
+ * @summary List districts covered by the advisory weather service
+ */
+export const listAdvisoryDistricts = async ( options?: RequestInit): Promise<string[]> => {
+
+  return customFetch<string[]>(getListAdvisoryDistrictsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAdvisoryDistrictsQueryKey = () => {
+    return [
+    `/api/advisory/districts`
+    ] as const;
+    }
+
+
+export const getListAdvisoryDistrictsQueryOptions = <TData = Awaited<ReturnType<typeof listAdvisoryDistricts>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdvisoryDistricts>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAdvisoryDistrictsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAdvisoryDistricts>>> = ({ signal }) => listAdvisoryDistricts({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAdvisoryDistricts>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListAdvisoryDistrictsQueryResult = NonNullable<Awaited<ReturnType<typeof listAdvisoryDistricts>>>
+export type ListAdvisoryDistrictsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List districts covered by the advisory weather service
+ */
+
+export function useListAdvisoryDistricts<TData = Awaited<ReturnType<typeof listAdvisoryDistricts>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdvisoryDistricts>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListAdvisoryDistrictsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetWeatherUrl = (params?: GetWeatherParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/advisory/weather?${stringifiedParams}` : `/api/advisory/weather`
+}
+
+/**
+ * @summary Get current weather and 5-day forecast for a district (cached)
+ */
+export const getWeather = async (params?: GetWeatherParams, options?: RequestInit): Promise<WeatherResponse> => {
+
+  return customFetch<WeatherResponse>(getGetWeatherUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetWeatherQueryKey = (params?: GetWeatherParams,) => {
+    return [
+    `/api/advisory/weather`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetWeatherQueryOptions = <TData = Awaited<ReturnType<typeof getWeather>>, TError = ErrorType<void>>(params?: GetWeatherParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetWeatherQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getWeather>>> = ({ signal }) => getWeather(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetWeatherQueryResult = NonNullable<Awaited<ReturnType<typeof getWeather>>>
+export type GetWeatherQueryError = ErrorType<void>
+
+
+/**
+ * @summary Get current weather and 5-day forecast for a district (cached)
+ */
+
+export function useGetWeather<TData = Awaited<ReturnType<typeof getWeather>>, TError = ErrorType<void>>(
+ params?: GetWeatherParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetWeatherQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getSubmitAdvisoryInquiryUrl = () => {
+
+
+
+
+  return `/api/advisory/inquiries`
+}
+
+/**
+ * @summary Submit an agricultural advisory question
+ */
+export const submitAdvisoryInquiry = async (advisoryInquiryInput: AdvisoryInquiryInput, options?: RequestInit): Promise<SubmitResponse> => {
+
+  return customFetch<SubmitResponse>(getSubmitAdvisoryInquiryUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      advisoryInquiryInput,)
+  }
+);}
+
+
+
+
+export const getSubmitAdvisoryInquiryMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitAdvisoryInquiry>>, TError,{data: BodyType<AdvisoryInquiryInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof submitAdvisoryInquiry>>, TError,{data: BodyType<AdvisoryInquiryInput>}, TContext> => {
+
+const mutationKey = ['submitAdvisoryInquiry'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof submitAdvisoryInquiry>>, {data: BodyType<AdvisoryInquiryInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  submitAdvisoryInquiry(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SubmitAdvisoryInquiryMutationResult = NonNullable<Awaited<ReturnType<typeof submitAdvisoryInquiry>>>
+    export type SubmitAdvisoryInquiryMutationBody = BodyType<AdvisoryInquiryInput>
+    export type SubmitAdvisoryInquiryMutationError = ErrorType<void>
+
+    /**
+ * @summary Submit an agricultural advisory question
+ */
+export const useSubmitAdvisoryInquiry = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitAdvisoryInquiry>>, TError,{data: BodyType<AdvisoryInquiryInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof submitAdvisoryInquiry>>,
+        TError,
+        {data: BodyType<AdvisoryInquiryInput>},
+        TContext
+      > => {
+      return useMutation(getSubmitAdvisoryInquiryMutationOptions(options));
+    }
 

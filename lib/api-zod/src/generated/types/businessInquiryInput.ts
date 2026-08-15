@@ -5,7 +5,7 @@
  * GMI Corporate Website API
  * OpenAPI spec version: 0.1.0
  */
-import type { BusinessInquiryInputInquiryType } from './businessInquiryInputInquiryType.js';
+import type { BusinessInquiryInputInquiryType } from './businessInquiryInputInquiryType';
 
 export interface BusinessInquiryInput {
   /** @minLength 2 */

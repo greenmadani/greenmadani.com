@@ -5,7 +5,7 @@
  * GMI Corporate Website API
  * OpenAPI spec version: 0.1.0
  */
-import type { Product } from './product.js';
+import type { Product } from './product';
 
 export interface ProductList {
   items: Product[];

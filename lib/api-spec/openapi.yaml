@@ -22,6 +22,8 @@ tags:
     description: Contact and business inquiries
   - name: stats
     description: Company stats and summaries
+  - name: advisory
+    description: Agricultural advisory service (কৃষি পরামর্শ সেবা)
 
 paths:
   /healthz:
@@ -297,6 +299,156 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompanyStats"
 
+  /advisory/crops:
+    get:
+      operationId: listCrops
+      tags: [advisory]
+      summary: List agricultural crops with optional category/season filter
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: season
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of crops
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CropList"
+
+  /advisory/diseases:
+    get:
+      operationId: listDiseases
+      tags: [advisory]
+      summary: List disease and pest guides with optional filters
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: cropId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of diseases
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiseaseList"
+
+  /advisory/seasons:
+    get:
+      operationId: listSeasons
+      tags: [advisory]
+      summary: List Bangladesh agricultural seasons (রবি / খরিফ-১ / খরিফ-২)
+      responses:
+        "200":
+          description: List of seasons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Season"
+
+  /advisory/districts:
+    get:
+      operationId: listAdvisoryDistricts
+      tags: [advisory]
+      summary: List districts covered by the advisory weather service
+      responses:
+        "200":
+          description: District names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /advisory/weather:
+    get:
+      operationId: getWeather
+      tags: [advisory]
+      summary: Get current weather and 5-day forecast for a district (cached)
+      parameters:
+        - name: district
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Weather payload
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherResponse"
+        "503":
+          description: Weather service unavailable
+
+  /advisory/inquiries:
+    post:
+      operationId: submitAdvisoryInquiry
+      tags: [advisory]
+      summary: Submit an agricultural advisory question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdvisoryInquiryInput"
+      responses:
+        "201":
+          description: Inquiry received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitResponse"
+        "400":
+          description: Validation error
+
 components:
   schemas:
     HealthStatus:
@@ -545,3 +697,170 @@ components:
           type: integer
         countriesExported:
           type: integer
+
+    Crop:
+      type: object
+      required: [id, name, category]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        englishName:
+          type: ["string", "null"]
+        category:
+          type: string
+        season:
+          type: ["string", "null"]
+        soilType:
+          type: ["string", "null"]
+        fertilizerNotes:
+          type: ["string", "null"]
+        irrigationNotes:
+          type: ["string", "null"]
+        seedVarietyRef:
+          type: ["string", "null"]
+        expectedYield:
+          type: ["string", "null"]
+        imageUrl:
+          type: ["string", "null"]
+
+    CropList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Crop"
+        total:
+          type: integer
+
+    Disease:
+      type: object
+      required: [id, name, category, treatmentText]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        cropId:
+          type: ["integer", "null"]
+        cropName:
+          type: ["string", "null"]
+        category:
+          type: string
+        symptoms:
+          type: array
+          items:
+            type: string
+        causeType:
+          type: ["string", "null"]
+        causeNotes:
+          type: ["string", "null"]
+        treatmentText:
+          type: string
+        preventionSteps:
+          type: array
+          items:
+            type: string
+        relatedProductIds:
+          type: array
+          items:
+            type: integer
+        imageUrl:
+          type: ["string", "null"]
+
+    DiseaseList:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Disease"
+        total:
+          type: integer
+
+    Season:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        englishName:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        months:
+          type: ["string", "null"]
+        sowingWindow:
+          type: ["string", "null"]
+        transplantingWindow:
+          type: ["string", "null"]
+        harvestWindow:
+          type: ["string", "null"]
+        applicableCrops:
+          type: array
+          items:
+            type: string
+
+    WeatherResponse:
+      type: object
+      required: [district]
+      properties:
+        district:
+          type: string
+        current:
+          type: object
+          properties:
+            temp:
+              type: number
+            feelsLike:
+              type: number
+            humidity:
+              type: number
+            windSpeed:
+              type: number
+            description:
+              type: string
+            icon:
+              type: string
+        forecast:
+          type: array
+          items:
+            type: object
+            properties:
+              dt:
+                type: integer
+              temp:
+                type: number
+              description:
+                type: string
+              icon:
+                type: string
+        fetchedAt:
+          type: string
+          format: date-time
+        source:
+          type: string
+
+    AdvisoryInquiryInput:
+      type: object
+      required: [name, phone, question]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        phone:
+          type: string
+          minLength: 5
+        district:
+          type: string
+        crop:
+          type: string
+        question:
+          type: string
+          minLength: 10

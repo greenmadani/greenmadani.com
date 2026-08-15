@@ -163,16 +163,17 @@ export function Layout({ children }:{ children:ReactNode }) {
  return () => window.removeEventListener("scroll", handleScroll);
  }, []);
 
- const navLinks:NavLinkItem[] = (s?.navItems?.length ? s.navItems :[
- { href:"/", label:"Home" },
- { href:"/about", label:"About" },
- { href:"/businesses", label:"Businesses" },
- { href:"/products", label:"Products" },
- { href:"/sustainability", label:"Sustainability" },
- { href:"/news", label:"News" },
- { href:"/careers", label:"Careers" },
- { href:"/contact", label:"Contact" },
- ]);
+  const navLinks:NavLinkItem[] = (s?.navItems?.length ? s.navItems :[
+  { href:"/", label:"Home" },
+  { href:"/about", label:"About" },
+  { href:"/businesses", label:"Businesses" },
+  { href:"/products", label:"Products" },
+  { href:"/sustainability", label:"Sustainability" },
+  { href:"/agri-advisory", label:"Agri Advisory" },
+  { href:"/news", label:"News" },
+  { href:"/careers", label:"Careers" },
+  { href:"/contact", label:"Contact" },
+  ]);
 
   const footerCols:FooterColumn[] = useMemo(() => {
     const saved = s?.footerColumns;
@@ -182,6 +183,7 @@ export function Layout({ children }:{ children:ReactNode }) {
         { label: "About Us", href: "/about" },
         { label: "Products", href: "/products" },
         { label: "Sustainability", href: "/sustainability" },
+        { label: "Agri Advisory", href: "/agri-advisory" },
         { label: "Careers", href: "/careers" },
         { label: "FAQ", href: "/faq" },
         { label: "News & Updates", href: "/news" },
