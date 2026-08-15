@@ -181,7 +181,7 @@ function AdminAdvisoryInquiries() {
 
 export default function AdminAgriAdvisory() {
   return (
-    <div>
+    <div className="font-bangla">
       <div className="mb-6">
         <h2 className="font-display text-2xl mb-1">Agri Advisory — কৃষি পরামর্শ সেবা</h2>
         <p className="text-sm text-muted-foreground">Manage crops, disease & pest guides, seasons and farmer inquiries.</p>

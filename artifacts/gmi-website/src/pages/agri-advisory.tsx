@@ -148,7 +148,7 @@ export default function AgriAdvisory() {
             <h1 className="font-display leading-tight mb-4 md:mb-6">
               কৃষকের পাশে,<br /><span className="text-accent">প্রযুক্তির সাথে</span>
             </h1>
-            <p className="text-sm md:text-base text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm md:text-base text-white/60 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
               রোগ-পোকা শনাক্তকরণ, মৌসুমি ফসল ক্যালেন্ডার, আবহাওয়ার আপডেট ও কৃষি বিশেষজ্ঞের পরামর্শ —
               <span className="text-accent font-semibold"> সম্পূর্ণ বিনামূল্যে</span>, বাংলাদেশের ৪২ জেলার কৃষকের জন্য।
             </p>

@@ -457,7 +457,8 @@ img:-moz-loading {
 
 /* === Bangla (Bengali) Typography === */
 @utility font-bangla {
-  font-family: 'Hind Siliguri', var(--app-font-sans);
+  font-family: 'Anek Bangla', var(--app-font-sans);
+  font-weight: 400;
   font-feature-settings: "case" off, "ss01" off;
 }
 .font-bangla h1,
@@ -466,5 +467,22 @@ img:-moz-loading {
 .font-bangla h4,
 .font-bangla h5,
 .font-bangla h6 {
-  font-family: 'Hind Siliguri', var(--app-font-display), Georgia, serif;
+  font-family: 'Anek Bangla', var(--app-font-display), Georgia, serif;
+}
+.font-bangla h1 {
+  font-weight: 800;
+}
+.font-bangla h2 {
+  font-weight: 700;
+}
+.font-bangla h3 {
+  font-weight: 700;
+}
+.font-bangla h4,
+.font-bangla h5,
+.font-bangla h6 {
+  font-weight: 600;
+}
+.font-bangla .section-subtitle {
+  font-weight: 500;
 }

@@ -17,11 +17,11 @@ export function SectionHeader({ badge, title, description, align = "center", cla
  <h2 className="font-display text-foreground">
  {title}
  </h2>
- {description && (
- <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
- {description}
- </p>
- )}
+{description && (
+  <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+  {description}
+  </p>
+  )}
  </div>
  );
 }
