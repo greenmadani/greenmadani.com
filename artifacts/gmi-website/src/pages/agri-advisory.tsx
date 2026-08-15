@@ -71,6 +71,7 @@ export default function AgriAdvisory() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDisease, setSelectedDisease] = useState<any>(null);
+  const [selectedCrop, setSelectedCrop] = useState<any>(null);
   const [district, setDistrict] = useState("Dhaka");
 
   const { data: cropsData, isLoading: loadingCrops } = useListCrops(
@@ -338,7 +339,7 @@ export default function AgriAdvisory() {
             <SectionHeader
               badge="ফসল পরিচিতি"
               title="মৌসুমি ফসলের বিস্তারিত"
-              description="মাটির ধরন, সার প্রণালী, সেচের প্রয়োজন ও প্রত্যাশিত ফলন — Green Power-এর ৭০+ উন্নত বীজের সাথে।"
+              description="মাটির ধরন, সার প্রণালী, সেচের প্রয়োজন ও প্রত্যাশিত ফলন — প্রতিটি ফসলের পূর্ণাঙ্গ তথ্য।"
               align="center"
             />
 
@@ -377,15 +378,11 @@ export default function AgriAdvisory() {
                       <div className="space-y-1 text-xs text-muted-foreground mb-3 flex-1">
                         {crop.soilType && <p><span className="font-semibold text-foreground">মাটি:</span> {crop.soilType}</p>}
                         {crop.expectedYield && <p><span className="font-semibold text-foreground">ফলন:</span> {crop.expectedYield}</p>}
-                        {crop.seedVarietyRef && <p><span className="font-semibold text-foreground">বীজ:</span> {crop.seedVarietyRef}</p>}
+                        {crop.seedVarietyRef && <p><span className="font-semibold text-foreground">জাত:</span> {crop.seedVarietyRef}</p>}
                       </div>
-                      {crop.seedVarietyRef && (
-                        <Link href="/products">
-                          <Button variant="outline" size="sm" className="w-full">
-                            <ShoppingBag size={14} className="mr-2" /> এই বীজ কিনুন
-                          </Button>
-                        </Link>
-                      )}
+                      <Button variant="outline" size="sm" className="w-full" onClick={() => setSelectedCrop(crop)}>
+                        বিস্তারিত দেখুন <ArrowRight size={14} className="ml-1" />
+                      </Button>
                     </div>
                   </div>
                 ))
@@ -750,6 +747,62 @@ export default function AgriAdvisory() {
                         </Link>
                       ))}
                   </div>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* ============ CROP DETAIL MODAL ============ */}
+      <Dialog open={!!selectedCrop} onOpenChange={(v) => { if (!v) setSelectedCrop(null); }}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto font-bangla">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">{selectedCrop?.name}</DialogTitle>
+          </DialogHeader>
+          {selectedCrop && (
+            <div className="space-y-6">
+              {selectedCrop.imageUrl && (
+                <img src={selectedCrop.imageUrl} alt={selectedCrop.name} className="w-full h-56 object-cover" />
+              )}
+              <div className="flex flex-wrap gap-2">
+                <span className="bg-accent text-accent-foreground text-xs font-bold uppercase tracking-wider px-3 py-1">{selectedCrop.category}</span>
+                {selectedCrop.season && <span className="bg-muted text-muted-foreground text-xs font-bold uppercase tracking-wider px-3 py-1">{selectedCrop.season}</span>}
+              </div>
+              {selectedCrop.englishName && <p className="text-muted-foreground uppercase tracking-wider text-sm">{selectedCrop.englishName}</p>}
+
+              {selectedCrop.soilType && selectedCrop.soilType !== "—" && (
+                <div>
+                  <h4 className="font-bold text-foreground mb-2">মাটির ধরন</h4>
+                  <p className="text-muted-foreground leading-relaxed">{selectedCrop.soilType}</p>
+                </div>
+              )}
+
+              {selectedCrop.fertilizerNotes && (
+                <div>
+                  <h4 className="font-bold text-foreground mb-2 flex items-center gap-2"><FlaskConical size={18} className="text-primary" /> সার প্রণালী</h4>
+                  <p className="text-muted-foreground leading-relaxed">{selectedCrop.fertilizerNotes}</p>
+                </div>
+              )}
+
+              {selectedCrop.irrigationNotes && (
+                <div>
+                  <h4 className="font-bold text-foreground mb-2 flex items-center gap-2"><Droplets size={18} className="text-primary" /> সেচ ব্যবস্থাপনা</h4>
+                  <p className="text-muted-foreground leading-relaxed">{selectedCrop.irrigationNotes}</p>
+                </div>
+              )}
+
+              {selectedCrop.seedVarietyRef && (
+                <div>
+                  <h4 className="font-bold text-foreground mb-2 flex items-center gap-2"><Sprout size={18} className="text-primary" /> জাত / ভ্যারাইটি</h4>
+                  <p className="text-muted-foreground leading-relaxed">{selectedCrop.seedVarietyRef}</p>
+                </div>
+              )}
+
+              {selectedCrop.expectedYield && (
+                <div className="bg-primary text-white p-4 md:p-5 border-l-4 border-accent">
+                  <h4 className="font-bold mb-2 flex items-center gap-2"><Sprout size={18} className="text-accent" /> প্রত্যাশিত ফলন</h4>
+                  <p className="text-white/85 leading-relaxed">{selectedCrop.expectedYield}</p>
                 </div>
               )}
             </div>
