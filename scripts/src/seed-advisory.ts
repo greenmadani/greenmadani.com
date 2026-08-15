@@ -1,9 +1,81 @@
 import { createClient } from "@supabase/supabase-js";
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const AGRI_IMG_DIR = resolve(__dirname, "../../artifacts/gmi-website/public/images/agri");
+
+const CATEGORY_GRADIENTS: Record<string, [string, string]> = {
+  "ধান": ["#2E7D32", "#1B5E20"],
+  "গম ও দানা": ["#F9A825", "#F57F17"],
+  "সবজি": ["#43A047", "#2E7D32"],
+  "ফল": ["#FB8C00", "#E65100"],
+  "তেল ও ডাল": ["#9E9D24", "#827717"],
+  "মাছ": ["#0288D1", "#01579B"],
+  "গবাদি পশু": ["#8D6E63", "#5D4037"],
+  "মসলা": ["#D84315", "#BF360C"],
+};
+
+const CAUSE_GRADIENTS: Record<string, [string, string]> = {
+  insect: ["#6D4C41", "#4E342E"],
+  fungal: ["#8E24AA", "#4A148C"],
+  bacterial: ["#D32F2F", "#7F0000"],
+  viral: ["#4527A0", "#1A237E"],
+};
+
+const CROP_IMAGES: Record<string, { slug: string; emoji: string }> = {
+  "ধান (উফশী)": { slug: "paddy", emoji: "🌾" },
+  "গম": { slug: "wheat", emoji: "🌾" },
+  "ভুট্টা (হাইব্রিড)": { slug: "maize", emoji: "🌽" },
+  "মরিচ": { slug: "chili", emoji: "🌶️" },
+  "টমেটো": { slug: "tomato", emoji: "🍅" },
+  "আলু": { slug: "potato", emoji: "🥔" },
+  "আম": { slug: "mango", emoji: "🥭" },
+  "পেঁয়াজ": { slug: "onion", emoji: "🧅" },
+  "সরিষা": { slug: "mustard", emoji: "🌼" },
+  "মুগ ডাল": { slug: "mung-bean", emoji: "🫘" },
+  "তিল": { slug: "sesame", emoji: "🌻" },
+  "রুই মাছ": { slug: "rui-fish", emoji: "🐟" },
+  "গরু (দুগ্ধ)": { slug: "dairy-cattle", emoji: "🐄" },
+  "মুরগি (ব্রয়লার)": { slug: "broiler", emoji: "🐔" },
+  "রসুন": { slug: "garlic", emoji: "🧄" },
+  "আদা": { slug: "ginger", emoji: "🪴" },
+};
+
+const DISEASE_IMAGES: Record<string, { slug: string; emoji: string }> = {
+  "ধান মাজরা পোকা": { slug: "rice-stem-borer", emoji: "🐛" },
+  "ধান পাখোয়াড়া পোকা": { slug: "rice-bph", emoji: "🐛" },
+  "ধান শীষকাটা রোগ (ব্লাস্ট)": { slug: "rice-blast", emoji: "🍄" },
+  "আম গুঁটি মাইট": { slug: "mango-mite", emoji: "🐛" },
+  "আমের ভাইরাস (মোজাইক)": { slug: "mango-mosaic", emoji: "🦠" },
+  "মরিচের অ্যানথ্রাকনোজ": { slug: "chili-anthracnose", emoji: "🍄" },
+  "টমেটোর মরিচা/ঝাড়পোড়া রোগ": { slug: "tomato-blight", emoji: "🍄" },
+  "আলু স্ক্যাব রোগ": { slug: "potato-scab", emoji: "🦠" },
+  "গরুর ফুট অ্যান্ড মাউথ (ক্ষুরা রোগ)": { slug: "fmd", emoji: "🦠" },
+};
+
+function svgPlaceholder(name: string, emoji: string, [c1, c2]: [string, string]): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/>
+  </linearGradient></defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <circle cx="110" cy="90" r="190" fill="#fff" opacity="0.07"/>
+  <circle cx="710" cy="530" r="230" fill="#000" opacity="0.10"/>
+  <circle cx="640" cy="120" r="60" fill="#fff" opacity="0.06"/>
+  <text x="400" y="310" font-size="210" text-anchor="middle">${emoji}</text>
+  <text x="400" y="475" font-family="Anek Bangla, Hind Siliguri, sans-serif" font-size="60" font-weight="700" text-anchor="middle" fill="#fff">${name}</text>
+  <text x="400" y="535" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#fff" opacity="0.8">GREEN MADANI POWER AGRO</text>
+</svg>`;
+}
+
+function writeSvg(slug: string, name: string, emoji: string, gradient: [string, string]): string {
+  mkdirSync(AGRI_IMG_DIR, { recursive: true });
+  writeFileSync(resolve(AGRI_IMG_DIR, `${slug}.svg`), svgPlaceholder(name, emoji, gradient));
+  return `/images/agri/${slug}.svg`;
+}
 
 const envContent = readFileSync(resolve(__dirname, "../../artifacts/api-server/.env"), "utf-8");
 const env: Record<string, string> = {};
@@ -212,8 +284,10 @@ async function main() {
   const resolve = (refs: string[]): number[] => refs.flatMap((ref) => productMap[ref.toLowerCase()] ?? []);
 
   console.log(`\n--- Crops (${crops.length}) ---`);
-  const { error: cropsError } = await supabase.from("crops").insert(
-    crops.map((c) => ({
+  const cropRows = crops.map((c) => {
+    const img = CROP_IMAGES[c.name];
+    const imageUrl = img ? writeSvg(img.slug, c.name, img.emoji, CATEGORY_GRADIENTS[c.category] ?? CATEGORY_GRADIENTS["ধান"]) : null;
+    return {
       name: c.name,
       english_name: c.englishName,
       category: c.category,
@@ -223,8 +297,10 @@ async function main() {
       irrigation_notes: c.irrigationNotes,
       seed_variety_ref: c.seedVarietyRef,
       expected_yield: c.expectedYield,
-    }))
-  );
+      image_url: imageUrl,
+    };
+  });
+  const { error: cropsError } = await supabase.from("crops").insert(cropRows);
   if (cropsError) {
     console.error(`  FAILED: ${cropsError.message}`);
   } else {
@@ -234,6 +310,8 @@ async function main() {
   console.log(`\n--- Diseases (${diseases.length}) ---`);
   for (const d of diseases) {
     const relatedProductIds = resolve(d.relatedProductRefs ?? []);
+    const img = DISEASE_IMAGES[d.name];
+    const imageUrl = img ? writeSvg(img.slug, d.name, img.emoji, CAUSE_GRADIENTS[d.causeType] ?? CAUSE_GRADIENTS["insect"]) : null;
     const { data, error } = await supabase.from("diseases").insert({
       name: d.name,
       crop_name: d.cropName,
@@ -244,7 +322,7 @@ async function main() {
       treatment_text: d.treatmentText,
       prevention_steps: d.preventionSteps,
       related_product_ids: relatedProductIds,
-      image_url: null,
+      image_url: imageUrl,
       status: "active",
     }).select("id");
     if (error) {

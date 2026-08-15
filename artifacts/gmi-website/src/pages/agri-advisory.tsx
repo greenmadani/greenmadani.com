@@ -107,7 +107,7 @@ export default function AgriAdvisory() {
   const diseases = useMemo(() => diseasesData?.items ?? [], [diseasesData]);
 
   const powerAgroProducts = useMemo(
-    () => (productsData?.items ?? []).filter((p: any) => p.businessSlug === "gmi-power-agro" || p.categorySlug === "farming-products").slice(0, 4),
+    () => (productsData?.items ?? []).filter((p: any) => p.businessSlug === "green-madani-power-agro").slice(0, 4),
     [productsData]
   );
 
@@ -621,7 +621,7 @@ export default function AgriAdvisory() {
             />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-stagger">
-              {powerAgroProducts.length === 0 ? (
+              {!productsData ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <div key={i} className="border border-border shadow-sm flex flex-col h-full">
                     <Skeleton className="w-full aspect-square" />
@@ -631,6 +631,14 @@ export default function AgriAdvisory() {
                     </div>
                   </div>
                 ))
+              ) : powerAgroProducts.length === 0 ? (
+                <div className="col-span-2 lg:col-span-4 text-center py-12 text-muted-foreground">
+                  <ShoppingBag size={48} className="mx-auto mb-4 opacity-20" />
+                  <p className="mb-4">কোনো সংশ্লিষ্ট পণ্য পাওয়া যায়নি।</p>
+                  <Link href="/products">
+                    <Button variant="outline" size="sm">সব পণ্য দেখুন</Button>
+                  </Link>
+                </div>
               ) : (
                 powerAgroProducts.map((product) => (
                   <div key={product.id} className="border border-border shadow-sm flex flex-col h-full overflow-hidden bg-card card-hover">
@@ -665,7 +673,7 @@ export default function AgriAdvisory() {
 
       {/* ============ DISEASE DETAIL MODAL ============ */}
       <Dialog open={!!selectedDisease} onOpenChange={(v) => { if (!v) setSelectedDisease(null); }}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto font-bangla">
           <DialogHeader>
             <DialogTitle className="text-2xl">{selectedDisease?.name}</DialogTitle>
           </DialogHeader>
