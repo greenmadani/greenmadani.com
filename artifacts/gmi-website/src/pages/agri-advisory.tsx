@@ -24,7 +24,6 @@ import { useToast } from "@/hooks/use-toast";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { SectionHeader } from "@/components/section-header";
 import { AnimatedSection } from "@/components/animated-section";
-import { StatDisplay } from "@/components/stat-display";
 
 const CROP_CATEGORIES = [
   { slug: "all", name: "সব ফসল" },
@@ -173,14 +172,6 @@ export default function AgriAdvisory() {
                 </button>
               </div>
               <p className="text-white/40 text-xs mt-2">টিপস: ধান, গম, মরিচ, আলু, গরু, মাছ — নাম লিখলেই ফলাফল পাবেন</p>
-            </div>
-
-            {/* Quick stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatDisplay value="42" label="জেলায় সেবা" className="card-hover" />
-              <StatDisplay value="70+" label="উন্নত বীজ" className="card-hover" />
-              <StatDisplay value={diseaseCount ? `${diseaseCount}+` : "২০+"} label="রোগ ও পোকা গাইড" className="card-hover" />
-              <StatDisplay value={cropCount ? `${cropCount}+` : "৩০+"} label="ফসলের তথ্য" className="card-hover" />
             </div>
           </motion.div>
         </div>
