@@ -81,7 +81,17 @@ const defaults: SiteSettings = {
     "Building Bangladesh's Most Diversified Industrial Group — connecting agriculture, food, healthcare, hospitality, education, and beyond.",
   ctaButtonText: "Explore Businesses",
   ctaButtonLink: "/businesses",
-  navItems: [],
+  navItems: [
+    { label: "Home", href: "/", isExternal: false, enabled: true },
+    { label: "About", href: "/about", isExternal: false, enabled: true },
+    { label: "Businesses", href: "/businesses", isExternal: false, enabled: true },
+    { label: "Products", href: "/products", isExternal: false, enabled: true },
+    { label: "Sustainability", href: "/sustainability", isExternal: false, enabled: true },
+    { label: "Agri Advisory", href: "/agri-advisory", isExternal: false, enabled: true },
+    { label: "News", href: "/news", isExternal: false, enabled: true },
+    { label: "Careers", href: "/careers", isExternal: false, enabled: true },
+    { label: "Contact", href: "/contact", isExternal: false, enabled: true },
+  ],
   footerColumns: [],
   privacyPolicyUrl: "/privacy",
   termsUrl: "/terms",
@@ -119,7 +129,14 @@ export default function AdminSettings() {
 
   useEffect(() => {
     adminApi.get("/site-settings").then((data: SiteSettings | null) => {
-      if (data) setForm({ ...defaults, ...data });
+      if (data) {
+        setForm({
+          ...defaults,
+          ...data,
+          navItems:
+            data.navItems?.length ? data.navItems : defaults.navItems,
+        });
+      }
       setLoaded(true);
     });
   }, []);
@@ -151,7 +168,15 @@ export default function AdminSettings() {
           className: "bg-primary text-white",
         });
         const fresh = await adminApi.get("/site-settings");
-        if (fresh) setForm({ ...defaults, ...fresh });
+        if (fresh) {
+          setForm({
+            ...defaults,
+            ...fresh,
+            navItems: fresh.navItems?.length
+              ? fresh.navItems
+              : defaults.navItems,
+          });
+        }
       }
     } catch (err) {
       toast({
