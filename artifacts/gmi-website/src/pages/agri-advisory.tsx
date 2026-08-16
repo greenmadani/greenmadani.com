@@ -176,7 +176,7 @@ export default function AgriAdvisory() {
             </div>
 
             {/* Quick stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <StatDisplay value="42" label="জেলায় সেবা" className="card-hover" />
               <StatDisplay value="70+" label="উন্নত বীজ" className="card-hover" />
               <StatDisplay value={diseaseCount ? `${diseaseCount}+` : "২০+"} label="রোগ ও পোকা গাইড" className="card-hover" />
