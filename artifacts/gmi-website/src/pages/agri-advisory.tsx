@@ -240,7 +240,7 @@ export default function AgriAdvisory() {
                         {disease.category}
                       </span>
                       {disease.causeType && CAUSE_LABELS[disease.causeType] && (
-                        <span className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 z-10 ${CAUSE_LABELS[disease.causeType].color}`}>
+                        <span className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 z-10 hidden md:inline-block ${CAUSE_LABELS[disease.causeType].color}`}>
                           {CAUSE_LABELS[disease.causeType].label}
                         </span>
                       )}
@@ -285,7 +285,7 @@ export default function AgriAdvisory() {
                 <div className="hidden md:block absolute top-[52px] left-0 right-0 h-1 bg-white/10" />
                 <div className="grid md:grid-cols-3 gap-4 md:gap-6">
                   {seasons.map((season, i) => (
-                    <div key={season.id} className="bg-white/15 backdrop-blur-xl border border-white/15 shadow-lg card-hover p-4 md:p-6 relative">
+                    <div key={season.id} className="bg-white/8 backdrop-blur-xl border border-white/15 shadow-lg card-hover p-4 md:p-6 relative">
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-10 h-10 bg-accent flex items-center justify-center shrink-0">
                           <CalendarDays size={20} className="text-accent-foreground" />
