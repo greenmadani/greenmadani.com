@@ -138,9 +138,9 @@ export default function AgriAdvisory() {
   return (
     <div className="w-full font-bangla">
       {/* ============ 1. HERO ============ */}
-      <section className="bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-[96px] md:pt-[128px] pb-16 md:pb-20 -mt-20 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-[96px] md:pt-[128px] pb-16 md:pb-20 -mt-20 relative overflow-hidden min-h-screen flex items-center">
         <AnimatedBackground />
-        <div className="container mx-auto px-4 relative z-10 text-center">
+        <div className="container mx-auto px-4 relative z-10 text-center w-full">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <span className="inline-block text-accent font-semibold tracking-[0.2em] uppercase text-sm mb-4 md:mb-6 border-b-2 border-accent/40 pb-2">
               Green Madani Power Agro — কৃষি পরামর্শ সেবা
@@ -285,7 +285,7 @@ export default function AgriAdvisory() {
                 <div className="hidden md:block absolute top-[52px] left-0 right-0 h-1 bg-white/10" />
                 <div className="grid md:grid-cols-3 gap-4 md:gap-6">
                   {seasons.map((season, i) => (
-                    <div key={season.id} className="glass-card card-hover p-4 md:p-6 relative">
+                    <div key={season.id} className="bg-white/15 backdrop-blur-xl border border-white/15 shadow-lg card-hover p-4 md:p-6 relative">
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-10 h-10 bg-accent flex items-center justify-center shrink-0">
                           <CalendarDays size={20} className="text-accent-foreground" />
