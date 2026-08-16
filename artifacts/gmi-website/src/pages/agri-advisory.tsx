@@ -138,7 +138,7 @@ export default function AgriAdvisory() {
   return (
     <div className="w-full font-bangla">
       {/* ============ 1. HERO ============ */}
-      <section className="bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-[96px] md:pt-[128px] pb-16 md:pb-20 -mt-20 relative overflow-hidden min-h-screen flex items-center">
+      <section className="bg-gradient-to-br from-primary via-secondary to-[#09281A] text-white pt-[96px] md:pt-[128px] pb-16 md:pb-20 -mt-20 relative overflow-hidden h-dvh md:h-auto md:min-h-screen flex items-center">
         <AnimatedBackground />
         <div className="container mx-auto px-4 relative z-10 text-center w-full">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
