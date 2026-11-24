@@ -86,7 +86,11 @@ export default function AgriAdvisory() {
   const { data: productsData } = useListProducts({ limit: 50 }, { query: { queryKey: ["advisory-products"] } });
   const { data: s } = useQuery<SiteSettings>({
     queryKey: ["site-settings"],
-    queryFn: () => fetch("/api/settings", { cache: "no-cache" }).then((r) => r.json()),
+    queryFn: async () => {
+      const r = await fetch("/api/settings", { cache: "no-cache" });
+      if (!r.ok) throw new Error("Failed to fetch settings");
+      return r.json();
+    },
     staleTime: 10 * 1000,
   });
 

@@ -4,10 +4,11 @@ import { supabase, snakeToCamel, mapRows } from "@workspace/db";
 const router = Router();
 
 router.get("/categories", async (_req, res) => {
-  const { data: catData, error: catError } = await supabase!.from("categories").select("*").eq("type", "product").order("order");
+  if (!supabase) return res.status(503).json({ error: "Database not configured" });
+  const { data: catData, error: catError } = await supabase.from("categories").select("*").eq("type", "product").order("order");
   if (catError) return res.status(500).json({ error: catError.message });
 
-  const { data: prodData, error: prodError } = await supabase!.from("products").select("category_slug").eq("status", "active");
+  const { data: prodData, error: prodError } = await supabase.from("products").select("category_slug").eq("status", "active");
   if (prodError) return res.status(500).json({ error: prodError.message });
 
   const productCounts = new Map<string, number>();
@@ -25,12 +26,13 @@ router.get("/categories", async (_req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  if (!supabase) return res.status(503).json({ error: "Database not configured" });
   const category = req.query.category as string | undefined;
   const featured = req.query.featured;
   const limit = parseInt(req.query.limit as string) || 50;
   const offset = parseInt(req.query.offset as string) || 0;
 
-  let query = supabase!.from("products").select("*", { count: "exact" }).eq("status", "active");
+  let query = supabase.from("products").select("*", { count: "exact" }).eq("status", "active");
   if (category) query = query.eq("category_slug", category);
   if (featured !== undefined) query = query.eq("featured", featured === "true");
   query = query.order("created_at", { ascending: false }).range(offset, offset + limit - 1);
@@ -41,9 +43,10 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  if (!supabase) return res.status(503).json({ error: "Database not configured" });
   const id = parseInt(req.params.id);
   if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
-  const { data, error } = await supabase!.from("products").select("*").eq("id", id).maybeSingle();
+  const { data, error } = await supabase.from("products").select("*").eq("id", id).maybeSingle();
   if (error) return res.status(500).json({ error: error.message });
   if (!data) return res.status(404).json({ error: "Product not found" });
   return res.json(snakeToCamel(data));

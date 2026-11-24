@@ -66,6 +66,7 @@ async function fetchBusinesses(featuredOnly?: boolean): Promise<Business[]> {
   const res = await fetch(url, { cache: "no-cache" });
   if (!res.ok) throw new Error("Failed to fetch businesses");
   const json = await res.json();
+  if (!Array.isArray(json)) return defaultFallback;
   return (json as Record<string, unknown>[]).map(mapApiBusiness);
 }
 

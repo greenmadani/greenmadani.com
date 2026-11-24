@@ -18,7 +18,7 @@ export default function Home() {
  const { data: businessData, isLoading: loadingBusinesses } = useBusinessesList();
  const { data: catData } = useListProductCategories({ query:{ queryKey:getListProductCategoriesQueryKey() } });
  const categories = useMemo(() => {
-   const base = catData ?? [];
+   const base = Array.isArray(catData) ? catData : [];
    return [{ name:"All", slug:"all" }, ...base.map((c:any) => ({ name:c.name, slug:c.slug }))];
  }, [catData]);
  const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -32,17 +32,17 @@ export default function Home() {
   return result;
   }
 
-  const displaySubsidiaries = useMemo(() => businessData ? shuffle(businessData).slice(0, 6) : [], [businessData]);
+  const displaySubsidiaries = useMemo(() => Array.isArray(businessData) ? shuffle(businessData).slice(0, 6) : [], [businessData]);
 
   const isAll = activeCategory === "all";
   const { data:productsData, isLoading:loadingProducts } = useListProducts(
     isAll ? { limit:50 } : { category:activeCategory, limit:12 },
     { query:{ queryKey:getListProductsQueryKey(isAll ? { limit:50 } : { category:activeCategory, limit:12 }) } }
   );
-  const displayProducts = useMemo(() => productsData?.items ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
+  const displayProducts = useMemo(() => Array.isArray(productsData?.items) ? shuffle(productsData.items).slice(0, 8) : [], [productsData]);
   
   const { data:newsData, isLoading:loadingNews } = useListNews({ limit:12 }, { query:{ queryKey:getListNewsQueryKey({ limit:12 }) } });
-  const displayNews = useMemo(() => newsData?.items ? shuffle(newsData.items).slice(0, 8) : [], [newsData]);
+  const displayNews = useMemo(() => Array.isArray(newsData?.items) ? shuffle(newsData.items).slice(0, 8) : [], [newsData]);
 
  return (
  <div className="w-full">

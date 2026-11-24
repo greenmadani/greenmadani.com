@@ -91,8 +91,11 @@ interface SiteSettings {
 function useSettings() {
   return useQuery<SiteSettings>({
     queryKey: ["site-settings"],
-    queryFn: () =>
-      fetch("/api/settings", { cache: "no-cache" }).then((r) => r.json()),
+    queryFn: async () => {
+      const r = await fetch("/api/settings", { cache: "no-cache" });
+      if (!r.ok) throw new Error("Failed to fetch settings");
+      return r.json();
+    },
     staleTime: 10 * 1000,
     refetchInterval: 30 * 1000,
     refetchOnWindowFocus: true,
@@ -148,13 +151,18 @@ export function Layout({ children }: { children: ReactNode }) {
     { slug: string; name: string; count: number }[]
   >({
     queryKey: ["product-categories-nav"],
-    queryFn: () => fetch("/api/products/categories").then((r) => r.json()),
+    queryFn: async () => {
+      const r = await fetch("/api/products/categories");
+      if (!r.ok) throw new Error("Failed to fetch product categories");
+      const data = await r.json();
+      return Array.isArray(data) ? data : [];
+    },
     staleTime: 60 * 1000,
   });
 
   const businessSubs = useMemo(
     () =>
-      (businesses ?? []).map((b) => ({
+      (Array.isArray(businesses) ? businesses : []).map((b) => ({
         name: b.name,
         slug: b.slug,
         icon: businessIconMap[b.slug] ?? Building2,
@@ -164,7 +172,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   const productCatList = useMemo(
     () =>
-      (productCategories ?? []).map((c) => ({
+      (Array.isArray(productCategories) ? productCategories : []).map((c) => ({
         name: c.name,
         slug: c.slug,
       })),
@@ -209,9 +217,10 @@ export function Layout({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks: NavLinkItem[] = s?.navItems?.length
-    ? s.navItems.filter((i) => i.enabled !== false)
-    : [
+  const navLinks: NavLinkItem[] =
+    Array.isArray(s?.navItems) && s.navItems.length
+      ? s.navItems.filter((i) => i.enabled !== false)
+      : [
         { href: "/", label: "Home" },
         { href: "/about", label: "About" },
         { href: "/businesses", label: "Businesses" },
@@ -241,7 +250,7 @@ export function Layout({ children }: { children: ReactNode }) {
     const bizColumn: FooterColumn = {
       title: "Our Businesses",
       links: [
-        ...(businesses ?? []).slice(0, 5).map((b) => ({
+        ...(Array.isArray(businesses) ? businesses : []).slice(0, 5).map((b) => ({
           label: b.name.replace(/^GMI /, "Green Madani "),
           href: `/businesses/${b.slug}`,
         })),
@@ -249,7 +258,7 @@ export function Layout({ children }: { children: ReactNode }) {
       ],
     };
 
-    if (saved?.length) {
+    if (Array.isArray(saved) && saved.length) {
       return saved.map((col) =>
         col.title === "Our Businesses" ? bizColumn : col,
       );

@@ -18,7 +18,7 @@ export default function Products() {
  });
 
  const allCategories = useMemo(() => {
-  const base = categoriesData ?? [];
+  const base = Array.isArray(categoriesData) ? categoriesData : [];
   return [{ name:"All", slug:"all", count:0 }, ...base];
  }, [categoriesData]);
 
@@ -36,7 +36,7 @@ export default function Products() {
  }
  });
 
- const filteredProducts = productsData?.items.filter(p =>
+ const filteredProducts = (Array.isArray(productsData?.items) ? productsData.items : []).filter(p =>
  p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
  p.description.toLowerCase().includes(searchQuery.toLowerCase())
  );

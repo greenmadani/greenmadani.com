@@ -4,8 +4,18 @@ import { supabase } from "@workspace/db";
 const router = Router();
 
 router.get("/summary", async (_req, res) => {
-  const { count: subCount, error: subErr } = await supabase!.from("businesses").select("*", { count: "exact", head: true }).eq("status", "active");
-  const { count: prodCount, error: prodErr } = await supabase!.from("products").select("*", { count: "exact", head: true }).eq("status", "active");
+  if (!supabase) {
+    return res.json({
+      subsidiaries: 12,
+      products: 170,
+      districtsCovered: 42,
+      yearsActive: 6,
+      dealerCount: 2500,
+      countriesExported: 8,
+    });
+  }
+  const { count: subCount } = await supabase.from("businesses").select("*", { count: "exact", head: true }).eq("status", "active");
+  const { count: prodCount } = await supabase.from("products").select("*", { count: "exact", head: true }).eq("status", "active");
 
   res.json({
     subsidiaries: subCount ?? 12,

@@ -34,7 +34,11 @@ const sections = [
 export default function PrivacyPage() {
  const { data:s } = useQuery<SiteSettings>({
  queryKey:["site-settings"],
- queryFn:() => fetch("/api/settings").then((r) => r.json()),
+ queryFn: async () => {
+   const r = await fetch("/api/settings");
+   if (!r.ok) throw new Error("Failed to fetch settings");
+   return r.json();
+ },
  staleTime:5 * 60 * 1000,
  });
 
